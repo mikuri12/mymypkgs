@@ -1,0 +1,11 @@
+# recipes/libdrm/recipe.toml
+name = "libdrm"
+version = "2.4.125"
+release = 1
+description = "Userspace library for the Direct Rendering Manager"
+depends = []
+makedepends = []
+sources = ["https://dri.freedesktop.org/libdrm/libdrm-2.4.125.tar.xz"]
+checksums = ["sha256:d4bae92797a50f81a93524762e0410a49cd84cfa0f997795bc0172ac8fb1d96a"]
+config_files = []
+# BLFS 12.4: md5 3baec8e685510892b3355a7074baa874 verificado contra la descarga

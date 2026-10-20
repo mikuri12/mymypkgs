@@ -1,0 +1,134 @@
+name: packages
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/**'
+      - 'tools/**'
+      - 'ROOTFS_TAG'
+      - '.github/workflows/packages.yml'
+  workflow_dispatch:
+
+# PLAN Fase 2: compilar DENTRO del chroot del rootfs de ROOTFS_TAG
+# (descargado de mylfs Releases). Publicar al Release rodante 'packages'.
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      LFS: /mnt/lfs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Estado del disco
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+            /usr/local/.ghcup /opt/hostedtoolcache/CodeQL 2>/dev/null || true
+          df -h /
+
+      - name: Descargar rootfs de mylfs (ROOTFS_TAG)
+        run: |
+          TAG=$(head -1 ROOTFS_TAG)
+          echo "ROOTFS_TAG=$TAG"
+          mkdir -p incoming
+          # el release va partido (2GB por asset): bajar partes y reconstruir
+          gh release download "$TAG" -R mikuri12/mylfs -D incoming \
+            --pattern 'rootfs-base.tar.zst.part*' --pattern '*.sha256'
+          cat incoming/rootfs-base.tar.zst.part* > incoming/rootfs-base.tar.zst
+          rm -f incoming/rootfs-base.tar.zst.part*
+          grep rootfs-base.tar.zst$ incoming/rootfs-base.tar.zst.sha256 | sha256sum -c -
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Restaurar chroot del rootfs
+        run: |
+          sudo mkdir -p /mnt/lfs
+          sudo tar --zstd -xpf incoming/rootfs-base.tar.zst -C /mnt --numeric-owner --keep-directory-symlink
+          rm -f incoming/rootfs-base.tar.zst
+          df -h /mnt
+
+      - name: Descargar fuentes de las recetas (sha256 verificados)
+        run: |
+          sudo mkdir -p /mnt/lfs/sources
+          # una fuente por receta por ahora; validación sha256 inline
+          for r in recipes/*/; do
+            src=$(grep -E '^sources' "$r/recipe.toml" | sed -E 's/^[^=]+= *\[ *"([^"]+)".*$/\1/')
+            want=$(grep -E '^checksums' "$r/recipe.toml" | sed -E 's/.*sha256:([0-9a-f]+).*/\1/')
+            f=$(basename "$src")
+            [ -f "/mnt/lfs/sources/$f" ] || sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src"
+            got=$(sudo sha256sum "/mnt/lfs/sources/$f" | cut -d' ' -f1)
+            [ "$got" = "$want" ] || { echo "SHA256 BAD para $f"; exit 1; }
+            echo "fuente OK: $f"
+          done
+
+      - name: Montar vfs y construir paquetes dentro del chroot
+        run: |
+          set -e
+          sudo mkdir -p /mnt/lfs/{dev,proc,sys,run,dev/pts,dev/shm} /mnt/lfs/staging /mnt/lfs/packages
+          sudo mount --bind /dev /mnt/lfs/dev
+          sudo mount -vt devpts devpts -o gid=5,mode=0620 /mnt/lfs/dev/pts
+          sudo mount -vt proc proc /mnt/lfs/proc
+          sudo mount -vt sysfs sysfs /mnt/lfs/sys
+          sudo mount -vt tmpfs tmpfs /mnt/lfs/run
+          sudo mount -vt tmpfs -o nosuid,nodev tmpfs /mnt/lfs/dev/shm
+
+          # Copiar recetas+tools al chroot (scripts del repo corren dentro)
+          sudo cp -r recipes /mnt/lfs/
+          sudo cp -r tools /mnt/lfs/
+
+          # Ejecutar tools/build-pkg.sh para CADA receta (dentro del chroot)
+          for r in /mnt/lfs/recipes/*/; do
+            sudo chroot /mnt/lfs /usr/bin/env -i \
+              HOME=/root TERM="$TERM" PATH=/usr/bin:/usr/sbin \
+              MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \
+              CFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
+              CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
+              LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
+              XORG_PREFIX=/usr \
+              bash "/mnt/lfs/tools/build-pkg.sh" "$r" /mnt/lfs/sources /mnt/lfs/packages
+          done
+
+          sudo umount /mnt/lfs/dev/pts /mnt/lfs/dev/shm /mnt/lfs/sys /mnt/lfs/proc /mnt/lfs/run /mnt/lfs/dev
+          ls -la /mnt/lfs/packages/
+
+      - name: Generar index.toml y firmarlo
+        run: |
+          sudo bash /mnt/lfs/tools/make-index.sh /mnt/lfs/packages > index.toml || true
+          sudo cp -r /mnt/lfs/packages .
+          sudo chown -R runner:runner packages index.toml
+          cat index.toml
+          # firmar (si el secret está presente)
+          if [ -n "${{ secrets.MYMY_SIGNING_KEY }}" ]; then
+            printf '%s' "${{ secrets.MYMY_SIGNING_KEY }}" > /tmp/mymy-key
+            chmod 600 /tmp/mymy-key
+            ssh-keygen -Y sign -f /tmp/mymy-key -n mymy index.toml
+            rm -f /tmp/mymy-key
+            ls index.toml.sig
+          else
+            echo "::warning::secret MYMY_SIGNING_KEY no configurado; index sin firmar"
+          fi
+
+      - name: Publicar al Release rodante 'packages' (índice AL FINAL)
+        run: |
+          # crear el release rodante si no existe
+          gh release view packages -R mikuri12/mymypkgs >/dev/null 2>&1 || \
+            gh release create packages -R mikuri12/mymypkgs \
+              --title "packages" --notes "Release rodante: paquetes mymypkgs. El index.toml se sube SIEMPRE al final."
+          # PRIMERO los paquetes
+          gh release upload packages -R mikuri12/mymypkgs --clobber \
+            packages/*.tar.zst packages/*.sha256
+          # AL FINAL el índice (con o sin firma)
+          if [ -f index.toml.sig ]; then
+            gh release upload packages -R mikuri12/mymypkgs --clobber index.toml index.toml.sig
+          else
+            gh release upload packages -R mikuri12/mymypkgs --clobber index.toml
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
