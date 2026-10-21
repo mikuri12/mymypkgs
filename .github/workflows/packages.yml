@@ -42,8 +42,8 @@ jobs:
           gh release download "$TAG" -R mikuri12/mylfs -D incoming \
             --pattern 'rootfs-base.tar.zst.part*' --pattern '*.sha256'
           cat incoming/rootfs-base.tar.zst.part* > incoming/rootfs-base.tar.zst
+          grep 'rootfs-base.tar.zst$' incoming/rootfs-base.tar.zst.sha256 | sha256sum -c -
           rm -f incoming/rootfs-base.tar.zst.part*
-          grep rootfs-base.tar.zst$ incoming/rootfs-base.tar.zst.sha256 | sha256sum -c -
         env:
           GH_TOKEN: ${{ github.token }}
 
@@ -83,8 +83,9 @@ jobs:
           sudo cp -r recipes /mnt/lfs/
           sudo cp -r tools /mnt/lfs/
 
-          # Ejecutar tools/build-pkg.sh para CADA receta (dentro del chroot)
-          for r in /mnt/lfs/recipes/*/; do
+          # Ejecutar tools/build-pkg.sh para CADA receta (dentro del chroot).
+          # Las rutas de ARGUMENTOS son chroot-relativas: /recipes/<pkg>.
+          for pkgname in $(ls /mnt/lfs/recipes/); do
             sudo chroot /mnt/lfs /usr/bin/env -i \
               HOME=/root TERM="$TERM" PATH=/usr/bin:/usr/sbin \
               MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \
@@ -92,7 +93,7 @@ jobs:
               CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
               XORG_PREFIX=/usr \
-              bash "/mnt/lfs/tools/build-pkg.sh" "$r" /mnt/lfs/sources /mnt/lfs/packages
+              bash /tools/build-pkg.sh "/recipes/$pkgname" /sources /packages
           done
 
           sudo umount /mnt/lfs/dev/pts /mnt/lfs/dev/shm /mnt/lfs/sys /mnt/lfs/proc /mnt/lfs/run /mnt/lfs/dev
@@ -100,7 +101,8 @@ jobs:
 
       - name: Generar index.toml y firmarlo
         run: |
-          sudo bash /mnt/lfs/tools/make-index.sh /mnt/lfs/packages > index.toml || true
+          # el index se genera DESDE FUERA con los paquetes ya en el host
+          sudo bash /mnt/lfs/tools/make-index.sh /mnt/lfs/packages > index.toml
           sudo cp -r /mnt/lfs/packages .
           sudo chown -R runner:runner packages index.toml
           cat index.toml
