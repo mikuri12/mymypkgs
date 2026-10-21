@@ -1,3 +1,4 @@
+rootfs-base-v1
 # Rootfs de mylfs usado para compilar los paquetes de este repo.
 # Publicado en github.com/mikuri12/mylfs/releases/tag/rootfs-base-v1
-rootfs-base-v1
+# (formato: primera línea = tag, sin comentarios arriba)
