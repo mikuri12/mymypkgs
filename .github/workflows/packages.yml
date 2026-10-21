@@ -42,7 +42,7 @@ jobs:
           gh release download "$TAG" -R mikuri12/mylfs -D incoming \
             --pattern 'rootfs-base.tar.zst.part*' --pattern '*.sha256'
           cat incoming/rootfs-base.tar.zst.part* > incoming/rootfs-base.tar.zst
-          grep 'rootfs-base.tar.zst$' incoming/rootfs-base.tar.zst.sha256 | sha256sum -c -
+          grep 'rootfs-base.tar.zst$' incoming/rootfs-base.tar.zst.sha256 | ( cd incoming && sha256sum -c - )
           rm -f incoming/rootfs-base.tar.zst.part*
         env:
           GH_TOKEN: ${{ github.token }}

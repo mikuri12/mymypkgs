@@ -17,15 +17,17 @@ RELEASE=$(get release)
 PKG="${NAME}-${VERSION}-${RELEASE}"
 DESTDIR_STG="/staging/${PKG}"
 
+# Extraer TODAS las fuentes listadas (por ahora 1 por receta, robusto a N)
+FIRST_SRC=$(grep -E '^sources' "$RECIPE_DIR/recipe.toml" | sed -E 's/^[^=]+= *\[ *"([^"]+)".*$/\1/')
+TARBALL=$(basename "$FIRST_SRC")
+[ -f "${SRC}/${TARBALL}" ] || { echo "falta fuente $TARBALL en $SRC"; exit 1; }
+
 echo "==> build-pkg: ${PKG}"
 
 # Staging limpio
 rm -rf "$DESTDIR_STG"
 mkdir -p "$DESTDIR_STG" "$OUT"
 
-# Buscar el tarball de la primera fuente en la caché
-TARBALL=$(ls "${SRC}"/ | head -1)
-[ -n "$TARBALL" ] || { echo "no hay fuentes en $SRC"; exit 1; }
 rm -rf /tmp/build
 mkdir -p /tmp/build
 tar -xpf "${SRC}/${TARBALL}" -C /tmp/build --strip-components=1
