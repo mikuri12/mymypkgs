@@ -10,7 +10,8 @@ SRC=$2               # /sources (cache de tarballs verificada)
 OUT=$3               # /packages (salida)
 
 # Cargar receta (toml minimal: claves planas)
-get() { grep -E "^${1} *=" "$RECIPE_DIR/recipe.toml" | head -1 | sed -E 's/^[^=]+= *"(.*?)"$/\1/'; }
+# get soporta valores con comillas Y numéricos (release = 1)
+get() { grep -E "^${1} *=" "$RECIPE_DIR/recipe.toml" | head -1 | sed -E 's/^[^=]+= *//; s/^"(.*)"$/\1/'; }
 NAME=$(get name)
 VERSION=$(get version)
 RELEASE=$(get release)
