@@ -9,11 +9,13 @@ meson setup --prefix=/usr build --buildtype=release
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..
 
-# utf8proc (dir exacto del tarball: utf8proc-2.10.0)
+# utf8proc 2.10.0 usa CMAKE (no meson) — verificado contra el tarball
 cd /tmp/build/utf8proc-2.10.0
-meson setup --prefix=/usr build --buildtype=release
-ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
-cd ..
+mkdir build && cd build
+cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release       -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF ..
+make -j"$(nproc)"
+DESTDIR="$DESTDIR" make install
+cd ../..
 
 # fcft (sin docs/examples)
 cd /tmp/build/fcft
