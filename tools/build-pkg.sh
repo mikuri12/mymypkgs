@@ -31,7 +31,7 @@ mkdir -p /tmp/build
 # TODAS las fuentes del recipe.toml, con prefijo <paquete>__ (evita
 # colisiones de tags genéricos). Extraídas al cwd para build.sh.
 # export PKG_SRC apunta a la PRIMERA (la del paquete mismo).
-ALL_SRCS=$(grep -E '^sources' "$RECIPE_DIR/recipe.toml" | sed -E 's/^[^=]+= *\[//; s/\] *$//')
+ALL_SRCS=$(awk '/^sources *=/{f=1} f{print} f && /\]/{exit}' "$RECIPE_DIR/recipe.toml" | grep -oE 'https?://[^", ]+')
 i=0
 first=""
 for u in $(printf '%s' "$ALL_SRCS" | tr ',' ' ' | tr -d '"'); do

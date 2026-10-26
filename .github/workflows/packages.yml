@@ -62,8 +62,8 @@ jobs:
           # retry POR ARCHIVO (lección: reset de red a mitad de lote).
           for r in recipes/*/; do
             pkg=$(basename "$r")
-            srcs=$(grep -E '^sources' "$r/recipe.toml" | sed -E 's/^[^=]+= *\[//; s/\] *$//' | tr ',' ' ' | tr -d '"')
-            wants=$(grep -E '^checksums' "$r/recipe.toml" | sed -E 's/^[^=]+= *\[//; s/\] *$//' | tr ',' ' ' | tr -d '"' | sed 's/sha256://g')
+            srcs=$(awk '/^sources *=/{f=1} f{print} f && /\]/{exit}' "$r/recipe.toml" | grep -oE 'https?://[^", ]+')
+            wants=$(awk '/^checksums *=/{f=1} f{print} f && /\]/{exit}' "$r/recipe.toml" | grep -oE '[0-9a-f]{64}')
             sidx=0
             for src in $srcs; do
               sidx=$((sidx+1))
