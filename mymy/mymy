@@ -101,6 +101,12 @@ fetch_pkg() { # fetch_pkg <name> <version> <release> <sha256> -> echo path
     printf '%s' "$CACHE/$_fn"
 }
 
+idx_deps() { # deps de un pkg, vacío si []
+    _d=$(idx_pkg_field "$1" depends)
+    case "$_d" in ""|"[]"|"[""]"|*"[""]"*) _d="" ;; esac
+    printf '%s' "$_d"
+}
+
 # ---------- instalación (DOS PASOS) ----------
 install_pkgs() {
     [ $# -ge 1 ] || usage 1
@@ -116,7 +122,7 @@ install_pkgs() {
             msg "$pkg ya instalado ($ver-$rel) — usa upgrade"; continue
         fi
         # dependencias: instalarlas primero
-        deps=$(idx_pkg_field "$pkg" depends)
+        deps=$(idx_deps "$pkg")
         if [ -n "$deps" ]; then
             for d in $(printf '%s' "$deps" | tr ',' ' '); do
                 [ -d "$DB/installed/$d" ] || install_pkgs_recursive "$d"
@@ -141,7 +147,6 @@ install_pkgs() {
         while IFS= read -r f; do
             [ "$f" = ".FILES" ] && continue
             [ "$f" = ".PKGINFO.toml" ] && continue
-            if [ -e "$DB/installed/*/$f" ]; then :; fi  # glob no portable: ver abajo
             for other in "$DB/installed"/*/; do
                 [ -d "$other" ] || continue
                 oname=${other%/}; oname=${oname##*/}
@@ -187,7 +192,7 @@ install_pkgs_recursive() { # helper (sin re-lock)
     [ -n "$ver" ] || die "$pkg no está en el índice"
     [ -d "$DB/installed/$pkg" ] && return 0
     # deps primero
-    deps=$(idx_pkg_field "$pkg" depends)
+    deps=$(idx_deps "$pkg")
     if [ -n "$deps" ]; then
         for d in $(printf '%s' "$deps" | tr ',' ' '); do
             [ -d "$DB/installed/$d" ] || install_pkgs_recursive "$d"
