@@ -19,7 +19,7 @@ msg()  { printf '==> %s\n' "$*"; }
 die()  { printf 'mymy: %s\n' "$*" >&2; exit 1; }
 
 usage() {
-    cat <<'USG'
+    cat <<USG
 mymy $MYMY_VERSION — gestor de paquetes mymypkgs
 uso: mymy <comando> [args]
   sync                   refresca el índice (verifica firma ssh-keygen)
@@ -336,7 +336,11 @@ verify_pkg() {
         case "$f" in .FILES|.PKGINFO.toml) continue ;; esac
         [ -e "/$f" ] || { printf 'FALTA: /%s\n' "$f"; bad=1; continue; }
     done < "$DB/installed/$1/FILES"
-    [ $bad -eq 0 ] && msg "$1 verificado ✓" || die "$1 incompleto"
+    if [ $bad -eq 0 ]; then
+        msg "$1 verificado ✓"
+    else
+        die "$1 incompleto"
+    fi
 }
 
 # ---------- hooks + triggers ----------
@@ -350,7 +354,9 @@ run_hooks() { # run_hooks <post-install|post-remove> <pkg>
 }
 
 run_triggers() { # run_triggers <pkg> <files-list>
-    grep -qE '^usr/lib/|^lib/' "$2" 2>/dev/null && ldconfig || true
+    if grep -qE '^usr/lib/|^lib/' "$2" 2>/dev/null; then
+        ldconfig || true
+    fi
     case "$1" in
         *font*) fc-cache -f >/dev/null 2>&1 || true ;;
     esac
@@ -371,7 +377,17 @@ case "${1:-}" in
     info)    shift; info_pkg "$@" ;;
     files)   shift; files_pkg "$@" ;;
     owns)    shift; owns_path "$@" ;;
-    verify)  shift; [ $# -ge 1 ] && verify_pkg "$@" || for d in "$DB/installed"/*/; do [ -d "$d" ] || continue; p=${d%/}; verify_pkg "${p##*/}"; done ;;
+    verify)
+        shift
+        if [ $# -ge 1 ]; then
+            verify_pkg "$@"
+        else
+            for d in "$DB/installed"/*/; do
+                [ -d "$d" ] || continue
+                p=${d%/}
+                verify_pkg "${p##*/}"
+            done
+        fi ;;
     -h|--help|help) usage 0 ;;
     "") usage 1 ;;
     *) die "comando desconocido: $1 (ver mymy help)" ;;
