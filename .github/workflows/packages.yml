@@ -106,6 +106,29 @@ jobs:
           sudo test -x /mnt/lfs/usr/bin/cmake || { echo "cmake no instalado"; exit 1; }
           echo "cmake OK en el chroot"
 
+          # Rust toolchain PREBUILT (PLAN: solo para compilar, no al paquete):
+          # greetd/Halley/Noctalia-greeter lo usan. Instalada en /opt/rust
+          # dentro del chroot, NO va a ningún paquete.
+          sudo curl -fsSL --retry 3 -o /mnt/lfs/sources/rust.tar.gz \
+            "https://static.rust-lang.org/dist/rust-1.99.1-x86_64-unknown-linux-gnu.tar.gz" \
+            || { echo "descarga rust falló"; exit 1; }
+          cat > /tmp/install-rust.sh << 'RSEOF'
+          set -euo pipefail
+          cd /sources
+          rm -rf rust-1.99.1-x86_64-unknown-linux-gnu
+          tar -xpf rust.tar.gz
+          cd rust-1.99.1-x86_64-unknown-linux-gnu
+          # sin docs ni rust-docs (PLAN: sin bloat)
+          ./install.sh --prefix=/opt/rust --components=rustc,cargo,rust-std-x86_64-unknown-linux-gnu
+          cd /sources && rm -rf rust-1.99.1-x86_64-unknown-linux-gnu
+          RSEOF
+          sudo cp /tmp/install-rust.sh /mnt/lfs/sources/install-rust.sh
+          sudo chroot /mnt/lfs /usr/bin/env -i HOME=/root TERM="$TERM" \
+            PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \
+            bash -e /sources/install-rust.sh
+          sudo test -x /mnt/lfs/opt/rust/bin/cargo || { echo "cargo no instalado"; exit 1; }
+          echo "rust 1.99.1 OK en el chroot (/opt/rust)"
+
           # Copiar recetas+tools al chroot (scripts del repo corren dentro)
           sudo cp -r recipes /mnt/lfs/
           sudo cp -r tools /mnt/lfs/
@@ -114,7 +137,7 @@ jobs:
           # Las rutas de ARGUMENTOS son chroot-relativas: /recipes/<pkg>.
           for pkgname in $(ls /mnt/lfs/recipes/); do
             sudo chroot /mnt/lfs /usr/bin/env -i \
-              HOME=/root TERM="$TERM" PATH=/usr/bin:/usr/sbin \
+              HOME=/root TERM="$TERM" PATH=/opt/rust/bin:/usr/bin:/usr/sbin \
               MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \
               CFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
