@@ -24,6 +24,7 @@ DESTDIR_STG="/staging/${PKG}"
 FIRST_SRC=$(grep -E '^sources' "$RECIPE_DIR/recipe.toml" | sed -E 's/^[^=]+= *\[ *"([^"]+)".*$/\1/')
 TARBALL="${NAME}__$(basename "$FIRST_SRC")"
 [ -f "${SRC}/${TARBALL}" ] || { echo "falta fuente $TARBALL en $SRC"; exit 1; }
+export PKG_SRC="${SRC}/${TARBALL}"   # build.sh usa "$PKG_SRC"
 
 echo "==> build-pkg: ${PKG}"
 
