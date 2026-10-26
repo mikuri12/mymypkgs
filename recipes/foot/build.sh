@@ -32,9 +32,15 @@ meson setup --prefix=/usr build --buildtype=release -D doc=disabled -D nls=disab
 ninja -C build && ninja -C build install
 cd ..
 
-# fcft (sin docs/examples) → chroot real (foot la linkea)
+# pixman 0.46.4 → chroot real (fcft la exige)
+cd /tmp/build/pixman-pixman-0.46.4
+meson setup --prefix=/usr build --buildtype=release -D demos=disabled -D tests=disabled
+ninja -C build && ninja -C build install
+cd ..
+
+# fcft (sin docs/examples, sin harfbuzz) → chroot real (foot la linkea)
 cd /tmp/build/fcft
-meson setup --prefix=/usr build --buildtype=release -D examples=false
+meson setup --prefix=/usr build --buildtype=release -D examples=false -D harfbuzz=disabled
 ninja -C build && ninja -C build install
 cd ..
 
