@@ -145,8 +145,9 @@ install_pkgs() {
         tar --zstd -xpf "$tarball" -C "$_stg" --numeric-owner --keep-directory-symlink
         [ -f "$_stg/.FILES" ] || { unlock; die "$pkg no trae .FILES"; }
 
-        # PASO 2: conflictos contra instalados
-        while IFS= read -r f; do
+        # PASO 2: conflictos contra instalados (fd 3: ver abajo)
+        exec 3< "$_stg/.FILES"
+        while IFS= read -r f <&3; do
             [ "$f" = ".FILES" ] && continue
             [ "$f" = ".PKGINFO.toml" ] && continue
             for other in "$DB/installed"/*/; do
@@ -158,11 +159,14 @@ install_pkgs() {
                     die "CONFLICTO: /$f ya es de $oname"
                 fi
             done
-        done < "$_stg/.FILES"
+        done
+        exec 3<&-
 
-        # mover a / y registrar
+        # mover a / y registrar. OJO POSIX: mv/mkdir comen stdin del
+        # while-read → usar fd 3 para la lista (lección de esta corrida).
         msg "moviendo $pkg al sistema"
-        while IFS= read -r f; do
+        exec 3< "$_stg/.FILES"
+        while IFS= read -r f <&3; do
             [ "$f" = ".FILES" ] && continue
             [ "$f" = ".PKGINFO.toml" ] && continue
             target="/$f"
@@ -172,7 +176,8 @@ install_pkgs() {
                 mv "$target" "$target.mymy-orig"
             fi
             mv "$_stg/$f" "$target"
-        done < "$_stg/.FILES"
+        done
+        exec 3<&-
 
         # registro
         mkdir -p "$DB/installed/$pkg"
@@ -205,7 +210,8 @@ install_pkgs_recursive() { # helper (sin re-lock)
     tarball=$(fetch_pkg "$pkg" "$ver" "$rel" "$sha") || die "fetch $pkg"
     _stg="$STAGE/$pkg"; rm -rf "$_stg"; mkdir -p "$_stg"
     tar --zstd -xpf "$tarball" -C "$_stg" --numeric-owner --keep-directory-symlink
-    while IFS= read -r f; do
+    exec 3< "$_stg/.FILES"
+    while IFS= read -r f <&3; do
         case "$f" in .FILES|.PKGINFO.toml) continue ;; esac
         for other in "$DB/installed"/*/; do
             [ -d "$other" ] || continue
@@ -216,7 +222,8 @@ install_pkgs_recursive() { # helper (sin re-lock)
         target="/$f"; mkdir -p "$(dirname "$target")"
         [ -e "$target" ] && [ ! -L "$target" ] && mv "$target" "$target.mymy-orig"
         mv "$_stg/$f" "$target"
-    done < "$_stg/.FILES"
+    done
+    exec 3<&-
     mkdir -p "$DB/installed/$pkg"
     cp "$_stg/.PKGINFO.toml" "$DB/installed/$pkg/PKGINFO.toml"
     cp "$_stg/.FILES" "$DB/installed/$pkg/FILES"
@@ -250,19 +257,22 @@ remove_pkg() {
     done
     msg "eliminando $pkg"
     # borrar al revés (dirs primero archivos; symlinks sin seguir)
-    tac "$DB/installed/$pkg/FILES" 2>/dev/null | while IFS= read -r f; do
+    # lista invertida por fd 3: rm/rmdir no comen el stdin del loop
+    tac "$DB/installed/$pkg/FILES" 2>/dev/null > "$DB/.removal-list.$$" || true
+    exec 3< "$DB/.removal-list.$$"
+    while IFS= read -r f <&3; do
         [ "$f" = ".FILES" ] && continue
         [ "$f" = ".PKGINFO.toml" ] && continue
         target="/$f"
         [ -e "$target" ] || [ -L "$target" ] || continue
-        # no tocar lo que no es nuestro (dueño: el registro)
-        # (si algo ya no coincide, skip silencioso)
         if [ -d "$target" ] && [ ! -L "$target" ]; then
             rmdir "$target" 2>/dev/null || true   # solo si vacío
         else
             rm -f "$target"
         fi
     done
+    exec 3<&-
+    rm -f "$DB/.removal-list.$$"
     rm -rf "$DB/installed/$pkg"
     run_hooks post-remove "$pkg"
     msg "$pkg eliminado"
