@@ -19,7 +19,7 @@ cd ../..
 
 # fcft (sin docs/examples)
 cd /tmp/build/fcft
-meson setup --prefix=/usr build --buildtype=release -D docs=disabled -D examples=disabled
+meson setup --prefix=/usr build --buildtype=release -D examples=false
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..
 
