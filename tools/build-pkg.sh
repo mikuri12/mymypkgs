@@ -42,9 +42,12 @@ for u in $(printf '%s' "$ALL_SRCS" | tr ',' ' ' | tr -d '"'); do
   tar -xpf "${SRC}/${tb}" -C /tmp/build --keep-directory-symlink
 done
 export PKG_SRC="$first"
-# cwd de build.sh = el dir del PRIMER tarball (el paquete mismo). Los
-# tarballs de codeberg/fdo traen un único dir raíz; BLFS igual.
-cd /tmp/build/"$(tar -tf "$first" | head -1 | cut -d/ -f1)"   # build.sh usa "$PKG_SRC" si lo necesita
+# cwd de build.sh = dir raíz del PRIMER tarball. SIN pipes (head cierra
+# el pipe → tar muere con 'stdout: write error' → dir vacío; lección stage4).
+tar -tf "$first" > /tmp/build/.list 2>/dev/null
+PKG_DIR=$(awk -F/ 'NR==1{print $1; exit}' /tmp/build/.list)
+[ -n "$PKG_DIR" ] && [ -d "/tmp/build/$PKG_DIR" ] || { echo "tarball sin dir raíz: $first"; exit 1; }
+cd "/tmp/build/$PKG_DIR"
 
 # Ejecutar build.sh de la receta con DESTDIR apuntando al staging
 export DESTDIR="$DESTDIR_STG"
