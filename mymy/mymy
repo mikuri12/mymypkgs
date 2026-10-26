@@ -148,12 +148,13 @@ install_pkgs() {
         # PASO 2: conflictos contra instalados (fd 3: ver abajo)
         exec 3< "$_stg/.FILES"
         while IFS= read -r f <&3; do
-            [ "$f" = ".FILES" ] && continue
-            [ "$f" = ".PKGINFO.toml" ] && continue
+            if [ "$f" = ".FILES" ] || [ "$f" = ".PKGINFO.toml" ]; then
+                continue
+            fi
             for other in "$DB/installed"/*/; do
-                [ -d "$other" ] || continue
+                if [ ! -d "$other" ]; then continue; fi
                 oname=${other%/}; oname=${oname##*/}
-                [ "$oname" = "$pkg" ] && continue
+                if [ "$oname" = "$pkg" ]; then continue; fi
                 if [ -e "$other/$f" ]; then
                     rm -rf "$_stg"; unlock
                     die "CONFLICTO: /$f ya es de $oname"
@@ -167,8 +168,9 @@ install_pkgs() {
         msg "moviendo $pkg al sistema"
         exec 3< "$_stg/.FILES"
         while IFS= read -r f <&3; do
-            [ "$f" = ".FILES" ] && continue
-            [ "$f" = ".PKGINFO.toml" ] && continue
+            if [ "$f" = ".FILES" ] || [ "$f" = ".PKGINFO.toml" ]; then
+                continue
+            fi
             target="/$f"
             mkdir -p "$(dirname "$target")"
             if [ -e "$target" ] && [ ! -L "$target" ]; then
@@ -214,9 +216,9 @@ install_pkgs_recursive() { # helper (sin re-lock)
     while IFS= read -r f <&3; do
         case "$f" in .FILES|.PKGINFO.toml) continue ;; esac
         for other in "$DB/installed"/*/; do
-            [ -d "$other" ] || continue
+            if [ ! -d "$other" ]; then continue; fi
             oname=${other%/}; oname=${oname##*/}
-            [ "$oname" = "$pkg" ] && continue
+            if [ "$oname" = "$pkg" ]; then continue; fi
             [ -e "$other/$f" ] && { rm -rf "$_stg"; die "conflicto $f con $oname"; }
         done
         target="/$f"; mkdir -p "$(dirname "$target")"
@@ -247,9 +249,9 @@ remove_pkg() {
     esac
     # dependientes
     for other in "$DB/installed"/*/; do
-        [ -d "$other" ] || continue
+        if [ ! -d "$other" ]; then continue; fi
         oname=${other%/}; oname=${oname##*/}
-        [ "$oname" = "$pkg" ] && continue
+        if [ "$oname" = "$pkg" ]; then continue; fi
         odeps=$(tget "$other/PKGINFO.toml" depends)
         case ",$odeps," in
             *",$pkg,"*) unlock; die "$oname depende de $pkg" ;;
@@ -261,10 +263,11 @@ remove_pkg() {
     tac "$DB/installed/$pkg/FILES" 2>/dev/null > "$DB/.removal-list.$$" || true
     exec 3< "$DB/.removal-list.$$"
     while IFS= read -r f <&3; do
-        [ "$f" = ".FILES" ] && continue
-        [ "$f" = ".PKGINFO.toml" ] && continue
+        if [ "$f" = ".FILES" ] || [ "$f" = ".PKGINFO.toml" ]; then
+            continue
+        fi
         target="/$f"
-        [ -e "$target" ] || [ -L "$target" ] || continue
+        if [ ! -e "$target" ] && [ ! -L "$target" ]; then continue; fi
         if [ -d "$target" ] && [ ! -L "$target" ]; then
             rmdir "$target" 2>/dev/null || true   # solo si vacío
         else
@@ -284,13 +287,13 @@ upgrade_all() {
     lock
     [ -f "$DB/index.toml" ] || { unlock; die "sin índice (mymy sync)"; }
     for d in "$DB/installed"/*/; do
-        [ -d "$d" ] || continue
+        if [ ! -d "$d" ]; then continue; fi
         pkg=${d%/}; pkg=${pkg##*/}
         iver=$(tget "$d/PKGINFO.toml" version)
         irel=$(tget "$d/PKGINFO.toml" release)
         nver=$(idx_pkg_field "$pkg" version)
         nrel=$(idx_pkg_field "$pkg" release)
-        [ -n "$nver" ] || continue
+        if [ -z "$nver" ]; then continue; fi
         if [ "$iver" != "$nver" ] || [ "$irel" != "$nrel" ]; then
             msg "actualizando $pkg: $iver-$irel → $nver-$nrel"
             # config editados se conservan (install detecta .mymy-orig?)
@@ -306,7 +309,7 @@ upgrade_all() {
 # ---------- info/list/files/owns/search ----------
 list_pkgs() {
     for d in "$DB/installed"/*/; do
-        [ -d "$d" ] || continue
+        if [ ! -d "$d" ]; then continue; fi
         p=${d%/}; p=${p##*/}
         printf '%s %s-%s\n' "$p" "$(tget "$d/PKGINFO.toml" version)" "$(tget "$d/PKGINFO.toml" release)"
     done
@@ -325,7 +328,7 @@ files_pkg() {
 owns_path() {
     hit=0
     for d in "$DB/installed"/*/; do
-        [ -d "$d" ] || continue
+        if [ ! -d "$d" ]; then continue; fi
         p=${d%/}; p=${p##*/}
         if grep -qx "$(printf '%s' "$1" | sed 's|^/||')" "$d/FILES" 2>/dev/null; then
             printf '%s\n' "$p"; hit=1
@@ -351,7 +354,10 @@ verify_pkg() {
     bad=0
     while IFS= read -r f; do
         case "$f" in .FILES|.PKGINFO.toml) continue ;; esac
-        [ -e "/$f" ] || { printf 'FALTA: /%s\n' "$f"; bad=1; continue; }
+        if [ ! -e "/$f" ]; then
+            printf 'FALTA: /%s\n' "$f"
+            bad=1
+        fi
     done < "$DB/installed/$1/FILES"
     if [ $bad -eq 0 ]; then
         msg "$1 verificado ✓"
@@ -365,7 +371,7 @@ run_hooks() { # run_hooks <post-install|post-remove> <pkg>
     hdir="/etc/mymy/hooks/$1"
     [ -d "$hdir" ] || return 0
     for h in "$hdir"/*; do
-        [ -x "$h" ] || continue
+        if [ ! -x "$h" ]; then continue; fi
         "$h" "$2" || true
     done
 }
@@ -400,7 +406,7 @@ case "${1:-}" in
             verify_pkg "$@"
         else
             for d in "$DB/installed"/*/; do
-                [ -d "$d" ] || continue
+                if [ ! -d "$d" ]; then continue; fi
                 p=${d%/}
                 verify_pkg "${p##*/}"
             done
