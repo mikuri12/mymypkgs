@@ -219,7 +219,10 @@ install_pkgs_recursive() { # helper (sin re-lock)
             if [ ! -d "$other" ]; then continue; fi
             oname=${other%/}; oname=${oname##*/}
             if [ "$oname" = "$pkg" ]; then continue; fi
-            [ -e "$other/$f" ] && { rm -rf "$_stg"; die "conflicto $f con $oname"; }
+            if [ -e "$other/$f" ]; then
+                rm -rf "$_stg"
+                die "conflicto $f con $oname"
+            fi
         done
         target="/$f"; mkdir -p "$(dirname "$target")"
         [ -e "$target" ] && [ ! -L "$target" ] && mv "$target" "$target.mymy-orig"
@@ -237,7 +240,10 @@ install_pkgs_recursive() { # helper (sin re-lock)
 # ---------- remove ----------
 remove_pkg() {
     force=0
-    [ "${1:-}" = "--force" ] && { force=1; shift; }
+    if [ "${1:-}" = "--force" ]; then
+        force=1
+        shift
+    fi
     [ $# -eq 1 ] || usage 1
     lock; mkdir -p "$DB"
     pkg=$1
@@ -284,8 +290,7 @@ remove_pkg() {
 
 # ---------- upgrade ----------
 upgrade_all() {
-    lock
-    [ -f "$DB/index.toml" ] || { unlock; die "sin índice (mymy sync)"; }
+    [ -f "$DB/index.toml" ] || die "sin índice (mymy sync)"
     for d in "$DB/installed"/*/; do
         if [ ! -d "$d" ]; then continue; fi
         pkg=${d%/}; pkg=${pkg##*/}
@@ -296,13 +301,11 @@ upgrade_all() {
         if [ -z "$nver" ]; then continue; fi
         if [ "$iver" != "$nver" ] || [ "$irel" != "$nrel" ]; then
             msg "actualizando $pkg: $iver-$irel → $nver-$nrel"
-            # config editados se conservan (install detecta .mymy-orig?)
-            # por ahora: remove+install; config_files quedan .mymy-new
-            remove_pkg_inner "$pkg" || true
-            install_one "$pkg" || true
+            # remove+install (cada uno gestiona su propio lock)
+            remove_pkg "$pkg"
+            install_pkgs "$pkg"
         fi
     done
-    unlock
     msg "upgrade completo"
 }
 
@@ -383,10 +386,10 @@ run_triggers() { # run_triggers <pkg> <files-list>
     case "$1" in
         *font*) fc-cache -f >/dev/null 2>&1 || true ;;
     esac
-    grep -qE '^boot/vmlinuz|^lib/modules' "$2" 2>/dev/null && {
+    if grep -qE '^boot/vmlinuz|^lib/modules' "$2" 2>/dev/null; then
         dracut --no-hostonly -f /boot/initramfs.img "$(ls /lib/modules)" >/dev/null 2>&1 || true
         grub-mkconfig -o /boot/grub/grub.cfg >/dev/null 2>&1 || true
-    }
+    fi
 }
 
 # ---------- main ----------
