@@ -49,10 +49,11 @@ PKG_DIR=$(awk -F/ 'NR==1{print $1; exit}' /tmp/build/.list)
 [ -n "$PKG_DIR" ] && [ -d "/tmp/build/$PKG_DIR" ] || { echo "tarball sin dir raíz: $first"; exit 1; }
 cd "/tmp/build/$PKG_DIR"
 
-# Ejecutar build.sh de la receta con DESTDIR apuntando al staging
+# Ejecutar build.sh de la receta con DESTDIR apuntando al staging.
+# OJO: el cd al dir del paquete ya se hizo arriba; NO pisarlo con
+# 'cd /tmp/build' (bug de esta saga: build.sh quedaba sin fuentes).
 export DESTDIR="$DESTDIR_STG"
 export SRC
-cd /tmp/build
 bash "$RECIPE_DIR/build.sh"
 
 # Verificar que produjo algo
