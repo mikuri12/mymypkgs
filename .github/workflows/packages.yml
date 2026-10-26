@@ -79,6 +79,33 @@ jobs:
           sudo mount -vt tmpfs tmpfs /mnt/lfs/run
           sudo mount -vt tmpfs -o nosuid,nodev tmpfs /mnt/lfs/dev/shm
 
+          # cmake 4.1.0 (BLFS 12.4, md5 verificado): build-dep del chroot
+          # — dbus lo necesita; la base LFS solo trae meson/ninja.
+          # (script por archivo: heredoc indentado rompe el YAML del workflow)
+          sudo curl -fsSL --retry 3 -o /mnt/lfs/sources/cmake-4.1.0.tar.gz \
+            "https://cmake.org/files/v4.1/cmake-4.1.0.tar.gz"
+          echo "80ae27faba5068c8ec12c77bf00e6db3  /mnt/lfs/sources/cmake-4.1.0.tar.gz" | \
+            sudo tee /mnt/lfs/sources/cmake.md5 >/dev/null
+          sudo bash -c 'cd /mnt/lfs/sources && md5sum -c cmake.md5'
+          cat > /tmp/build-cmake.sh << 'CMEOF'
+          set -euo pipefail
+          cd /sources
+          rm -rf cmake-4.1.0
+          tar -xpf cmake-4.1.0.tar.gz && cd cmake-4.1.0
+          sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake
+          ./bootstrap --prefix=/usr --parallel=$(nproc) \
+            -- -DCMAKE_USE_OPENSSL=ON -DBUILD_TESTING=OFF
+          make -j"$(nproc)"
+          make install
+          cd /sources && rm -rf cmake-4.1.0
+          CMEOF
+          sudo cp /tmp/build-cmake.sh /mnt/lfs/sources/build-cmake.sh
+          sudo chroot /mnt/lfs /usr/bin/env -i HOME=/root TERM="$TERM" \
+            PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \
+            bash -e /sources/build-cmake.sh
+          sudo test -x /mnt/lfs/usr/bin/cmake || { echo "cmake no instalado"; exit 1; }
+          echo "cmake OK en el chroot"
+
           # Copiar recetas+tools al chroot (scripts del repo corren dentro)
           sudo cp -r recipes /mnt/lfs/
           sudo cp -r tools /mnt/lfs/
