@@ -15,7 +15,7 @@ STAGE="$DB/staging"
 REPO_URL="${MYMY_REPO:-https://github.com/mikuri12/mymypkgs/releases/download/packages}"
 KEY_PUB="${MYMY_KEY:-/usr/share/mymy/mymy.pub}"
 
-msg()  { printf '==> %s\n' "$*"; }
+msg()  { printf '==> %s\n' "$*" >&2; }
 die()  { printf 'mymy: %s\n' "$*" >&2; exit 1; }
 
 usage() {
