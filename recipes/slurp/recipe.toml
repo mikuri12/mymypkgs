@@ -4,6 +4,12 @@ release = 1
 description = "Select a region in a Wayland compositor"
 depends = ["wayland", "libxkbcommon"]
 makedepends = []
-sources = ["https://github.com/emersion/slurp/archive/refs/tags/v1.5.0.tar.gz"]
-checksums = ["sha256:0fa880d4a93e1c795e3b5929fbea47546df0955bea34fc2f7ffeb1751678f663"]
+sources = [
+  "https://github.com/emersion/slurp/archive/refs/tags/v1.5.0.tar.gz",
+  "https://cairographics.org/releases/cairo-1.18.4.tar.xz",
+]
+checksums = [
+  "sha256:0fa880d4a93e1c795e3b5929fbea47546df0955bea34fc2f7ffeb1751678f663",
+  "sha256:445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb",
+]
 config_files = []

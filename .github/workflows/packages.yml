@@ -62,20 +62,25 @@ jobs:
           # retry POR ARCHIVO (lección: reset de red a mitad de lote).
           for r in recipes/*/; do
             pkg=$(basename "$r")
-            src=$(grep -E '^sources' "$r/recipe.toml" | sed -E 's/^[^=]+= *\[ *"([^"]+)".*$/\1/')
-            want=$(grep -E '^checksums' "$r/recipe.toml" | sed -E 's/.*sha256:([0-9a-f]+).*/\1/')
-            f="${pkg}__$(basename "$src")"
-            if [ ! -f "/mnt/lfs/sources/$f" ]; then
-              ok=0
-              for i in 1 2 3 4 5; do
-                sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src" && { ok=1; break; }
-                echo "retry $f (intento $i)"; sleep 10
-              done
-              [ $ok -eq 1 ] || { echo "descarga falló: $src"; exit 1; }
-            fi
-            got=$(sudo sha256sum "/mnt/lfs/sources/$f" | cut -d' ' -f1)
-            [ "$got" = "$want" ] || { echo "SHA256 BAD para $f"; exit 1; }
-            echo "fuente OK: $f"
+            srcs=$(grep -E '^sources' "$r/recipe.toml" | sed -E 's/^[^=]+= *\[//; s/\] *$//' | tr ',' ' ' | tr -d '"')
+            wants=$(grep -E '^checksums' "$r/recipe.toml" | sed -E 's/^[^=]+= *\[//; s/\] *$//' | tr ',' ' ' | tr -d '"' | sed 's/sha256://g')
+            sidx=0
+            for src in $srcs; do
+              sidx=$((sidx+1))
+              want=$(printf '%s\n' $wants | sed -n "${sidx}p")
+              f="${pkg}__$(basename "$src")"
+              if [ ! -f "/mnt/lfs/sources/$f" ]; then
+                ok=0
+                for i in 1 2 3 4 5; do
+                  sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src" && { ok=1; break; }
+                  echo "retry $f (intento $i)"; sleep 10
+                done
+                [ $ok -eq 1 ] || { echo "descarga falló: $src"; exit 1; }
+              fi
+              got=$(sudo sha256sum "/mnt/lfs/sources/$f" | cut -d' ' -f1)
+              [ "$got" = "$want" ] || { echo "SHA256 BAD para $f (want $want)"; exit 1; }
+              echo "fuente OK: $f"
+            done
           done
 
       - name: Montar vfs y construir paquetes dentro del chroot

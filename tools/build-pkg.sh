@@ -18,13 +18,6 @@ RELEASE=$(get release)
 PKG="${NAME}-${VERSION}-${RELEASE}"
 DESTDIR_STG="/staging/${PKG}"
 
-# Extraer TODAS las fuentes listadas (por ahora 1 por receta, robusto a N)
-# El workflow guarda la fuente con prefijo <paquete>__ para evitar colisiones
-# de tags genéricos (p.ej. '0.10.3.tar.gz' compartido entre proyectos).
-FIRST_SRC=$(grep -E '^sources' "$RECIPE_DIR/recipe.toml" | sed -E 's/^[^=]+= *\[ *"([^"]+)".*$/\1/')
-TARBALL="${NAME}__$(basename "$FIRST_SRC")"
-[ -f "${SRC}/${TARBALL}" ] || { echo "falta fuente $TARBALL en $SRC"; exit 1; }
-export PKG_SRC="${SRC}/${TARBALL}"   # build.sh usa "$PKG_SRC"
 
 echo "==> build-pkg: ${PKG}"
 
@@ -34,7 +27,21 @@ mkdir -p "$DESTDIR_STG" "$OUT"
 
 rm -rf /tmp/build
 mkdir -p /tmp/build
-tar -xpf "${SRC}/${TARBALL}" -C /tmp/build --strip-components=1
+
+# TODAS las fuentes del recipe.toml, con prefijo <paquete>__ (evita
+# colisiones de tags genéricos). Extraídas al cwd para build.sh.
+# export PKG_SRC apunta a la PRIMERA (la del paquete mismo).
+ALL_SRCS=$(grep -E '^sources' "$RECIPE_DIR/recipe.toml" | sed -E 's/^[^=]+= *\[//; s/\] *$//')
+i=0
+first=""
+for u in $(printf '%s' "$ALL_SRCS" | tr ',' ' ' | tr -d '"'); do
+  i=$((i+1))
+  tb="${NAME}__$(basename "$u")"
+  [ -f "${SRC}/${tb}" ] || { echo "falta fuente $tb en $SRC"; exit 1; }
+  if [ $i -eq 1 ]; then first="${SRC}/${tb}"; fi
+  tar -xpf "${SRC}/${tb}" -C /tmp/build --keep-directory-symlink
+done
+export PKG_SRC="$first"   # build.sh usa "$PKG_SRC" si lo necesita
 
 # Ejecutar build.sh de la receta con DESTDIR apuntando al staging
 export DESTDIR="$DESTDIR_STG"
