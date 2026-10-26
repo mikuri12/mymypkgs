@@ -9,11 +9,15 @@ sources = [
   "https://codeberg.org/dnkl/tllist/archive/1.1.0.tar.gz",
   "https://codeberg.org/dnkl/fcft/archive/3.3.1.tar.gz",
   "https://github.com/JuliaStrings/utf8proc/archive/refs/tags/v2.10.0.tar.gz",
+  "https://downloads.sourceforge.net/freetype/freetype-2.13.3.tar.xz",
+  "https://gitlab.freedesktop.org/api/v4/projects/890/packages/generic/fontconfig/2.17.1/fontconfig-2.17.1.tar.xz",
 ]
 checksums = [
   "sha256:d1e1d04cd7a3a1615b4d8dbf9645b9a35cdc3f36fba4e1c0fd252ad0bd6651c8",
   "sha256:0e7b7094a02550dd80b7243bcffc3671550b0f1d8ba625e4dff52517827d5d23",
   "sha256:9949fbce0826669369c3b9361ac04b0459fdc51037e2ccf2e2483794909903f4",
   "sha256:6f4f1b639daa6dca9f80bc5db1233e9cbaa31a67790887106160b33ef743f136",
+  "sha256:0550350666d427c74daeb85d5ac7bb353acba5f76956395995311a9c6f063289",
+  "sha256:9f5cae93f4fffc1fbc05ae99cdfc708cd60dfd6612ffc0512827025c026fa541",
 ]
 config_files = ["/etc/xdg/foot/foot.ini"]

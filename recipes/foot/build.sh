@@ -17,6 +17,19 @@ make -j"$(nproc)"
 DESTDIR="$DESTDIR" make install
 cd ../..
 
+# freetype 2.13.3 (BLFS 12.4)
+cd /tmp/build/freetype-2.13.3
+tar -xf ../freetype-2.13.3.tar.xz --strip-components=0 2>/dev/null || true
+meson setup --prefix=/usr build --buildtype=release -D tests=disabled
+ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
+cd ..
+
+# fontconfig 2.17.1 (BLFS 12.4; sin docs, sin nls)
+cd /tmp/build/fontconfig-2.17.1
+meson setup --prefix=/usr build --buildtype=release -D doc=disabled -D nls=disabled -D tests=disabled
+ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
+cd ..
+
 # fcft (sin docs/examples)
 cd /tmp/build/fcft
 meson setup --prefix=/usr build --buildtype=release -D examples=false
