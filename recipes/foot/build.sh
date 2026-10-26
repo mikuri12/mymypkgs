@@ -4,24 +4,25 @@
 set -euo pipefail
 
 # tllist
-cd tllist
+cd /tmp/build/tllist
 meson setup --prefix=/usr build --buildtype=release
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..
 
 # utf8proc (dir utf8proc-2.10.0 o utf8proc-*)
-cd utf8proc-*
+cd /tmp/build/utf8proc-*
 meson setup --prefix=/usr build --buildtype=release
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..
 
 # fcft (sin docs/examples)
-cd fcft
+cd /tmp/build/fcft
 meson setup --prefix=/usr build --buildtype=release -D docs=disabled -D examples=disabled
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..
 
 # foot mismo
+cd /tmp/build/foot-1.27.0
 mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D docs=disabled -D man=disabled -D tests=disabled \
