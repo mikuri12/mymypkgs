@@ -9,8 +9,8 @@ meson setup --prefix=/usr build --buildtype=release
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..
 
-# utf8proc (dir utf8proc-2.10.0 o utf8proc-*)
-cd /tmp/build/utf8proc-*
+# utf8proc (dir exacto del tarball: utf8proc-2.10.0)
+cd /tmp/build/utf8proc-2.10.0
 meson setup --prefix=/usr build --buildtype=release
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..

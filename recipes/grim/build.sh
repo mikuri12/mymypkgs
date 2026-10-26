@@ -1,7 +1,7 @@
 #!/bin/bash
 # grim 1.4.0 — pixman YA extraído por build-pkg.sh.
 set -euo pipefail
-cd /tmp/build/pixman-pixman-*
+cd /tmp/build/pixman-pixman-0.46.4
 meson setup --prefix=/usr build --buildtype=release -D demos=disabled -D tests=disabled
 ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
 cd ..
