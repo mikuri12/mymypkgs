@@ -1,0 +1,10 @@
+name = "wayland"
+version = "1.24.0"
+release = 1
+description = "Core Wayland window system code and protocol"
+depends = []
+makedepends = []
+sources = ["https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.24.0/downloads/wayland-1.24.0.tar.xz"]
+checksums = ["sha256:82892487a01ad67b334eca83b54317a7c86a03a89cfadacfef5211f11a5d0536"]
+config_files = []
+# BLFS 12.4 §wayland (meson; xml_ressources auto)

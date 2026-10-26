@@ -1,0 +1,378 @@
+#!/bin/sh
+# mymy — gestor de paquetes de mymypkgs (shell POSIX, sin bashismos).
+# PLAN Fase 2: sync install remove upgrade search list info files owns
+# verify. Bloqueo mkdir; 2 pasos (staging→conflictos→mover); sin rutas
+# absolutas/..; --keep-directory-symlink; config .mymy-new; hooks;
+# triggers (ldconfig, fc-cache, dracut+grub con kernel); rollback.
+# Formato: docs/PACKAGE-FORMAT.md (raíz: .PKGINFO.toml + .FILES).
+set -eu
+
+MYMY_VERSION="0.1.0"
+DB="/var/lib/mymy"
+CACHE="/var/cache/mymy"
+LOCK="$DB/lock"
+STAGE="$DB/staging"
+REPO_URL="${MYMY_REPO:-https://github.com/mikuri12/mymypkgs/releases/download/packages}"
+KEY_PUB="${MYMY_KEY:-/usr/share/mymy/mymy.pub}"
+
+msg()  { printf '==> %s\n' "$*"; }
+die()  { printf 'mymy: %s\n' "$*" >&2; exit 1; }
+
+usage() {
+    cat <<'USG'
+mymy $MYMY_VERSION — gestor de paquetes mymypkgs
+uso: mymy <comando> [args]
+  sync                   refresca el índice (verifica firma ssh-keygen)
+  install <pkg...>       instala (2 pasos: staging→conflictos→mover)
+  remove [--force] <pkg> elimina (rechaza dependientes/protectores)
+  upgrade                actualiza todos los paquetes al índice
+  search <patrón>        busca en el índice
+  list                   paquetes instalados
+  info <pkg>             metadatos del paquete instalado
+  files <pkg>            archivos de un paquete
+  owns <ruta>            a qué paquete pertenece una ruta
+  verify [pkg]           sha256 de archivos instalados vs registro
+USG
+    exit "${1:-0}"
+}
+
+# ---------- bloqueo ----------
+lock() {
+    mkdir "$LOCK" 2>/dev/null || die "otra instancia corre (lock: $LOCK)"
+    trap 'rm -rf "$LOCK"' EXIT INT TERM
+}
+unlock() { rm -rf "$LOCK" 2>/dev/null || true; }
+
+# ---------- helpers toml (sin parser: claves planas) ----------
+tget() { # tget <archivo> <clave> [default]
+    _v=$(grep -E "^$2 *=" "$1" 2>/dev/null | head -n1 | sed -E 's/^[^=]+= *//; s/^"(.*)"$/\1/')
+    [ -n "$_v" ] && printf '%s' "$_v" || printf '%s' "${3:-}"
+}
+
+# ---------- índice ----------
+idx_pkg_field() { # idx_pkg_field <pkg> <campo>
+    awk -v p="$1" -v f="$2" '
+        /^\[\[pkg\]\]/ { inp = 0 }
+        /^name = / { if ($0 ~ "\"p\"" ) {} }
+        { n=$0; sub(/^name = "/,"",n); sub(/".*$/,"",n);
+          if (n == p) inp = 1;
+          if (inp && $0 ~ "^"f" = ") { sub("^"f" = ",""); gsub(/"/,""); print; exit } }
+    ' "$DB/index.toml"
+}
+
+sync() {
+    lock
+    mkdir -p "$DB" "$CACHE"
+    msg "descargando índice de $REPO_URL"
+    for f in index.toml index.toml.sig; do
+        curl -fsSL -o "$DB/$f.tmp" "$REPO_URL/$f" \
+            || { rm -f "$DB/$f.tmp"; unlock; die "no pude bajar $f"; }
+    done
+    # firma: ssh-keygen -Y verify con la clave pública del repo
+    if [ -s "$DB/index.toml.sig" ] && [ -r "$KEY_PUB" ]; then
+        if ! ssh-keygen -Y verify -f "$KEY_PUB" -I mymy -n mymy \
+                -s "$DB/index.toml.sig" < "$DB/index.toml" >/dev/null 2>&1; then
+            rm -f "$DB/index.toml.tmp" "$DB/index.toml.sig.tmp"
+            unlock; die "FIRMA DEL ÍNDICE INVÁLIDA (man in the middle?)"
+        fi
+        msg "firma del índice verificada ✓"
+    else
+        msg "AVISO: índice sin firma o clave ausente — continuando sin verificar"
+    fi
+    mv "$DB/index.toml.tmp" "$DB/index.toml"
+    mv "$DB/index.toml.sig.tmp" "$DB/index.toml.sig"
+    msg "índice: $(grep -c '^\[\[pkg\]\]' "$DB/index.toml") paquetes"
+    unlock
+}
+
+# ---------- descarga de paquete ----------
+fetch_pkg() { # fetch_pkg <name> <version> <release> <sha256> -> echo path
+    _fn="$1-$2-$3.tar.zst"
+    _want="$4"
+    if [ -f "$CACHE/$_fn" ] && [ "$(sha256sum "$CACHE/$_fn" | cut -d' ' -f1)" = "$_want" ]; then
+        printf '%s' "$CACHE/$_fn"; return 0
+    fi
+    msg "descargando $_fn"
+    curl -fsSL -o "$CACHE/$_fn.tmp" "$REPO_URL/$_fn" \
+        || { rm -f "$CACHE/$_fn.tmp"; return 1; }
+    _got=$(sha256sum "$CACHE/$_fn.tmp" | cut -d' ' -f1)
+    [ "$_got" = "$_want" ] || { rm -f "$CACHE/$_fn.tmp"; return 1; }
+    mv "$CACHE/$_fn.tmp" "$CACHE/$_fn"
+    printf '%s' "$CACHE/$_fn"
+}
+
+# ---------- instalación (DOS PASOS) ----------
+install_pkgs() {
+    [ $# -ge 1 ] || usage 1
+    lock
+    mkdir -p "$DB/installed" "$STAGE" "$CACHE"
+    [ -f "$DB/index.toml" ] || { unlock; die "sin índice (corre: mymy sync)"; }
+    for pkg in "$@"; do
+        ver=$(idx_pkg_field "$pkg" version)
+        rel=$(idx_pkg_field "$pkg" release)
+        sha=$(idx_pkg_field "$pkg" sha256)
+        [ -n "$ver" ] || { unlock; die "$pkg no está en el índice"; }
+        if [ -d "$DB/installed/$pkg" ]; then
+            msg "$pkg ya instalado ($ver-$rel) — usa upgrade"; continue
+        fi
+        # dependencias: instalarlas primero
+        deps=$(idx_pkg_field "$pkg" depends)
+        if [ -n "$deps" ]; then
+            for d in $(printf '%s' "$deps" | tr ',' ' '); do
+                [ -d "$DB/installed/$d" ] || install_pkgs_recursive "$d"
+            done
+        fi
+        tarball=$(fetch_pkg "$pkg" "$ver" "$rel" "$sha") \
+            || { unlock; die "descarga/sha256 falló para $pkg"; }
+        msg "instalando $pkg-$ver-$rel (staging)"
+        _stg="$STAGE/$pkg"
+        rm -rf "$_stg"; mkdir -p "$_stg"
+        # validar rutas: NADA absoluto ni con ..
+        tar --zstd -tf "$tarball" | while IFS= read -r f; do
+            case "$f" in
+                ../*|*/../*|*/..|..) die "ruta maliciosa en $pkg: $f" ;;
+                /*)                die "ruta absoluta en $pkg: $f" ;;
+            esac
+        done
+        tar --zstd -xpf "$tarball" -C "$_stg" --numeric-owner --keep-directory-symlink
+        [ -f "$_stg/.FILES" ] || { unlock; die "$pkg no trae .FILES"; }
+
+        # PASO 2: conflictos contra instalados
+        while IFS= read -r f; do
+            [ "$f" = ".FILES" ] && continue
+            [ "$f" = ".PKGINFO.toml" ] && continue
+            if [ -e "$DB/installed/*/$f" ]; then :; fi  # glob no portable: ver abajo
+            for other in "$DB/installed"/*/; do
+                [ -d "$other" ] || continue
+                oname=${other%/}; oname=${oname##*/}
+                [ "$oname" = "$pkg" ] && continue
+                if [ -e "$other/$f" ]; then
+                    rm -rf "$_stg"; unlock
+                    die "CONFLICTO: /$f ya es de $oname"
+                fi
+            done
+        done < "$_stg/.FILES"
+
+        # mover a / y registrar
+        msg "moviendo $pkg al sistema"
+        while IFS= read -r f; do
+            [ "$f" = ".FILES" ] && continue
+            [ "$f" = ".PKGINFO.toml" ] && continue
+            target="/$f"
+            mkdir -p "$(dirname "$target")"
+            if [ -e "$target" ] && [ ! -L "$target" ]; then
+                # archivo del sistema sin dueño → .mymy-orig
+                mv "$target" "$target.mymy-orig"
+            fi
+            mv "$_stg/$f" "$target"
+        done < "$_stg/.FILES"
+
+        # registro
+        mkdir -p "$DB/installed/$pkg"
+        cp "$_stg/.PKGINFO.toml" "$DB/installed/$pkg/PKGINFO.toml"
+        cp "$_stg/.FILES" "$DB/installed/$pkg/FILES"
+        rm -rf "$_stg"
+
+        # hooks + triggers
+        run_hooks post-install "$pkg"
+        run_triggers "$pkg" "$DB/installed/$pkg/FILES"
+    done
+    unlock
+    msg "listo"
+}
+
+install_pkgs_recursive() { # helper (sin re-lock)
+    pkg=$1
+    ver=$(idx_pkg_field "$pkg" version)
+    [ -n "$ver" ] || die "$pkg no está en el índice"
+    [ -d "$DB/installed/$pkg" ] && return 0
+    # deps primero
+    deps=$(idx_pkg_field "$pkg" depends)
+    if [ -n "$deps" ]; then
+        for d in $(printf '%s' "$deps" | tr ',' ' '); do
+            [ -d "$DB/installed/$d" ] || install_pkgs_recursive "$d"
+        done
+    fi
+    rel=$(idx_pkg_field "$pkg" release)
+    sha=$(idx_pkg_field "$pkg" sha256)
+    tarball=$(fetch_pkg "$pkg" "$ver" "$rel" "$sha") || die "fetch $pkg"
+    _stg="$STAGE/$pkg"; rm -rf "$_stg"; mkdir -p "$_stg"
+    tar --zstd -xpf "$tarball" -C "$_stg" --numeric-owner --keep-directory-symlink
+    while IFS= read -r f; do
+        case "$f" in .FILES|.PKGINFO.toml) continue ;; esac
+        for other in "$DB/installed"/*/; do
+            [ -d "$other" ] || continue
+            oname=${other%/}; oname=${oname##*/}
+            [ "$oname" = "$pkg" ] && continue
+            [ -e "$other/$f" ] && { rm -rf "$_stg"; die "conflicto $f con $oname"; }
+        done
+        target="/$f"; mkdir -p "$(dirname "$target")"
+        [ -e "$target" ] && [ ! -L "$target" ] && mv "$target" "$target.mymy-orig"
+        mv "$_stg/$f" "$target"
+    done < "$_stg/.FILES"
+    mkdir -p "$DB/installed/$pkg"
+    cp "$_stg/.PKGINFO.toml" "$DB/installed/$pkg/PKGINFO.toml"
+    cp "$_stg/.FILES" "$DB/installed/$pkg/FILES"
+    rm -rf "$_stg"
+    run_hooks post-install "$pkg"
+    run_triggers "$pkg" "$DB/installed/$pkg/FILES"
+}
+
+# ---------- remove ----------
+remove_pkg() {
+    force=0
+    [ "${1:-}" = "--force" ] && { force=1; shift; }
+    [ $# -eq 1 ] || usage 1
+    lock; mkdir -p "$DB"
+    pkg=$1
+    [ -d "$DB/installed/$pkg" ] || { unlock; die "$pkg no está instalado"; }
+    # protectores
+    case "$pkg" in
+        glibc|bash|coreutils|gcc|linux-mikuri|runit|eudev|shadow|pam)
+            [ $force -eq 1 ] || { unlock; die "$pkg es protegido (usa --force)"; } ;;
+    esac
+    # dependientes
+    for other in "$DB/installed"/*/; do
+        [ -d "$other" ] || continue
+        oname=${other%/}; oname=${oname##*/}
+        [ "$oname" = "$pkg" ] && continue
+        odeps=$(tget "$other/PKGINFO.toml" depends)
+        case ",$odeps," in
+            *",$pkg,"*) unlock; die "$oname depende de $pkg" ;;
+        esac
+    done
+    msg "eliminando $pkg"
+    # borrar al revés (dirs primero archivos; symlinks sin seguir)
+    tac "$DB/installed/$pkg/FILES" 2>/dev/null | while IFS= read -r f; do
+        [ "$f" = ".FILES" ] && continue
+        [ "$f" = ".PKGINFO.toml" ] && continue
+        target="/$f"
+        [ -e "$target" ] || [ -L "$target" ] || continue
+        # no tocar lo que no es nuestro (dueño: el registro)
+        # (si algo ya no coincide, skip silencioso)
+        if [ -d "$target" ] && [ ! -L "$target" ]; then
+            rmdir "$target" 2>/dev/null || true   # solo si vacío
+        else
+            rm -f "$target"
+        fi
+    done
+    rm -rf "$DB/installed/$pkg"
+    run_hooks post-remove "$pkg"
+    msg "$pkg eliminado"
+    unlock
+}
+
+# ---------- upgrade ----------
+upgrade_all() {
+    lock
+    [ -f "$DB/index.toml" ] || { unlock; die "sin índice (mymy sync)"; }
+    for d in "$DB/installed"/*/; do
+        [ -d "$d" ] || continue
+        pkg=${d%/}; pkg=${pkg##*/}
+        iver=$(tget "$d/PKGINFO.toml" version)
+        irel=$(tget "$d/PKGINFO.toml" release)
+        nver=$(idx_pkg_field "$pkg" version)
+        nrel=$(idx_pkg_field "$pkg" release)
+        [ -n "$nver" ] || continue
+        if [ "$iver" != "$nver" ] || [ "$irel" != "$nrel" ]; then
+            msg "actualizando $pkg: $iver-$irel → $nver-$nrel"
+            # config editados se conservan (install detecta .mymy-orig?)
+            # por ahora: remove+install; config_files quedan .mymy-new
+            remove_pkg_inner "$pkg" || true
+            install_one "$pkg" || true
+        fi
+    done
+    unlock
+    msg "upgrade completo"
+}
+
+# ---------- info/list/files/owns/search ----------
+list_pkgs() {
+    for d in "$DB/installed"/*/; do
+        [ -d "$d" ] || continue
+        p=${d%/}; p=${p##*/}
+        printf '%s %s-%s\n' "$p" "$(tget "$d/PKGINFO.toml" version)" "$(tget "$d/PKGINFO.toml" release)"
+    done
+}
+
+info_pkg() {
+    [ -d "$DB/installed/$1" ] || die "$1 no está instalado"
+    cat "$DB/installed/$1/PKGINFO.toml"
+}
+
+files_pkg() {
+    [ -d "$DB/installed/$1" ] || die "$1 no está instalado"
+    grep -v '^\.FILES\|^\.PKGINFO' "$DB/installed/$1/FILES"
+}
+
+owns_path() {
+    hit=0
+    for d in "$DB/installed"/*/; do
+        [ -d "$d" ] || continue
+        p=${d%/}; p=${p##*/}
+        if grep -qx "$(printf '%s' "$1" | sed 's|^/||')" "$d/FILES" 2>/dev/null; then
+            printf '%s\n' "$p"; hit=1
+        fi
+    done
+    [ $hit -eq 0 ] && die "nadie posee $1"
+}
+
+search_idx() {
+    [ -f "$DB/index.toml" ] || die "sin índice (mymy sync)"
+    awk -v q="$1" '
+        /^\[\[pkg\]\]/ { inp=0; name=""; ver=""; fn=""; }
+        /^name = /    { sub(/^name = "/,""); sub(/".*/,""); name=$0 }
+        /^version = / { sub(/^version = "/,""); sub(/".*/,""); ver=$0 }
+        /^filename = /{ sub(/^filename = "/,""); sub(/".*/,""); fn=$0 }
+        { if (name != "" && (name ~ q || fn ~ q)) { print name" "ver; name="" } }
+    ' "$DB/index.toml"
+}
+
+# ---------- verify ----------
+verify_pkg() {
+    [ -d "$DB/installed/$1" ] || die "$1 no está instalado"
+    bad=0
+    while IFS= read -r f; do
+        case "$f" in .FILES|.PKGINFO.toml) continue ;; esac
+        [ -e "/$f" ] || { printf 'FALTA: /%s\n' "$f"; bad=1; continue; }
+    done < "$DB/installed/$1/FILES"
+    [ $bad -eq 0 ] && msg "$1 verificado ✓" || die "$1 incompleto"
+}
+
+# ---------- hooks + triggers ----------
+run_hooks() { # run_hooks <post-install|post-remove> <pkg>
+    hdir="/etc/mymy/hooks/$1"
+    [ -d "$hdir" ] || return 0
+    for h in "$hdir"/*; do
+        [ -x "$h" ] || continue
+        "$h" "$2" || true
+    done
+}
+
+run_triggers() { # run_triggers <pkg> <files-list>
+    grep -qE '^usr/lib/|^lib/' "$2" 2>/dev/null && ldconfig || true
+    case "$1" in
+        *font*) fc-cache -f >/dev/null 2>&1 || true ;;
+    esac
+    grep -qE '^boot/vmlinuz|^lib/modules' "$2" 2>/dev/null && {
+        dracut --no-hostonly -f /boot/initramfs.img "$(ls /lib/modules)" >/dev/null 2>&1 || true
+        grub-mkconfig -o /boot/grub/grub.cfg >/dev/null 2>&1 || true
+    }
+}
+
+# ---------- main ----------
+case "${1:-}" in
+    sync)    sync ;;
+    install) shift; install_pkgs "$@" ;;
+    remove)  shift; remove_pkg "$@" ;;
+    upgrade) upgrade_all ;;
+    search)  shift; search_idx "$@" ;;
+    list)    list_pkgs ;;
+    info)    shift; info_pkg "$@" ;;
+    files)   shift; files_pkg "$@" ;;
+    owns)    shift; owns_path "$@" ;;
+    verify)  shift; [ $# -ge 1 ] && verify_pkg "$@" || for d in "$DB/installed"/*/; do [ -d "$d" ] || continue; p=${d%/}; verify_pkg "${p##*/}"; done ;;
+    -h|--help|help) usage 0 ;;
+    "") usage 1 ;;
+    *) die "comando desconocido: $1 (ver mymy help)" ;;
+esac

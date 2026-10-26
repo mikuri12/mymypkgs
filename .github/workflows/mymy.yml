@@ -1,0 +1,81 @@
+name: mymy
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'mymy/**'
+      - '.github/workflows/mymy.yml'
+  workflow_dispatch:
+
+# Tests del gestor mymy (PLAN: instalar, verificar y eliminar paquetes
+# de prueba EN UN CHROOT del rootfs). shellcheck -s sh + dash primero.
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Linters POSIX
+        run: |
+          sudo apt-get update -qq && sudo apt-get install -y -qq shellcheck dash
+          sh -n mymy/mymy && echo "sh -n OK"
+          dash -n mymy/mymy && echo "dash -n OK"
+          shellcheck -s sh mymy/mymy && echo "shellcheck OK"
+
+      - name: Descargar rootfs (para el chroot de prueba)
+        run: |
+          mkdir -p incoming
+          gh release download rootfs-base-v1 -R mikuri12/mylfs -D incoming \
+            --pattern 'rootfs-base.tar.zst.part*' --pattern '*.sha256'
+          cat incoming/rootfs-base.tar.zst.part* > incoming/rootfs-base.tar.zst
+          grep 'rootfs-base.tar.zst$' incoming/rootfs-base.tar.zst.sha256 | ( cd incoming && sha256sum -c - )
+          sudo mkdir -p /mnt/lfs
+          sudo tar --zstd -xpf incoming/rootfs-base.tar.zst -C /mnt --numeric-owner --keep-directory-symlink
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Test mymy install/verify/remove en chroot
+        run: |
+          set -e
+          T=/tmp/mymytest; sudo rm -rf $T; mkdir -p $T/staging/test-1.0-1/usr/bin
+          printf '#!/bin/sh\necho test\n' | sudo tee $T/staging/test-1.0-1/usr/bin/testpkg >/dev/null
+          sudo chmod 755 $T/staging/test-1.0-1/usr/bin/testpkg
+          printf 'name = "test"\nversion = "1.0"\nrelease = 1\narch = "x86_64-v3"\ndescription = "t"\ndepends = []\nmakedepends = []\nconfig_files = []\n' | sudo tee $T/staging/test-1.0-1/.PKGINFO.toml >/dev/null
+          ( cd $T/staging/test-1.0-1 && sudo find . -type f | sudo sed 's|^\./||' | sort | sudo tee .FILES >/dev/null )
+          sudo tar --zstd -cpf $T/test-1.0-1.tar.zst -C $T/staging/test-1.0-1 . --numeric-owner
+          SHA=$(sha256sum $T/test-1.0-1.tar.zst | cut -d' ' -f1)
+          printf '[[pkg]]\nname = "test"\nversion = "1.0"\nrelease = 1\nfilename = "test-1.0-1.tar.zst"\nsize = 1\nsha256 = "%s"\ndepends = []\n' "$SHA" > $T/index.toml
+          # árbol chroot del rootfs + mymy + repo local
+          sudo cp -a /mnt/lfs $T/chroot
+          sudo install -m755 mymy/mymy $T/chroot/usr/bin/mymy
+          sudo mkdir -p $T/chroot/var/lib/mymy $T/chroot/var/cache/mymy $T/chroot/var/lib/mymy/repo
+          sudo cp $T/index.toml $T/chroot/var/lib/mymy/index.toml
+          sudo cp $T/test-1.0-1.tar.zst $T/chroot/var/lib/mymy/repo/
+          # mounts + tests DENTRO del chroot (curl del file:// lo resuelve
+          # el propio curl; sha256sum/awk/tar existen en el rootfs)
+          sudo mount --bind /dev $T/chroot/dev
+          sudo mount -t proc proc $T/chroot/proc
+          sudo mount -t sysfs sysfs $T/chroot/sys
+          sudo chroot $T/chroot /usr/bin/env -i PATH=/usr/bin:/usr/sbin \
+            MYMY_REPO=file:///var/lib/mymy/repo \
+            /bin/sh -eux -c '
+              mymy list
+              mymy install test
+              mymy list | grep -q "test 1.0-1"
+              mymy files test | grep -q usr/bin/testpkg
+              test -x /usr/bin/testpkg
+              mymy owns /usr/bin/testpkg | grep -q test
+              mymy verify test
+              mymy remove test
+              test ! -e /usr/bin/testpkg
+              test ! -d /var/lib/mymy/installed/test
+              echo "TODOS LOS TESTS MYMY PASARON"
+            '
+          sudo umount $T/chroot/dev $T/chroot/proc $T/chroot/sys

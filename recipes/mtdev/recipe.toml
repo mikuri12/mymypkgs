@@ -1,0 +1,10 @@
+name = "mtdev"
+version = "1.1.7"
+release = 1
+description = "Multitouch Protocol Translation Library"
+depends = []
+makedepends = []
+sources = ["https://gitlab.freedesktop.org/libevdev/mtdev/-/archive/1.1.7/mtdev-1.1.7.tar.gz"]
+checksums = ["sha256:5770eca6052bb6834859814f2d9d2554ccf8e3db26267eff64ce4eb243a48d63"]
+config_files = []
+# bitmath.org caído (404) — mirror freedesktop gitlab, mismo upstream.

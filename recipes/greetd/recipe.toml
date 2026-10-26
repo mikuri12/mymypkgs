@@ -1,0 +1,9 @@
+name = "greetd"
+version = "0.10.3"
+release = 1
+description = "Minimal and flexible login manager daemon"
+depends = []
+makedepends = []
+sources = ["https://github.com/kennylevinsen/greetd/archive/refs/tags/0.10.3.tar.gz"]
+checksums = ["sha256:ee5cb70e0add4ca9c9fe57e47581ab0002d44c07743fb5492469f3b570db640b"]
+config_files = ["/etc/greetd/config.toml"]

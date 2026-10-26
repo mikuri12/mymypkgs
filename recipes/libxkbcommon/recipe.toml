@@ -1,0 +1,11 @@
+name = "libxkbcommon"
+version = "1.11.0"
+release = 1
+description = "Library to handle keyboard descriptions"
+depends = []
+makedepends = []
+sources = ["https://github.com/lfs-book/libxkbcommon/archive/v1.11.0/libxkbcommon-1.11.0.tar.gz"]
+checksums = ["sha256:f904e9ee39da16b5faabc2d36aa3615d2f8f64218c484c700e9d9d96c056029a"]
+config_files = []
+# xkeyboard-config NO está en la base LFS: build sin x11 ni wayland
+# (solo la librería; el compose de teclas se compila igual).
