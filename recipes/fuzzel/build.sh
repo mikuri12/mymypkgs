@@ -3,11 +3,11 @@
 set -euo pipefail
 cd /tmp/build/tllist
 meson setup --prefix=/usr build --buildtype=release
-ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
+ninja -C build && ninja -C build install
 cd ..
 cd /tmp/build/fcft
 meson setup --prefix=/usr build --buildtype=release -D docs=disabled -D examples=disabled
-ninja -C build && DESTDIR="$DESTDIR" ninja -C build install
+ninja -C build && ninja -C build install
 cd ..
 cd /tmp/build/fuzzel-1.15.0
 mkdir build && cd build
