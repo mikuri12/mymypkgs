@@ -101,9 +101,11 @@ fetch_pkg() { # fetch_pkg <name> <version> <release> <sha256> -> echo path
     printf '%s' "$CACHE/$_fn"
 }
 
-idx_deps() { # deps de un pkg, vacío si []
+idx_deps() { # deps de un pkg; TOML vacío es literal []
     _d=$(idx_pkg_field "$1" depends)
-    case "$_d" in ""|"[]"|"[""]"|*"[""]"*) _d="" ;; esac
+    if [ -z "$_d" ] || [ "$_d" = "[]" ]; then
+        _d=""
+    fi
     printf '%s' "$_d"
 }
 

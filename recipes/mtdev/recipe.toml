@@ -4,7 +4,8 @@ release = 1
 description = "Multitouch Protocol Translation Library"
 depends = []
 makedepends = []
-sources = ["https://gitlab.freedesktop.org/libevdev/mtdev/-/archive/1.1.7/mtdev-1.1.7.tar.gz"]
-checksums = ["sha256:5770eca6052bb6834859814f2d9d2554ccf8e3db26267eff64ce4eb243a48d63"]
+sources = ["https://sources.voidlinux.org/mtdev-1.1.7/mtdev-1.1.7.tar.bz2"]
+checksums = ["sha256:a107adad2101fecac54ac7f9f0e0a0dd155d954193da55c2340c97f2ff1d814e"]
 config_files = []
-# bitmath.org caído (404) — mirror freedesktop gitlab, mismo upstream.
+# bitmath.org 404; gitlab.fdo REGENERABA el tarball por request (sha256 no
+# reproducible). sources.voidlinux.org: estable y verificado.
