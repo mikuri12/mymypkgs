@@ -2,6 +2,8 @@
 # foot 1.27.0 — meson. Las deps (tllist, fcft, utf8proc) YA están extraídas
 # en el cwd por build-pkg.sh (todas las sources del recipe.toml).
 set -euo pipefail
+STAGING="$DESTDIR"   # staging del paquete; deps van al chroot real
+unset DESTDIR       # ninja/make install heredan el export del build-pkg
 
 # tllist → chroot real (deps intermedias SIN DESTDIR: pkg-config debe
 # verlas para el siguiente paso; el staging final solo lleva foot).
@@ -43,4 +45,4 @@ meson setup --prefix=/usr --buildtype=release \
   -D docs=disabled -D man=disabled -D tests=disabled \
   -D server-name=foot ..
 ninja
-DESTDIR="$DESTDIR" ninja install
+DESTDIR="$STAGING" ninja install
