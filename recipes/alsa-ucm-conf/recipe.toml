@@ -1,0 +1,9 @@
+name = "alsa-ucm-conf"
+version = "1.2.14"
+release = 1
+description = "ALSA Use Case Manager topology configurations"
+depends = ["alsa-lib"]
+makedepends = []
+sources = ["https://www.alsa-project.org/files/pub/lib/alsa-ucm-conf-1.2.14.tar.bz2"]
+checksums = ["sha256:32e9809f592d92b978aa1032e35293c33b8d0f1ec475f937022c3ee9a3069c21"]
+config_files = []

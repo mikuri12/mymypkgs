@@ -1,0 +1,9 @@
+name = "foot"
+version = "1.27.0"
+release = 1
+description = "Fast, lightweight and minimalistic Wayland terminal emulator"
+depends = ["wayland", "libxkbcommon", "fcft"]
+makedepends = []
+sources = ["https://codeberg.org/dnkl/foot/releases/download/1.27.0/foot-1.27.0.tar.gz"]
+checksums = ["sha256:d1e1d04cd7a3a1615b4d8dbf9645b9a35cdc3f36fba4e1c0fd252ad0bd6651c8"]
+config_files = ["/etc/xdg/foot/foot.ini"]

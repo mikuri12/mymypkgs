@@ -57,12 +57,22 @@ jobs:
       - name: Descargar fuentes de las recetas (sha256 verificados)
         run: |
           sudo mkdir -p /mnt/lfs/sources
-          # una fuente por receta por ahora; validación sha256 inline
+          # FUENTE por receta con NOMBRE ÚNICO: tags genéricos colisionan
+          # (greetd 0.10.3.tar.gz vs otros) → prefijo <paquete>__<archivo>.
+          # retry POR ARCHIVO (lección: reset de red a mitad de lote).
           for r in recipes/*/; do
+            pkg=$(basename "$r")
             src=$(grep -E '^sources' "$r/recipe.toml" | sed -E 's/^[^=]+= *\[ *"([^"]+)".*$/\1/')
             want=$(grep -E '^checksums' "$r/recipe.toml" | sed -E 's/.*sha256:([0-9a-f]+).*/\1/')
-            f=$(basename "$src")
-            [ -f "/mnt/lfs/sources/$f" ] || sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src"
+            f="${pkg}__$(basename "$src")"
+            if [ ! -f "/mnt/lfs/sources/$f" ]; then
+              ok=0
+              for i in 1 2 3 4 5; do
+                sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src" && { ok=1; break; }
+                echo "retry $f (intento $i)"; sleep 10
+              done
+              [ $ok -eq 1 ] || { echo "descarga falló: $src"; exit 1; }
+            fi
             got=$(sudo sha256sum "/mnt/lfs/sources/$f" | cut -d' ' -f1)
             [ "$got" = "$want" ] || { echo "SHA256 BAD para $f"; exit 1; }
             echo "fuente OK: $f"

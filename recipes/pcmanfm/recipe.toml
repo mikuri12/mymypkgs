@@ -1,0 +1,9 @@
+name = "pcmanfm"
+version = "1.4.0"
+release = 1
+description = "Fast and lightweight file manager (GTK+2 era core, X11-independent)"
+depends = []
+makedepends = []
+sources = ["https://github.com/lxde/pcmanfm/archive/refs/tags/1.4.0.tar.gz"]
+checksums = ["sha256:cda4f5ad7e049dcdf3b051b9de4c779adcd55bd720e9c96c45275389aa84264e"]
+config_files = []

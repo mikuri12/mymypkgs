@@ -1,0 +1,9 @@
+name = "wl-clipboard"
+version = "2.3.0"
+release = 1
+description = "Command-line copy/paste utilities for Wayland"
+depends = ["wayland"]
+makedepends = []
+sources = ["https://github.com/bugaevc/wl-clipboard/archive/refs/tags/v2.3.0.tar.gz"]
+checksums = ["sha256:b4dc560973f0cd74e02f817ffa2fd44ba645a4f1ea94b7b9614dacc9f895f402"]
+config_files = []

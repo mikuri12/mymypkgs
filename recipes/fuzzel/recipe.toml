@@ -1,0 +1,11 @@
+name = "fuzzel"
+version = "1.15.0"
+release = 1
+description = "Application launcher for Wayland (dmenu-like)"
+depends = ["wayland", "libxkbcommon"]
+makedepends = []
+sources = ["https://codeberg.org/dnkl/fuzzel/releases/download/1.15.0/fuzzel-1.15.0.tar.gz"]
+checksums = ["sha256:11bee600e19ee1638db592e41980445673224716fbedbd0213b25153325f4182"]
+config_files = []
+# NOTA build-deps: fcft+tllist+pixman+png (no están aún): se compilan
+# ANTES como parte de este build.sh (una sola compilación, PLAN).

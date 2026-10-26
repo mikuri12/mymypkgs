@@ -19,8 +19,10 @@ PKG="${NAME}-${VERSION}-${RELEASE}"
 DESTDIR_STG="/staging/${PKG}"
 
 # Extraer TODAS las fuentes listadas (por ahora 1 por receta, robusto a N)
+# El workflow guarda la fuente con prefijo <paquete>__ para evitar colisiones
+# de tags genéricos (p.ej. '0.10.3.tar.gz' compartido entre proyectos).
 FIRST_SRC=$(grep -E '^sources' "$RECIPE_DIR/recipe.toml" | sed -E 's/^[^=]+= *\[ *"([^"]+)".*$/\1/')
-TARBALL=$(basename "$FIRST_SRC")
+TARBALL="${NAME}__$(basename "$FIRST_SRC")"
 [ -f "${SRC}/${TARBALL}" ] || { echo "falta fuente $TARBALL en $SRC"; exit 1; }
 
 echo "==> build-pkg: ${PKG}"

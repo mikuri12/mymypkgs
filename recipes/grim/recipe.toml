@@ -1,0 +1,9 @@
+name = "grim"
+version = "1.4.0"
+release = 1
+description = "Grab images from a Wayland compositor"
+depends = ["wayland"]
+makedepends = []
+sources = ["https://github.com/emersion/grim/archive/refs/tags/v1.4.0.tar.gz"]
+checksums = ["sha256:b6786e889ed93568634189a59f6b6429c041bf74883c10e8b6e2ed6772ae7ffb"]
+config_files = []
