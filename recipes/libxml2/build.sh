@@ -4,6 +4,6 @@ set -euo pipefail
 STAGING="$DESTDIR"
 unset DESTDIR
 mkdir build && cd build
-meson setup --prefix=/usr --buildtype=release -D tests=disabled -D docs=disabled -D python=disabled ..
+meson setup --prefix=/usr --buildtype=release -D python=disabled ..
 ninja
 DESTDIR="$STAGING" ninja install
