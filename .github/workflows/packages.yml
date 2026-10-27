@@ -148,9 +148,16 @@ jobs:
           sudo cp -r recipes /mnt/lfs/
           sudo cp -r tools /mnt/lfs/
 
-          # Ejecutar tools/build-pkg.sh para CADA receta (dentro del chroot).
-          # Las rutas de ARGUMENTOS son chroot-relativas: /recipes/<pkg>.
-          for pkgname in $(ls /mnt/lfs/recipes/); do
+          # Orden por CAPAS (PLAN: matriz por dependencias) — el alfabético
+          # compilaba foot antes que wayland, que foot necesita para linkear.
+          ORDER="libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire wireplumber wl-clipboard slurp grim foot fuzzel"
+          # recetas no listadas: al final
+          EXTRA=""
+          for d in /mnt/lfs/recipes/*/; do
+            n=$(basename "$d"); case " $ORDER " in *" $n "*) ;; *) EXTRA="$EXTRA $n";; esac
+          done
+          for pkgname in $ORDER $EXTRA; do
+            [ -d "/mnt/lfs/recipes/$pkgname" ] || continue
             sudo chroot /mnt/lfs /usr/bin/env -i \
               HOME=/root TERM="$TERM" PATH=/opt/rust/bin:/usr/bin:/usr/sbin \
               MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \

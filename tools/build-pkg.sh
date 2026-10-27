@@ -88,6 +88,11 @@ done
 tar --zstd -cpf "${OUT}/${PKG}.tar.zst" -C "$DESTDIR_STG" . \
     --numeric-owner --keep-directory-symlink --sort=name
 zstd -t "${OUT}/${PKG}.tar.zst"
+# Instalar TAMBIÉN al chroot real: los paquetes siguientes compilan
+# contra este (matriz por capas del PLAN). El staging/tarball queda
+# igual; el chroot es efímero del job.
+tar --zstd -xpf "${OUT}/${PKG}.tar.zst" -C / --keep-directory-symlink
+ldconfig 2>/dev/null || true
 sha256sum "${OUT}/${PKG}.tar.zst" | tee "${OUT}/${PKG}.tar.zst.sha256"
 
 echo "==> OK: ${OUT}/${PKG}.tar.zst"
