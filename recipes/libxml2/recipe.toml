@@ -1,0 +1,9 @@
+name = "libxml2"
+version = "2.14.5"
+release = 1
+description = "XML parser library (dep de wayland)"
+depends = []
+makedepends = []
+sources = ["https://download.gnome.org/sources/libxml2/2.14/libxml2-2.14.5.tar.xz"]
+checksums = ["sha256:03d006f3537616833c16c53addcdc32a0eb20e55443cba4038307e3fa7d8d44b"]
+config_files = []

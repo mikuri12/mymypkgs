@@ -150,7 +150,7 @@ jobs:
 
           # Orden por CAPAS (PLAN: matriz por dependencias) — el alfabético
           # compilaba foot antes que wayland, que foot necesita para linkear.
-          ORDER="libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire wireplumber wl-clipboard slurp grim foot fuzzel"
+          ORDER="libxml2 libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire wireplumber wl-clipboard slurp grim foot fuzzel"
           # recetas no listadas: al final
           EXTRA=""
           for d in /mnt/lfs/recipes/*/; do
