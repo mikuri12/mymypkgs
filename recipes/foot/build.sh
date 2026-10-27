@@ -40,7 +40,7 @@ cd ..
 
 # fcft (sin docs/examples, sin harfbuzz) → chroot real (foot la linkea)
 cd /tmp/build/fcft
-meson setup --prefix=/usr build --buildtype=release -D examples=false -D harfbuzz=disabled
+meson setup --prefix=/usr build --buildtype=release -D examples=false
 ninja -C build && ninja -C build install
 cd ..
 
