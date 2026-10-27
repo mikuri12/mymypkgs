@@ -50,7 +50,6 @@ mkdir build && cd build
 # docs=feature(disabled OK), tests=boolean(false). 'man' no existe
 # como opción en foot 1.27.0 (verificado meson.options del tarball).
 meson setup --prefix=/usr --buildtype=release \
-  -D docs=disabled -D tests=false \
-  -D server-name=foot ..
+  -D docs=disabled -D tests=false ..
 ninja
 DESTDIR="$STAGING" ninja install
