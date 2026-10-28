@@ -70,7 +70,8 @@ for i in $(find "$DESTDIR_STG" -type f); do
 done
 
 # .FILES: rutas relativas a la raíz del staging
-( cd "$DESTDIR_STG" && find . -type f -o -type l | sed 's|^\./||' | sort ) > "$DESTDIR_STG/.FILES"
+# .FILES: rutas relativas (excluyendo a .FILES mismo — se crea después)
+( cd "$DESTDIR_STG" && find . -type f -o -type l | sed 's|^\./||' | grep -v '^\.FILES$' | sort ) > "$DESTDIR_STG/.FILES"
 
 # .PKGINFO.toml
 {
