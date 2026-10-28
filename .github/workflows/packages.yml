@@ -173,7 +173,15 @@ jobs:
               CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
               XORG_PREFIX=/usr \
-              bash /tools/build-pkg.sh "/recipes/$pkgname" /sources /packages
+              bash /tools/build-pkg.sh "/recipes/$pkgname" /sources /packages || exit 1
+            # instalar en el chroot: las recetas siguientes compilan contra ella
+            PKGFILE=$(ls /mnt/lfs/packages/${pkgname}-*.tar.zst 2>/dev/null | head -1)
+            if [ -n "$PKGFILE" ]; then
+              sudo chroot /mnt/lfs /usr/bin/env -i \
+                PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \
+                bash /tools/pkg-install.sh "/packages/$(basename "$PKGFILE")" || exit 1
+              echo "instalada en chroot: $pkgname"
+            fi
           done
 
           sudo umount /mnt/lfs/dev/pts /mnt/lfs/dev/shm /mnt/lfs/sys /mnt/lfs/proc /mnt/lfs/run /mnt/lfs/dev
