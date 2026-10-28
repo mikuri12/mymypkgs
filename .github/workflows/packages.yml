@@ -124,9 +124,17 @@ jobs:
           # Rust toolchain PREBUILT (PLAN: solo para compilar, no al paquete):
           # greetd/Halley/Noctalia-greeter lo usan. Instalada en /opt/rust
           # dentro del chroot, NO va a ningún paquete.
-          sudo curl -fsSL --retry 3 -o /mnt/lfs/sources/rust.tar.gz \
-            "https://static.rust-lang.org/dist/rust-1.99.1-x86_64-unknown-linux-gnu.tar.gz" \
-            || { echo "descarga rust falló"; exit 1; }
+          # retry de SHELL: curl --retry no cubre 'connection reset' (err 35)
+          RUST_OK=0
+          for i in 1 2 3 4 5; do
+            sudo curl -fsSL -o /mnt/lfs/sources/rust.tar.gz \
+              "https://static.rust-lang.org/dist/rust-1.99.1-x86_64-unknown-linux-gnu.tar.gz" \
+              && { RUST_OK=1; break; }
+            echo "descarga rust falló (intento $i), reintentando en 30s…"
+            rm -f /mnt/lfs/sources/rust.tar.gz
+            sleep 30
+          done
+          [ $RUST_OK -eq 1 ] || { echo "rust.tar.gz inaccesible tras 5 intentos"; exit 1; }
           cat > /tmp/install-rust.sh << 'RSEOF'
           set -euo pipefail
           cd /sources
