@@ -3,6 +3,6 @@
 set -euo pipefail
 mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
-  -D documentation=false -D tests=disabled -D libwacom=disabled ..
+  -D documentation=false -D tests=false -D libwacom=false -D debug-gui=false ..
 ninja
 DESTDIR="$DESTDIR" ninja install
