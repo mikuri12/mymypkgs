@@ -1,0 +1,9 @@
+name = "mymy"
+version = "0.1.0"
+release = 1
+description = "mymy 0.1.0 — gestor de paquetes POSIX (sync/install/remove/upgrade/search/list/info/files/owns/verify). Clave pública de firma en /usr/share/mymy/mymy.pub."
+depends = ["zstd", "curl", "openssh", "ca-certificates"]
+makedepends = []
+sources = []
+checksums = []
+config_files = []

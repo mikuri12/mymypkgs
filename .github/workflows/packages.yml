@@ -181,13 +181,16 @@ jobs:
           # Copiar recetas+tools al chroot (scripts del repo corren dentro)
           sudo cp -r recipes /mnt/lfs/
           sudo cp -r tools /mnt/lfs/
+          # mymy y keys también (la receta mymy los instala desde aquí)
+          sudo mkdir -p /mnt/lfs/tmp/build/mymy-repo
+          sudo cp -r mymy keys /mnt/lfs/tmp/build/mymy-repo/
 
           # Orden por CAPAS (PLAN: matriz por dependencias) — el alfabético
           # compilaba foot antes que wayland, que foot necesita para linkear.
           # Capa gráficos (paso 2-3 del PLAN): eudev/pixman/libglvnd ANTES que
           # mesa; mesa (iris+intel, sin LLVM) antes que halley.
           # halley/xwayland-satellite van al final (cargo, vendor offline).
-          ORDER="libxml2 libffi pcre2 glib libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire lua wireplumber wl-clipboard zlib libpng grim slurp foot fuzzel eudev hwdata pixman libdisplay-info libglvnd mako pyyaml mesa cairo harfbuzz pango librsvg stb sdbus-cpp libsecret libsodium polkit curl libqalculate md4c nlohmann-json tomlplusplus libical libwebp libjxl libsndfile wlroots xwayland-satellite halley noctalia noctalia-greeter"
+          ORDER="libxml2 libffi pcre2 glib libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire lua wireplumber wl-clipboard zlib libpng grim slurp foot fuzzel eudev hwdata pixman libdisplay-info libglvnd mako pyyaml mesa cairo harfbuzz pango librsvg stb sdbus-cpp libsecret libsodium polkit curl libqalculate md4c nlohmann-json tomlplusplus libical libwebp libjxl libsndfile wlroots xwayland-satellite halley noctalia noctalia-greeter mymy linux-mikuri"
           # recetas no listadas: al final
           EXTRA=""
           for d in /mnt/lfs/recipes/*/; do
