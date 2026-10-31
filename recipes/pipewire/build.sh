@@ -9,6 +9,7 @@ meson setup --prefix=/usr --buildtype=release \
   -D docs=disabled -D man=disabled -D installed_tests=disabled \
   -D gstreamer=disabled -D bluez5=disabled -D vulkan=disabled \
   -D examples=disabled -D tests=disabled \
+  -D session-managers=[] \
   ..
 ninja
 DESTDIR="$DESTDIR" ninja install
