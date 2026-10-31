@@ -94,7 +94,8 @@ jobs:
           sudo mount -vt tmpfs tmpfs /mnt/lfs/run
           sudo mount -vt tmpfs -o nosuid,nodev tmpfs /mnt/lfs/dev/shm
           # DNS para cargo en el chroot: bind del resolv.conf del host
-          sudo mkdir -p /mnt/lfs/etc
+          # (run 41155853053: /mnt/lfs/etc/resolv.conf no existe en el rootfs
+          # base → exit 32 'mount point does not exist'; touch primero)
           sudo touch /mnt/lfs/etc/resolv.conf
           sudo mount --bind /etc/resolv.conf /mnt/lfs/etc/resolv.conf
 
