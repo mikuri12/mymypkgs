@@ -157,6 +157,27 @@ jobs:
           sudo test -x /mnt/lfs/opt/rust/bin/cargo || { echo "cargo no instalado"; exit 1; }
           echo "rust 1.99.1 OK en el chroot (/opt/rust)"
 
+
+          # CA bundle para HTTPS en el chroot (run 41169484092: cairo caia a wrap download y fallaba SSL CERTIFICATE_VERIFY_FAILED; el rootfs-base-v1 no trae /etc/ssl/certs/ca-certificates.crt). Se monta desde los .crt sueltos del rootfs con printf linea a linea.
+          printf %s\n \
+            set -euo pipefail \
+            mkdir -p /etc/ssl/certs \
+            : > /etc/ssl/certs/ca-certificates.crt \
+            for c in /usr/share/ca-certificates/mozilla/*.crt; do \
+              [ -e $c ] || continue \
+              cat $c >> /etc/ssl/certs/ca-certificates.crt \
+              h=$(openssl x509 -in $c -noout -hash 2>/dev/null || true) \
+              if [ -n $h ]; then \
+                ln -sf /usr/share/ca-certificates/mozilla/$(basename $c) /etc/ssl/certs/$h.0 \
+              fi \
+            done \
+          > /mnt/lfs/sources/make-cabundle.sh
+          sudo chroot /mnt/lfs /usr/bin/env -i HOME=/root TERM=$TERM \
+            PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \
+            bash -e /sources/make-cabundle.sh
+          test -s /mnt/lfs/etc/ssl/certs/ca-certificates.crt || { echo CA-bundle-vacio; exit 1; }
+          echo CA-bundle-OK-en-el-chroot
+
           # Copiar recetas+tools al chroot (scripts del repo corren dentro)
           sudo cp -r recipes /mnt/lfs/
           sudo cp -r tools /mnt/lfs/
