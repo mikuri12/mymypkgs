@@ -3,7 +3,7 @@
 # sin pip: usar el build PEP 517 con python -m build no está; alternativa
 # meson: mako 1.3.10 trae meson.build.
 set -euo pipefail
-mkdir build && cd build
-meson setup --prefix=/usr --buildtype=release ..
-ninja
-DESTDIR="$DESTDIR" ninja install
+SITE=$(python3 -c "import sysconfig; print(sysconfig.get_paths()["purelib"])")
+install -d "$DESTDIR$SITE"
+cp -r mako "$DESTDIR$SITE/"
+python3 -m compileall -q "$DESTDIR$SITE/mako" || true
