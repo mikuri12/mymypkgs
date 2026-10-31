@@ -1,8 +1,14 @@
 #!/bin/bash
-# fuzzel 1.15.0 — deps (tllist, fcft) YA extraídas por build-pkg.sh.
+# fuzzel 1.15.0 — tllist/fcft/scdoc YA extraídos por build-pkg.sh desde sources.
+# fuzzel 1.15.0 NO tiene opción para desactivar doc/: doc/meson.build exige
+# scdoc como build-time dep SIEMPRE → se compila e instala en el chroot antes de meson setup.
 set -euo pipefail
-STAGING="$DESTDIR"   # staging del paquete; deps van al chroot real
-unset DESTDIR       # ninja/make install heredan el export del build-pkg
+STAGING="$DESTDIR"
+unset DESTDIR
+cd /tmp/build/scdoc-1.11.3
+make PREFIX=/usr
+make PREFIX=/usr install
+cd ..
 cd /tmp/build/tllist
 meson setup --prefix=/usr build --buildtype=release
 ninja -C build && ninja -C build install
