@@ -18,7 +18,6 @@ meson setup --prefix=/usr --buildtype=release \
   -D valgrind=disabled -D libunwind=disabled \
   -D shared-glapi=enabled \
   -D gallium-va=disabled -D gallium-vdpau=disabled \
-  -D dri3=enabled \
   -D build-tests=false \
   ..
 ninja
