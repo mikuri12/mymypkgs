@@ -93,6 +93,8 @@ jobs:
           sudo mount -vt sysfs sysfs /mnt/lfs/sys
           sudo mount -vt tmpfs tmpfs /mnt/lfs/run
           sudo mount -vt tmpfs -o nosuid,nodev tmpfs /mnt/lfs/dev/shm
+          # DNS para cargo en el chroot: bind del resolv.conf del host
+          sudo mount --bind /etc/resolv.conf /mnt/lfs/etc/resolv.conf
 
           # cmake 4.1.0 (BLFS 12.4, md5 verificado): build-dep del chroot
           # — dbus lo necesita; la base LFS solo trae meson/ninja.
@@ -184,6 +186,7 @@ jobs:
             fi
           done
 
+          sudo umount /mnt/lfs/etc/resolv.conf 2>/dev/null || true
           sudo umount /mnt/lfs/dev/pts /mnt/lfs/dev/shm /mnt/lfs/sys /mnt/lfs/proc /mnt/lfs/run /mnt/lfs/dev
           ls -la /mnt/lfs/packages/
 
