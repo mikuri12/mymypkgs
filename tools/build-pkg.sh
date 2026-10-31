@@ -42,13 +42,19 @@ for u in $(printf '%s' "$ALL_SRCS" | tr ',' ' ' | tr -d '"'); do
   tar -xpf "${SRC}/${tb}" -C /tmp/build --keep-directory-symlink
 done
 export PKG_SRC="$first"
-# cwd de build.sh = dir raíz del PRIMER tarball. SIN pipes (head cierra
-# el pipe → tar muere con 'stdout: write error' → dir vacío; lección stage4).
-tar -tf "$first" > /tmp/build/.list 2>/dev/null
-PKG_DIR=$(awk -F/ 'NR==1{print $1; exit}' /tmp/build/.list)
-[ -n "$PKG_DIR" ] && [ -d "/tmp/build/$PKG_DIR" ] || { echo "tarball sin dir raíz: $first"; exit 1; }
-cd "/tmp/build/$PKG_DIR"
-
+if [ -n "$first" ]; then
+  # cwd de build.sh = dir raiz del PRIMER tarball (sin pipes: leccion stage4).
+  tar -tf "$first" > /tmp/build/.list 2>/dev/null
+  PKG_DIR=$(awk -F/ 'NR==1{print $1; exit}' /tmp/build/.list)
+  [ -n "$PKG_DIR" ] && [ -d "/tmp/build/$PKG_DIR" ] || { echo "tarball sin dir raíz: $first"; exit 1; }
+  cd "/tmp/build/$PKG_DIR"
+else
+  # receta SIN sources (mymy): copiar repo a /tmp/build/mymy-repo
+  mkdir -p /tmp/build/mymy-repo
+  cp -r /recipes/../mymy /tmp/build/mymy-repo/mymy 2>/dev/null || true
+  cp -r /recipes/../keys /tmp/build/mymy-repo/keys 2>/dev/null || true
+  cd /tmp/build
+fi
 # Ejecutar build.sh de la receta con DESTDIR apuntando al staging.
 # OJO: el cd al dir del paquete ya se hizo arriba; NO pisarlo con
 # 'cd /tmp/build' (bug de esta saga: build.sh quedaba sin fuentes).
