@@ -1,0 +1,9 @@
+name = "noctalia-greeter"
+version = "1.7.0"
+release = 1
+description = "Noctalia Greeter 1.7.0 con greetd: compositor wlroots 0.20 propio + cliente greeter. Scripts de setup del repo: setup_greeter_system.sh, setup_greetd_pam.sh, print_greetd_config.sh."
+depends = ["wayland", "wayland-protocols", "libxkbcommon", "freetype", "fontconfig", "cairo", "pango", "librsvg", "libxml2", "glib", "wayland", "tomlplusplus", "nlohmann-json", "wlroots", "libinput", "greetd", "pam"]
+makedepends = ["wayland", "wayland-protocols", "libxkbcommon", "freetype", "fontconfig", "cairo", "pango", "librsvg", "libxml2", "glib", "tomlplusplus", "nlohmann-json", "wlroots", "libinput", "greetd", "pam"]
+sources = ["https://github.com/noctalia-dev/noctalia-greeter/archive/refs/tags/v1.7.0.tar.gz"]
+checksums = ["sha256:5b092784c0147bb6739efc2e8146d2d07e3572a59d7a370e93092f9f56d4fcc8"]
+config_files = ["/etc/greetd/config.toml", "/etc/pam.d/greetd"]

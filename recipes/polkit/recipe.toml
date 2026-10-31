@@ -1,0 +1,9 @@
+name = "polkit"
+version = "126"
+release = 1
+description = "polkit 126 — SOLO los pkg-config polkit-agent-1 y polkit-gobject-1 que Noctalia v5 exige al compilar (sin opción de desactivarlo en meson). El daemon polkitd NO se instala ni corre (PLAN: sin polkit en runtime); solo headers/libs de agente para enlazar."
+depends = ["glib", "eudev", "pam", "libxslt", "duktape"]
+makedepends = ["glib", "eudev", "pam", "libxslt", "duktape"]
+sources = ["https://github.com/polkit-org/polkit/archive/refs/tags/126.tar.gz"]
+checksums = ["sha256:2814a7281989f6baa9e57bd33bbc5e148827e2721ccef22aaf28ab2b376068e8"]
+config_files = []

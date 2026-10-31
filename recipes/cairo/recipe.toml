@@ -1,0 +1,9 @@
+name = "cairo"
+version = "1.18.4"
+release = 1
+description = "Cairo 1.18.4 (2D; foot/fuzzel/slurp/greeter la usan). BLFS 12.4."
+depends = ["pixman", "libpng", "zlib", "freetype", "fontconfig", "libxml2", "eudev"]
+makedepends = ["pixman", "libpng", "zlib", "freetype", "fontconfig", "libxml2", "eudev"]
+sources = ["https://www.cairographics.org/releases/cairo-1.18.4.tar.xz"]
+checksums = ["sha256:445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb"]
+config_files = []

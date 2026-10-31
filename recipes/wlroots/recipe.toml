@@ -1,0 +1,9 @@
+name = "wlroots"
+version = "0.20.0"
+release = 1
+description = "wlroots 0.20.0 (necesario por noctalia-greeter 1.7.0: wlroots-0.20 pkg-config). Sin Xwayland (usamos xwayland-satellite aparte), sin examples."
+depends = ["wayland", "wayland-protocols", "libxkbcommon", "libinput", "seatd", "pixman", "mesa", "eudev", "libdisplay-info"]
+makedepends = ["wayland", "wayland-protocols", "libxkbcommon", "libinput", "seatd", "pixman", "mesa", "eudev", "libdisplay-info"]
+sources = ["https://gitlab.freedesktop.org/wlroots/wlroots/-/archive/0.20.0/wlroots-0.20.0.tar.gz"]
+checksums = ["sha256:e2d024916ed3bd011e058e78007655469e8c624fc338a28da610b087793b887b"]
+config_files = []

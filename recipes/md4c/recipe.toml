@@ -1,0 +1,9 @@
+name = "md4c"
+version = "0.5.2"
+release = 1
+description = "md4c 0.5.2 (markdown; Noctalia lo usa)."
+depends = []
+makedepends = []
+sources = ["https://github.com/mity/md4c/archive/refs/tags/release-0.5.2.tar.gz"]
+checksums = ["sha256:55d0111d48fb11883aaee91465e642b8b640775a4d6993c2d0e7a8092758ef21"]
+config_files = []

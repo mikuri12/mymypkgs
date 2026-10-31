@@ -1,0 +1,9 @@
+name = "stb"
+version = "0.0.0-f1c79c0"
+release = 1
+description = "stb header-only (rev f1c79c0, el que pinea nix/package.nix de Noctalia): stb_image_resize2.h + stb_image_write.h en /usr/include/stb."
+depends = []
+makedepends = []
+sources = ["https://github.com/nothings/stb/archive/f1c79c02822848a9bed4315b12c8c8f3761e1296.tar.gz"]
+checksums = ["sha256:a39b0f2d96d9b64171ac1fd73295b7c5866f904e653b379da886d050a6900db9"]
+config_files = []

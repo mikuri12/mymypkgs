@@ -1,0 +1,9 @@
+name = "pango"
+version = "1.56.4"
+release = 1
+description = "Pango 1.56.4 (layout de texto; Noctalia/greeter la usan)."
+depends = ["cairo", "harfbuzz", "freetype", "fontconfig", "libxml2", "glib"]
+makedepends = ["cairo", "harfbuzz", "freetype", "fontconfig", "libxml2", "glib"]
+sources = ["https://download.gnome.org/sources/pango/1.56/pango-1.56.4.tar.xz"]
+checksums = ["sha256:17065e2fcc5f5a5bdbffc884c956bfc7c451a96e8c4fb2f8ad837c6413cb5a01"]
+config_files = []

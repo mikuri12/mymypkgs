@@ -1,0 +1,9 @@
+name = "libwebp"
+version = "1.6.0"
+release = 1
+description = "libwebp 1.6.0 (BLFS 12.4). WebP decode + demux (Noctalia thumbnails)."
+depends = ["libpng", "zlib", "libjpeg-turbo"]
+makedepends = ["libpng", "zlib", "libjpeg-turbo"]
+sources = ["https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.6.0.tar.gz"]
+checksums = ["sha256:e4ab7009bf0629fd11982d4c2aa83964cf244cffba7347ecd39019a9e38c4564"]
+config_files = []

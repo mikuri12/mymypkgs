@@ -1,0 +1,9 @@
+name = "libjxl"
+version = "0.11.1"
+release = 1
+description = "libjxl 0.11.1 (BLFS 12.4). JPEG XL decode; sin skcms/sjpeg/gtest/brotli extra."
+depends = ["libwebp", "libpng", "zlib", "lcms2", "libjpeg-turbo"]
+makedepends = ["libwebp", "libpng", "zlib", "lcms2", "libjpeg-turbo"]
+sources = ["https://github.com/libjxl/libjxl/archive/refs/tags/v0.11.1.tar.gz"]
+checksums = ["sha256:1492dfef8dd6c3036446ac3b340005d92ab92f7d48ee3271b5dac1d36945d3d9"]
+config_files = []
