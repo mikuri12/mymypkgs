@@ -184,7 +184,10 @@ jobs:
 
           # Orden por CAPAS (PLAN: matriz por dependencias) — el alfabético
           # compilaba foot antes que wayland, que foot necesita para linkear.
-          ORDER="libxml2 libffi pcre2 glib libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire lua wireplumber wl-clipboard zlib libpng grim slurp foot fuzzel"
+          # Capa gráficos (paso 2-3 del PLAN): eudev/pixman/libglvnd ANTES que
+          # mesa; mesa (iris+intel, sin LLVM) antes que halley.
+          # halley/xwayland-satellite van al final (cargo, vendor offline).
+          ORDER="libxml2 libffi pcre2 glib libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire lua wireplumber wl-clipboard zlib libpng grim slurp foot fuzzel eudev pixman libdisplay-info libglvnd mako pyyaml mesa xwayland-satellite halley"
           # recetas no listadas: al final
           EXTRA=""
           for d in /mnt/lfs/recipes/*/; do
@@ -192,6 +195,30 @@ jobs:
           done
           for pkgname in $ORDER $EXTRA; do
             [ -d "/mnt/lfs/recipes/$pkgname" ] || continue
+            # Vendor offline de crates.io para recetas cargo (halley,
+            # xwayland-satellite): asset <pkg>-vendor.tar.gz del Release
+            # 'packages', descargado por el runner (con red) y puesto en
+            # /sources/<pkg>-vendor con .cargo/config.toml source-replacement.
+            if [ -f "/mnt/lfs/sources/${pkgname}__vendor.tar.gz" ] || \
+               [ "$pkgname" = "halley" ] || [ "$pkgname" = "xwayland-satellite" ]; then
+              VASSET="/tmp/${pkgname}-vendor.tar.gz"
+              sudo curl -fsSL --retry 5 --retry-all-errors -o "$VASSET" \
+                -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/${pkgname}-vendor.tar.gz" \
+                || { echo "vendor $pkgname no disponible (se asume red en chroot)"; }
+              if [ -f "$VASSET" ]; then
+                sudo mkdir -p "/mnt/lfs/sources/${pkgname}-vendor"
+                sudo tar -xzf "$VASSET" -C "/mnt/lfs/sources/${pkgname}-vendor" --strip-components=1
+                sudo mkdir -p /mnt/lfs/root/.cargo
+                sudo printf '%s\n' \
+                  '[source.crates-io]' \
+                  'replace-with = "vendored-sources"' \
+                  '' \
+                  '[source.vendored-sources]' \
+                  "directory = \"/sources/${pkgname}-vendor\"" \
+                  | sudo tee /mnt/lfs/root/.cargo/config.toml >/dev/null
+                echo "vendor $pkgname OK"
+              fi
+            fi
             sudo chroot /mnt/lfs /usr/bin/env -i \
               HOME=/root TERM="$TERM" PATH=/opt/rust/bin:/usr/bin:/usr/sbin \
               MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \

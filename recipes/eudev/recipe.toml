@@ -1,0 +1,9 @@
+name = "eudev"
+version = "3.2.15"
+release = 1
+description = "eudev 3.2.15 (gestor de dispositivos sin systemd). Fuente ya fijada en mylfs sources-extra.stage3.tsv (sha256 eb69809f… verificada contra gentoo/eudev)."
+depends = []
+makedepends = []
+sources = ["https://github.com/gentoo/eudev/releases/download/v3.2.15/eudev-3.2.15.tar.gz"]
+checksums = ["sha256:eb69809fc0d1187f2463ab2149c53aa9f42a78e59f14ebea68eae6cb6b4fc1c3"]
+config_files = ["/etc/udev/udev.conf"]

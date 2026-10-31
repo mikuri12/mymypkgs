@@ -1,0 +1,9 @@
+name = "xwayland-satellite"
+version = "0.6"
+release = 1
+description = "xwayland-satellite 0.6 (runtime XWayland de Halley, PLAN Fase 2 paso 5)."
+depends = ["wayland", "libxkbcommon", "pixman"]
+makedepends = ["wayland", "libxkbcommon", "pixman"]
+sources = ["https://github.com/Supreeeme/xwayland-satellite/archive/refs/tags/v0.6.tar.gz"]
+checksums = ["sha256:81d23bf4b75e841f14039efc0b2b1a0ffa81ed6715ca21339d63423e056ccb25"]
+config_files = []

@@ -1,0 +1,9 @@
+name = "mesa"
+version = "25.1.8"
+release = 1
+description = "Mesa 3D: solo gallium iris + vulkan intel (HD 530), sin LLVM. Fuentes BLFS 12.4 (md5 fe3eb39e8a3c6fbb36eb3da57be022e7)."
+depends = ["libdrm", "libglvnd", "wayland", "wayland-protocols", "libxkbcommon", "pixman", "zlib", "eudev", "mako", "pyyaml"]
+makedepends = ["libdrm", "libglvnd", "wayland", "wayland-protocols", "libxkbcommon", "pixman", "zlib", "eudev", "mako", "pyyaml"]
+sources = ["https://mesa.freedesktop.org/archive/mesa-25.1.8.tar.xz"]
+checksums = ["sha256:5cf1571d0d646d90047f3d93f57acc787cf88ec7e95efe172c555b492c30fb71"]
+config_files = []

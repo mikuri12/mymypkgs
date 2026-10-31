@@ -1,0 +1,9 @@
+name = "halley"
+version = "0.8.0"
+release = 20
+description = "Halley 0.8.0 (fork mikuri12, tag v0.8.0-mikuri.20): compositor Wayland espacial en Rust/Smithay. Binarios: halley, halleyctl, halley-lift, xdg-desktop-portal-halley."
+depends = ["wayland", "wayland-protocols", "libxkbcommon", "libinput", "seatd", "libdrm", "mesa", "eudev", "pixman", "libdisplay-info", "dbus", "libglvnd", "xwayland-satellite"]
+makedepends = ["wayland", "wayland-protocols", "libxkbcommon", "libinput", "seatd", "libdrm", "mesa", "eudev", "pixman", "libdisplay-info", "dbus", "libglvnd"]
+sources = ["https://github.com/mikuri12/halley/archive/refs/tags/v0.8.0-mikuri.20.tar.gz"]
+checksums = ["sha256:7e51e5c3815bbbd959fa6f684cf1919579b624a33225c29b32cf92028e609317"]
+config_files = ["/etc/halley/halley.rune"]
