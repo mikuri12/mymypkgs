@@ -1,9 +1,9 @@
 name = "libdisplay-info"
-version = "3.2.0"
+version = "0.3.0"
 release = 1
-description = "libdisplay-info 3.2.0 (EDID/display info; smithay la exige)."
-depends = ["libxml2", "hwdata"]
-makedepends = ["libxml2", "hwdata"]
-sources = ["https://gitlab.freedesktop.org/emersion/libdisplay-info/-/archive/3.2.0/libdisplay-info-3.2.0.tar.gz"]
-checksums = ["sha256:6b70dd2f6c347d448c2d6140fdb70429d17135e6713ea6c095df1b34e4010e6a"]
+description = "libdisplay-info 0.3.0 (EDID/DisplayID; smithay la exige). Último release estable (BLFS: hwdata-0.398 requerido; md5 f2a15697… verificado)."
+depends = ["hwdata"]
+makedepends = ["hwdata"]
+sources = ["https://gitlab.freedesktop.org/emersion/libdisplay-info/-/releases/0.3.0/downloads/libdisplay-info-0.3.0.tar.xz"]
+checksums = ["sha256:6ae77cd937f9cf7d1321d35c116062c4911e8447010a6a713ac4286f7a9d5987"]
 config_files = []

@@ -1,9 +1,9 @@
 #!/bin/bash
-# libdisplay-info 3.2.0 — meson. Leer meson_options del tarball antes de -D.
+# libdisplay-info 0.3.0 — meson SIN meson_options propias (verificado contra
+# meson.build del tarball 0.3.0: solo default_options; hwdata es dep native
+# opcional required:false). Sin -D.
 set -euo pipefail
 mkdir build && cd build
-meson setup --prefix=/usr --buildtype=release \
-  -D tests=false \
-  ..
+meson setup --prefix=/usr --buildtype=release ..
 ninja
 DESTDIR="$DESTDIR" ninja install
