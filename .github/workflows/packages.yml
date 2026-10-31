@@ -71,9 +71,9 @@ jobs:
               f="${pkg}__$(basename "$src")"
               if [ ! -f "/mnt/lfs/sources/$f" ]; then
                 ok=0
-                for i in 1 2 3 4 5; do
+                for i in 1 2 3 4 5 6 7 8 9 10; do
                   sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src" && { ok=1; break; }
-                  echo "retry $f (intento $i)"; sleep 10
+                  echo "retry $f (intento $i)"; sleep 20
                 done
                 [ $ok -eq 1 ] || { echo "descarga falló: $src"; exit 1; }
               fi
@@ -131,7 +131,7 @@ jobs:
           # dentro del chroot, NO va a ningún paquete.
           # retry de SHELL: curl --retry no cubre 'connection reset' (err 35)
           RUST_OK=0
-          for i in 1 2 3 4 5; do
+          for i in 1 2 3 4 5 6 7 8 9 10; do
             sudo curl -fsSL -o /mnt/lfs/sources/rust.tar.gz \
               "https://static.rust-lang.org/dist/rust-1.99.1-x86_64-unknown-linux-gnu.tar.gz" \
               && { RUST_OK=1; break; }
