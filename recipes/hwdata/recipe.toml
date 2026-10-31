@@ -1,9 +1,0 @@
-name = "hwdata"
-version = "0.398"
-release = 1
-description = "hwdata 0.398 (pci.ids/usb.ids/pnp.ids; BLFS 12.4, md5 1ce78576… verificado). Lo pide libdisplay-info (pnp.ids)."
-depends = []
-makedepends = []
-sources = ["https://github.com/vcrhonek/hwdata/archive/refs/tags/v0.398.tar.gz"]
-checksums = ["sha256:cd52f7eb5c0f438a3605d1799d9f345a2894ad0f269ab6e8441f55e27e80dd78"]
-config_files = []
