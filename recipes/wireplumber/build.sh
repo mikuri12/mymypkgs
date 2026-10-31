@@ -3,7 +3,7 @@
 set -euo pipefail
 mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
-  -D systemd=disabled -D system-lua=disabled \
+  -D systemd=disabled -D system-lua=false \
   -D doc=disabled -D tests=false \
   -D elogind=disabled \
   ..
