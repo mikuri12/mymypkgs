@@ -2,7 +2,7 @@
 # seatd 0.9.3 (libseat+seatd) — meson; sin manpages (scdoc).
 set -euo pipefail
 mkdir build && cd build
-meson setup --prefix=/usr --buildtype=release -D man-pages=disabled -D benchmarks=disabled -D examples=disabled ..
+meson setup --prefix=/usr --buildtype=release -D man-pages=disabled -D examples=disabled -D libseat-logind=disabled ..
 ninja
 DESTDIR="$DESTDIR" ninja install
 # servicio runit (PLAN: seatd como servicio del sistema)

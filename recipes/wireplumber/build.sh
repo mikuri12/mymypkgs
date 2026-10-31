@@ -4,7 +4,7 @@ set -euo pipefail
 mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D systemd=disabled -D system-lua=disabled \
-  -D docs=disabled -D man=disabled -D tests=disabled \
+  -D doc=disabled -D tests=false \
   -D elogind=disabled \
   ..
 ninja

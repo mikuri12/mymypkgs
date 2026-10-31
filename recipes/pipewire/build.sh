@@ -5,7 +5,7 @@ set -euo pipefail
 mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D systemd=disabled \
-  -D jack=disabled -D jack-container=disabled \
+  -D jack=disabled \
   -D docs=disabled -D man=disabled -D installed_tests=disabled \
   -D gstreamer=disabled -D bluez5=disabled -D vulkan=disabled \
   -D examples=disabled -D tests=disabled \
