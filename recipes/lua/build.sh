@@ -13,7 +13,8 @@ cc -shared -Wl,-soname,liblua.so.5 -o liblua.so.5.4.8 *.pic.o -lm -ldl
 ln -sf liblua.so.5.4.8 liblua.so.5
 ln -sf liblua.so.5 liblua.so
 cd ..
-make INSTALL_TOP=/usr DESTDIR="$DESTDIR" install
+make INSTALL_TOP="$DESTDIR/usr" install
+mkdir -p "$DESTDIR/usr/lib"
 install -m755 src/liblua.so.5.4.8 "$DESTDIR/usr/lib/liblua.so.5.4.8"
 ln -sf liblua.so.5.4.8 "$DESTDIR/usr/lib/liblua.so.5"
 ln -sf liblua.so.5 "$DESTDIR/usr/lib/liblua.so"
