@@ -6,6 +6,14 @@
 # Plataformas: wayland (x11 solo para compat; xwayland-satellite la usa).
 set -euo pipefail
 mkdir build && cd build
+# Parche: compilar iris+anv SIN clc (mesa 25.1.8 no tiene flag limpio: con
+# mesa-clc=system find_program(mesa_clc) es incondicional y src/intel/meson.build
+# mete subdir(shaders) siempre con iris/intel_vk; ese subdir usa prog_mesa_clc y
+# prog_vtn_bindgen2). Sin clc: los kernels .cl internos de compute quedan fuera;
+# iris/anv compilan igual.
+sed -i "s/prog_mesa_clc = find_program('mesa_clc', native : true)/prog_mesa_clc = find_program('mesa_clc', native : true, required : false)/" ../meson.build
+sed -i "s/prog_vtn_bindgen2 = find_program('vtn_bindgen2', native : true)/prog_vtn_bindgen2 = find_program('vtn_bindgen2', native : true, required : false)/" ../meson.build
+sed -i "s/^if with_intel_vk or with_gallium_iris$/if (with_intel_vk or with_gallium_iris) and prog_mesa_clc.found()/" ../src/intel/meson.build
 meson setup --prefix=/usr --buildtype=release \
   -D platforms=wayland,x11 \
   -D gallium-drivers=iris \
