@@ -24,7 +24,7 @@ meson setup --prefix=/usr --buildtype=release \
   -D llvm=disabled \
   -D mesa-clc=auto \
   -D precomp-compiler=system \
-  -D intel-clc=disabled \
+  -D intel-clc=auto \
   -D video-codecs=all_free \
   -D valgrind=disabled -D libunwind=disabled \
   -D shared-glapi=enabled \
