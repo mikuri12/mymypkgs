@@ -190,7 +190,7 @@ jobs:
           # Capa gráficos (paso 2-3 del PLAN): eudev/pixman/libglvnd ANTES que
           # mesa; mesa (iris+intel, sin LLVM) antes que halley.
           # halley/xwayland-satellite van al final (cargo, vendor offline).
-          ORDER="libxml2 libffi pcre2 glib libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire lua wireplumber wl-clipboard zlib libpng grim slurp foot fuzzel eudev hwdata pixman libdisplay-info libglvnd mako pyyaml spirv-headers spirv-tools glslang mesa cairo harfbuzz pango librsvg stb sdbus-cpp libsecret libsodium polkit curl libqalculate md4c nlohmann-json tomlplusplus libical libwebp libjxl libsndfile wlroots xwayland-satellite halley noctalia noctalia-greeter mymy linux-mikuri"
+          ORDER="libxml2 libffi pcre2 glib libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire lua wireplumber wl-clipboard zlib libpng grim slurp foot fuzzel eudev hwdata pixman libdisplay-info libglvnd mako pyyaml spirv-headers spirv-tools glslang mesa cairo harfbuzz fribidi pango librsvg stb sdbus-cpp libsecret libsodium polkit curl libqalculate md4c nlohmann-json tomlplusplus libical libwebp libjxl libsndfile wlroots xwayland-satellite halley noctalia noctalia-greeter mymy linux-mikuri"
           # recetas no listadas: al final
           EXTRA=""
           for d in /mnt/lfs/recipes/*/; do
