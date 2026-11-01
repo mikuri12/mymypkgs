@@ -1,0 +1,9 @@
+name = "cargo-c"
+version = "0.10.0"
+release = 1
+description = "cargo-c 0.10.0 (lu-zero): helper cargo-cbuild/capi/cinstall/ctest. Build-dep de librsvg 2.61+ (exige cargo-cbuild >= 0.10.0). Binarios precompilados musl x86_64 del release oficial."
+depends = []
+makedepends = []
+sources = ["https://github.com/lu-zero/cargo-c/releases/download/v0.10.0/cargo-c-x86_64-unknown-linux-musl.tar.gz"]
+checksums = ["sha256:ee95a24bd62b94de6b0ab073e3a504a58030a14e6d0386446dc7370cb7056f9e"]
+config_files = []
