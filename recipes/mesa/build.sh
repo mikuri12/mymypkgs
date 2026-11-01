@@ -20,6 +20,7 @@ sed -i "s/^if with_intel_vk or with_gallium_iris$/if (with_intel_vk or with_gall
 sed -i "s/^             with_drivers_clc or with_driver_using_cl$/             false/" ../meson.build
 meson setup --prefix=/usr --buildtype=release \
   -D platforms=wayland \
+  -D glx=disabled \
   -D gallium-drivers=iris \
   -D vulkan-drivers=intel \
   -D vulkan-layers= \
