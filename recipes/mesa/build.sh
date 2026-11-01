@@ -14,6 +14,10 @@ mkdir build && cd build
 sed -i "s/prog_mesa_clc = find_program('mesa_clc', native : true)/prog_mesa_clc = find_program('mesa_clc', native : true, required : false)/" ../meson.build
 sed -i "s/prog_vtn_bindgen2 = find_program('vtn_bindgen2', native : true)/prog_vtn_bindgen2 = find_program('vtn_bindgen2', native : true, required : false)/" ../meson.build
 sed -i "s/^if with_intel_vk or with_gallium_iris$/if (with_intel_vk or with_gallium_iris) and prog_mesa_clc.found()/" ../src/intel/meson.build
+# with_driver_using_cl incluye iris/intel_vk incondicionalmente (meson.build:834)
+# → con mesa-clc=auto with_clc=true → exige dependency('libclc') (meson.build:854).
+# Parche: forzar with_clc=false tras calcular with_driver_using_cl.
+sed -i "s/^             with_drivers_clc or with_driver_using_cl$/             false/" ../meson.build
 meson setup --prefix=/usr --buildtype=release \
   -D platforms=wayland,x11 \
   -D gallium-drivers=iris \
