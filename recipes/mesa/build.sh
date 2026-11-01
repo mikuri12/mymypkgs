@@ -3,7 +3,7 @@
 # (PLAN Fase 2 paso 2: mesa solo con gallium iris + vulkan intel; LLVM solo
 # si Mesa lo exige → NO: con -D gallium-drivers=iris -D vulkan-drivers=intel
 # y -D llvm=disabled + mesa-clc/precomp-compiler/intel-clc=system: con intel-bvh-grl=false (default) meson pone with_intel_clc=false y with_drivers_clc=false; con mesa-clc=system salta find_program(mesa_clc/vtn_bindgen2) (meson.build:841-844) y dependency(libclc) (meson.build:853) -> NO exige LLVMSPIRVLib/clang; los .cl de intel se precompilan con glslangValidator.
-# Plataformas: wayland (x11 solo para compat; xwayland-satellite la usa).
+# Plataformas: wayland uniquement; glx=disabled (con platforms=wayland sin x11, glx=auto cae a dri por with_gallium y meson.build:555 exige x11; xwayland-satellite no usa GLX).
 set -euo pipefail
 mkdir build && cd build
 # Parche: compilar iris+anv SIN clc (mesa 25.1.8 no tiene flag limpio: con
@@ -20,6 +20,7 @@ sed -i "s/^if with_intel_vk or with_gallium_iris$/if (with_intel_vk or with_gall
 sed -i "s/^             with_drivers_clc or with_driver_using_cl$/             false/" ../meson.build
 meson setup --prefix=/usr --buildtype=release \
   -D platforms=wayland \
+  -D glx=disabled \\
   -D glx=disabled \
   -D gallium-drivers=iris \
   -D vulkan-drivers=intel \
