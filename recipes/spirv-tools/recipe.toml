@@ -1,0 +1,9 @@
+name = "spirv-tools"
+version = "1.4.321.0"
+release = 1
+description = "SPIRV-Tools vulkan-sdk-1.4.321.0 (libs + spirv-opt) — cmake, shared, sin static, SPIRV_WERROR=OFF, SPIRV-Headers_SOURCE_DIR=/usr. Requiere spirv-headers instalado. BLFS 12.4. Build-dep de glslang."
+depends = ["spirv-headers"]
+makedepends = ["spirv-headers"]
+sources = ["https://github.com/KhronosGroup/SPIRV-Tools/archive/vulkan-sdk-1.4.321.0/SPIRV-Tools-vulkan-sdk-1.4.321.0.tar.gz"]
+checksums = ["sha256:8327fb8f3e9472346a004c91dbb83a6e5f3b36c3846c142cf8c0dc8fac8710f3"]
+config_files = []
