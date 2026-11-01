@@ -22,9 +22,9 @@ meson setup --prefix=/usr --buildtype=release \
   -D gles1=disabled -D gles2=enabled \
   -D opengl=true -D egl=enabled -D gbm=enabled \
   -D llvm=disabled \
-  -D mesa-clc=system \
+  -D mesa-clc=disabled \
   -D precomp-compiler=system \
-  -D intel-clc=system \
+  -D intel-clc=disabled \
   -D video-codecs=all_free \
   -D valgrind=disabled -D libunwind=disabled \
   -D shared-glapi=enabled \
