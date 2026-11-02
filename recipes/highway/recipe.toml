@@ -1,6 +1,7 @@
 [package]
 name = "highway"
 version = "1.3.0"
+release = 1
 description = "highway (libhwy) — SIMD portable, requerido por libjxl 0.11.1 (HWY >= 1.0.7)"
 build_system = "cmake"
 sources = ["https://github.com/google/highway/archive/refs/tags/1.3.0.tar.gz"]

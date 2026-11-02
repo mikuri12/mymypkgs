@@ -233,7 +233,6 @@ jobs:
               bash /tools/build-pkg.sh "/recipes/$pkgname" /sources /packages || exit 1
             # instalar en el chroot: las recetas siguientes compilan contra ella
             PKGFILE=$(ls /mnt/lfs/packages/${pkgname}-*.tar.zst 2>/dev/null | head -1)
-            echo "DEBUG pkgname=$pkgname PKGFILE=$PKGFILE"
             if [ -n "$PKGFILE" ]; then
               sudo chroot /mnt/lfs /usr/bin/env -i \
                 PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \

@@ -11,10 +11,23 @@ OUT=$3               # /packages (salida)
 
 # Cargar receta (toml minimal: claves planas)
 # get soporta valores con comillas Y numéricos (release = 1)
-get() { grep -E "^${1} *=" "$RECIPE_DIR/recipe.toml" | head -1 | sed -E 's/^[^=]+= *//; s/^"(.*)"$/\1/'; }
-NAME=$(get name)
-VERSION=$(get version)
-RELEASE=$(get release)
+# LECCIÓN (run 41421897232): con 'set -euo pipefail', un grep SIN match
+# devuelve 1 → el pipeline mata el script EN SILENCIO (sin imprimir
+# '==> build-pkg'), y el workflow solo ve 'exit code 1'. Por eso get()
+# ya no falla: usa awk (que devuelve 0 aunque no encuentre nada) y
+# exige() valida los campos obligatorios con un error explícito.
+get() { awk -F'=' -v k="$1" '$1 ~ "^[[:space:]]*"k"[[:space:]]*$" {v=$2; gsub(/^[[:space:]]+|[[:space:]]+$/,"",v); gsub(/^"|"$/,"",v); print v; exit}' "$RECIPE_DIR/recipe.toml"; }
+require() {
+  local v; v=$(get "$1")
+  if [ -z "$v" ]; then
+    echo "ERROR: la receta $RECIPE_DIR no define '$1' (obligatorio)" >&2
+    exit 1
+  fi
+  printf '%s' "$v"
+}
+NAME=$(require name)
+VERSION=$(require version)
+RELEASE=$(require release)
 PKG="${NAME}-${VERSION}-${RELEASE}"
 DESTDIR_STG="/staging/${PKG}"
 
