@@ -4,7 +4,7 @@
 set -euo pipefail
 STAGING="$DESTDIR"
 unset DESTDIR
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS=ON \
       -DLIBXML2_WITH_PYTHON=OFF -DLIBXML2_WITH_TESTS=OFF \

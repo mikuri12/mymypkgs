@@ -1,7 +1,7 @@
 #!/bin/bash
 # pcre2 10.45 — cmake (BLFS 12.4). Sin tests, sin pcre2grep, sin JIT.
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr \
       -DCMAKE_BUILD_TYPE=Release \
       -DBUILD_SHARED_LIBS=ON \

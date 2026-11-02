@@ -4,7 +4,7 @@
 # -Dsystem_libraries=false (default: usa vendored third_party wuffs/luau/fzy/mcu),
 # -Dnative_optimizations=false (march va por CFLAGS=-march=skylake).
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D tests=disabled \
   -D jemalloc=disabled \

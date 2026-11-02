@@ -6,7 +6,7 @@
 # solo las libs de agente; el agente en runtime queda deshabilitado por
 # config (polkit_agent = false en settings).
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D daemon=false -D libs-only=true \
   -D tests=false -D introspection=disabled -D gtk_doc=false \

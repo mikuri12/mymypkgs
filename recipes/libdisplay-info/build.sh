@@ -4,7 +4,7 @@
 # opcional required:false con fallback a /usr/share/hwdata/pnp.ids).
 # OJO: pasar -D tests=... da 'Unknown options' (run 41227384991).
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release ..
 ninja
 DESTDIR="$DESTDIR" ninja install

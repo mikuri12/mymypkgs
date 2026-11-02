@@ -6,7 +6,7 @@
 # color-management, libliftoff. NO existen 'tests', 'allocator', 'pixman' ni
 # el backend 'wayland'.
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D xwayland=disabled \
   -D examples=false \

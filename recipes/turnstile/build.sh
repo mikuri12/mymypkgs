@@ -1,7 +1,7 @@
 #!/bin/bash
 # turnstile 0.1.11 — meson: backend RUNIT (PLAN), sin dinit, con lib+pam.
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D dinit=disabled -D runit=enabled \
   -D default_backend=runit \

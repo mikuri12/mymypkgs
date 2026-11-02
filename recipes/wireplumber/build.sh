@@ -1,7 +1,7 @@
 #!/bin/bash
 # wireplumber 0.5.10 — meson. Sin systemd, sin docs, sin tests.
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D systemd=disabled -D system-lua=true \
   -D doc=disabled -D tests=false \

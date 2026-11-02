@@ -15,7 +15,7 @@
 # Plataformas: solo wayland; glx=disabled (sin x11, meson.build:555 exige x11
 # para GLX; xwayland-satellite no usa GLX).
 set -euo pipefail
-rm -rf build && rm -rf build && mkdir build && cd build
+rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D platforms=wayland \
   -D glx=disabled \
