@@ -1,0 +1,9 @@
+name = "xcb-util"
+version = "0.4.1"
+release = 1
+description = "xcb-util 0.4.1 — utilidades base de XCB (xcb-util.pc, base de xcb-util-image/wm/cursor)"
+build_system = "autotools"
+sources = ["https://xcb.freedesktop.org/dist/xcb-util-0.4.1.tar.xz"]
+checksums = ["5abe3bbbd8e54f0fa3ec945291b7e8fa8cfd3cccc43718f8758430f94126e512"]
+depends = ["libxcb"]
+makedepends = ["libxcb"]
