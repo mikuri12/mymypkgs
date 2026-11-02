@@ -7,9 +7,11 @@
 set -euo pipefail
 rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
+  -D libs-only=true \
   -D tests=false -D introspection=false -D gtk_doc=false \
-  -D man=false -D examples=false \
-  -D session_tracking=ConsoleKit \
+  -D man=false -D examples=false -D gettext=false \
+  -D session_tracking=ConsoleKit -D authfw=shadow -D os_type=lfs \
+  -D systemdsystemunitdir=no \
   ..
 ninja
 DESTDIR="$DESTDIR" ninja install
