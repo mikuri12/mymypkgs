@@ -1,0 +1,8 @@
+name = "lcms2"
+version = "2.16"
+release = 1
+description = "Little CMS 2.16 — perfil de color ICC; libjxl 0.11.1 exige LCMS2 >= 2.12"
+sources = ["https://github.com/mm2/Little-CMS/releases/download/lcms2.16/lcms2-2.16.tar.gz"]
+checksums = ["sha256:d873d34ad8b9b4cea010631f1a6228d2087475e4dc5e763eb81acc23d9d45a51"]
+depends = []
+makedepends = []
