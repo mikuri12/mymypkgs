@@ -15,7 +15,7 @@ cd ..
 # utf8proc 2.10.0 usa CMAKE (no meson) — verificado contra el tarball
 cd /tmp/build/utf8proc-2.10.0
 rm -rf build && mkdir build && cd build
-cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release       -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF ..
+cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release       -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF ..
 make -j"$(nproc)"
 make install
 cd ../..
