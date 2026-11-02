@@ -3,7 +3,7 @@
 # autotools, sin docs, hwdb update post-install vía trigger (mymy corre
 # `udevadm hwdb --update` como hook; aquí solo se instala).
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 ../configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
   --disable-manpages --disable-introspection \
   CPPFLAGS="-D_BSD_SOURCE -D_DEFAULT_SOURCE"

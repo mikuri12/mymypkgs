@@ -3,7 +3,7 @@
 # (verificadas contra el tarball): documentation/tests/dtd_validation
 # son BOOLEANAS aquí (a diferencia de libinput, donde son features).
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D documentation=false \
   -D tests=false \

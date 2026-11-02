@@ -6,9 +6,9 @@ set -euo pipefail
 # XORG_PREFIX=/usr en un sistema LFS (BLFS asume LFS: todo en /usr)
 export XORG_PREFIX=/usr
 
+rm -rf build
 mkdir build
-cd    build
-
+cd build
 meson setup --prefix=$XORG_PREFIX \
             --buildtype=release   \
             -D udev=true          \

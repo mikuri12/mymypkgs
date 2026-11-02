@@ -5,7 +5,7 @@
 # default-hinting/default-sub-pixel-rendering/bitmap-conf = combo.
 # xml-backend=expat (expat ya está en el chroot), sin docs, sin tests, sin tools.
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D xml-backend=expat \
   -D fontations=disabled \

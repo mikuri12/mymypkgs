@@ -3,7 +3,7 @@
 # Instala binarios + scripts de setup; la config de greetd/PAM va en
 # post-install (usuario greeter, /var/lib/noctalia-greeter, config.toml).
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D tests=false \
   ..

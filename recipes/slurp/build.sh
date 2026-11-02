@@ -8,7 +8,7 @@ meson setup --prefix=/usr build --buildtype=release -D tests=disabled
 ninja -C build && ninja -C build install
 cd ..
 cd /tmp/build/slurp-1.5.0
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release ..
 ninja
 DESTDIR="$STAGING" ninja install

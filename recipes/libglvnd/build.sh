@@ -5,7 +5,7 @@
 # dispatch-tls/headers=boolean, entrypoint-patching=feature). Pasar
 # -D tests=… rompe meson setup con Unknown options (run 41236509817).
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D x11=disabled -D glx=disabled \
   ..

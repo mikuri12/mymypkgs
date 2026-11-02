@@ -2,7 +2,7 @@
 # libjxl 0.11.1 — CMake (BLFS 12.4 flags). Sin tests (gtest), sin skcms/sjpeg,
 # tools off (solo libs + threads que Noctalia pide).
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 cmake -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release \
   -DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF \
   -DJPEGXL_ENABLE_SKCMS=OFF -DJPEGXL_ENABLE_SJPEG=OFF \

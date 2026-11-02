@@ -14,7 +14,7 @@ export CARGO=/opt/rust/bin/cargo
 export CARGO_C_CARGO=/opt/rust/bin/cargo
 export RUSTC=/opt/rust/bin/rustc
 
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D introspection=disabled -D vala=disabled -D docs=disabled \
   -D tests=false -D pixbuf=disabled \

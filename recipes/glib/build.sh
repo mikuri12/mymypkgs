@@ -2,7 +2,7 @@
 # glib 2.84.4 — meson (BLFS 12.4). Sin docs/man/tests/introspection/selinux.
 # Opciones verificadas contra meson.options del tarball 2.84.4.
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D tests=false \
   -D documentation=false \

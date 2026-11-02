@@ -1,7 +1,7 @@
 #!/bin/bash
 # seatd 0.9.3 (libseat+seatd) — meson; sin manpages (scdoc).
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release -D man-pages=disabled -D examples=disabled -D libseat-logind=disabled ..
 ninja
 DESTDIR="$DESTDIR" ninja install

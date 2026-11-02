@@ -2,7 +2,7 @@
 # pipewire 1.4.7 — meson. PLAN: sin systemd (sesión por turnstile), sin
 # jack/jack2-dbus/docs. pipewire-pulse sí (PLAN lo pide).
 set -euo pipefail
-mkdir build && cd build
+rm -rf build && rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D systemd=disabled \
   -D jack=disabled \
