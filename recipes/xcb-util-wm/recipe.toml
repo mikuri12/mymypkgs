@@ -1,0 +1,9 @@
+name = "xcb-util-wm"
+version = "0.4.2"
+release = 1
+description = "xcb-util-wm 0.4.2 — XCB utility (requerido por xcb-util-cursor → xwayland-satellite)"
+build_system = "autotools"
+sources = ["https://xcb.freedesktop.org/dist/xcb-util-wm-0.4.2.tar.xz"]
+checksums = ["62c34e21d06264687faea7edbf63632c9f04d55e72114aa4a57bb95e4f888a0b"]
+depends = ["libxcb"]
+makedepends = ["libxcb", "xcb-util-image", "xcb-util-renderutil", "xcb-util-wm", "xcb-util-errors"]
