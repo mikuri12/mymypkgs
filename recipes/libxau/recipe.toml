@@ -5,5 +5,5 @@ description = "libxau 1.0.12 — Xorg auxiliary library (dependencia de libxcb)"
 build_system = "autotools"
 sources = ["https://xorg.freedesktop.org/archive/individual/lib/libXau-1.0.12.tar.xz"]
 checksums = ["74d0e4dfa3d39ad8939e99bda37f5967aba528211076828464d2777d477fc0fb"]
-depends = []
-makedepends = []
+depends = ["xorgproto"]
+makedepends = ["xorgproto"]
