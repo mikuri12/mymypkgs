@@ -1,0 +1,9 @@
+name = "basu"
+version = "0.2.1"
+release = 1
+description = "basu 0.2.1 — sd-bus extraido de systemd (sin systemd/elogind). Provee libbasu.so + basu.pc para sdbus-c++."
+depends = []
+makedepends = []
+sources = ["https://git.sr.ht/~emersion/basu/archive/v0.2.1.tar.gz"]
+checksums = ["sha256:43b327073d1ac7bc6cbc0d3dfff729348fc970dfff0551ad40e366332e990204"]
+config_files = []
