@@ -1,6 +1,6 @@
 #!/bin/bash
+# xcb-proto 1.17.0 — autotools (NO meson: el tarball upstream es autotools).
 set -euo pipefail
-rm -rf build && mkdir build && cd build
-meson setup --prefix=/usr ..
-ninja
-DESTDIR="$DESTDIR" ninja install
+./configure --prefix=/usr
+make -j"$(nproc)"
+DESTDIR="$DESTDIR" make install
