@@ -157,6 +157,38 @@ jobs:
           sudo test -x /mnt/lfs/opt/rust/bin/cargo || { echo "cargo no instalado"; exit 1; }
           echo "rust 1.99.1 OK en el chroot (/opt/rust)"
 
+          # LLVM 19.1.7 PREBUILT (solo libclang.so, para bindgen de
+          # xcb-util-cursor-sys en xwayland-satellite — run 41529891545:
+          # "Unable to find libclang"). Solo se instala libclang.so* en
+          # /opt/llvm/lib, NO va a ningún paquete (build-dep del chroot).
+          LLVM_OK=0
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            sudo curl -fsSL -o /mnt/lfs/sources/llvm.tar.xz \
+              "https://github.com/llvm/llvm-project/releases/download/llvmorg-19.1.7/LLVM-19.1.7-Linux-X64.tar.xz" \
+              && { LLVM_OK=1; break; }
+            echo "descarga llvm falló (intento $i), reintentando en 30s…"
+            rm -f /mnt/lfs/sources/llvm.tar.xz
+            sleep 30
+          done
+          [ $LLVM_OK -eq 1 ] || { echo "llvm inaccesible tras 10 intentos"; exit 1; }
+          cat > /tmp/install-llvm.sh << 'LLEOF'
+          set -euo pipefail
+          cd /sources
+          rm -rf LLVM-19.1.7-Linux-x86_64 llvm-extract
+          tar -xJf llvm.tar.xz
+          mv LLVM-19.1.7-Linux-x86_64 llvm-extract
+          mkdir -p /opt/llvm/lib /opt/llvm/include
+          cp -a llvm-extract/lib/libclang.so* /opt/llvm/lib/
+          cp -a llvm-extract/lib/libLLVM*.so* /opt/llvm/lib/ 2>/dev/null || true
+          rm -rf llvm-extract
+          LLEOF
+          sudo cp /tmp/install-llvm.sh /mnt/lfs/sources/install-llvm.sh
+          sudo chroot /mnt/lfs /usr/bin/env -i HOME=/root TERM="$TERM" \
+            PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \
+            bash -e /sources/install-llvm.sh
+          sudo test -f /mnt/lfs/opt/llvm/lib/libclang.so* || { echo "libclang no instalada"; exit 1; }
+          echo "libclang OK en el chroot (/opt/llvm/lib)"
+
           # CA bundle para HTTPS en el chroot (run 41169484092). Heredoc directo: printf linea-a-linea con for..do rompe el parse (run 41178323949).
           cat > /mnt/lfs/sources/make-cabundle.sh <<'CABEOF'
           set -euo pipefail
@@ -226,6 +258,7 @@ jobs:
             sudo chroot /mnt/lfs /usr/bin/env -i \
               HOME=/root TERM="$TERM" PATH=/opt/rust/bin:/usr/bin:/usr/sbin \
               MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \
+              LIBCLANG_PATH=/opt/llvm/lib \
               CFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
