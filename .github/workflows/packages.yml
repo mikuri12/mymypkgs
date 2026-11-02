@@ -174,13 +174,12 @@ jobs:
           cat > /tmp/install-llvm.sh << 'LLEOF'
           set -euo pipefail
           cd /sources
-          rm -rf LLVM-19.1.7-Linux-x86_64 llvm-extract
-          tar -xJf llvm.tar.xz
-          mv LLVM-19.1.7-Linux-x86_64 llvm-extract
-          mkdir -p /opt/llvm/lib /opt/llvm/include
-          cp -a llvm-extract/lib/libclang.so* /opt/llvm/lib/
-          cp -a llvm-extract/lib/libLLVM*.so* /opt/llvm/lib/ 2>/dev/null || true
           rm -rf llvm-extract
+          tar -xJf llvm.tar.xz
+          mkdir -p /opt/llvm/lib
+          cp -a LLVM-19.1.7-Linux-X64/lib/libclang.so* /opt/llvm/lib/
+          cp -a LLVM-19.1.7-Linux-X64/lib/libLLVM*.so* /opt/llvm/lib/ 2>/dev/null || true
+          rm -rf LLVM-19.1.7-Linux-X64
           LLEOF
           sudo cp /tmp/install-llvm.sh /mnt/lfs/sources/install-llvm.sh
           sudo chroot /mnt/lfs /usr/bin/env -i HOME=/root TERM="$TERM" \
