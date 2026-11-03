@@ -245,7 +245,7 @@ jobs:
                [ "$pkgname" = "halley" ] || [ "$pkgname" = "xwayland-satellite" ] || \
                [ "$pkgname" = "librsvg" ]; then
               VASSET="/tmp/${pkgname}-vendor.tar.gz"
-              # asset reparado primero: <pkg>-vendor-fixed.tar.gz (halley: .cargo-checksum.json completo)
+              # asset reparado primero: <pkg>-vendor-fixed.tar.gz (halley v2: vendor COMPLETO regenerado con cargo vendor del Cargo.lock real — el anterior omitía x11rb/x11rb-protocol por la feature xwayland default; run 41700616155)
               if curl -fsSI -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/${pkgname}-vendor-fixed.tar.gz" >/dev/null 2>&1; then
                 VASSET="/tmp/${pkgname}-vendor-fixed.tar.gz"
               fi
