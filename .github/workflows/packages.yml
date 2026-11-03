@@ -266,6 +266,7 @@ jobs:
               HOME=/root TERM="$TERM" PATH=/opt/rust/bin:/usr/bin:/usr/sbin \
               MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \
               LIBCLANG_PATH=/opt/llvm/lib \
+              BINDGEN_EXTRA_CLANG_ARGS="-resource-dir /opt/llvm/lib/clang/19" \
               CFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
