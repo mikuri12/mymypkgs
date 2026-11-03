@@ -258,6 +258,10 @@ jobs:
                   '' \
                   '[source.vendored-sources]' \
                   "directory = \"/sources/${pkgname}-vendor\"" \
+                  '[source."git+https://github.com/Smithay/smithay.git?rev=ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"]' \
+                  'git = "https://github.com/Smithay/smithay.git"' \
+                  'rev = "ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"' \
+                  'replace-with = "vendored-sources"' \
                   | sudo tee /mnt/lfs/root/.cargo/config.toml >/dev/null
                 echo "vendor $pkgname OK"
               fi

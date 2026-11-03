@@ -20,6 +20,10 @@ export CARGO_PROFILE_RELEASE_STRIP=symbols
 cd /tmp/build/halley-0.8.0-mikuri.20
 
 cargo build --release --workspace --locked --offline
+# smithay-drm-extras (git dep de smithay, rev ff5fa7d) viene del vendor offline
+# vía source-replacement del git source en .cargo/config.toml (inyectado por el
+# workflow); el [patch] del workspace solo cubre el crate smithay.
+ls vendor/smithay/Cargo.toml >/dev/null  # sanity: parche del workspace presente
 
 # binarios (igual que void/template do_install)
 install -v -D -m755 target/release/halley                 "$DESTDIR/usr/bin/halley"
