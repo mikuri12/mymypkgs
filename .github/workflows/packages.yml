@@ -260,6 +260,7 @@ jobs:
               LIBCLANG_PATH=/opt/llvm/lib \
               CFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
               CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
+              BINDGEN_EXTRA_CLANG_ARGS="-I/usr/lib/gcc/x86_64-pc-linux-gnu/15/include -I/usr/include" \
               LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
               XORG_PREFIX=/usr \
               bash /tools/build-pkg.sh "/recipes/$pkgname" /sources /packages || exit 1
