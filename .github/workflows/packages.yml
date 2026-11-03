@@ -245,8 +245,12 @@ jobs:
                [ "$pkgname" = "halley" ] || [ "$pkgname" = "xwayland-satellite" ] || \
                [ "$pkgname" = "librsvg" ]; then
               VASSET="/tmp/${pkgname}-vendor.tar.gz"
-              sudo curl -fsSL --retry 5 --retry-all-errors -o "$VASSET" \
-                -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/${pkgname}-vendor.tar.gz" \
+              # asset reparado primero: <pkg>-vendor-fixed.tar.gz (halley: .cargo-checksum.json completo)
+              if curl -fsSI -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/${pkgname}-vendor-fixed.tar.gz" >/dev/null 2>&1; then
+                VASSET="/tmp/${pkgname}-vendor-fixed.tar.gz"
+              fi
+              curl -fsSL --retry 5 --retry-all-errors -o "$VASSET" \
+                -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/$(basename "$VASSET")" \
                 || { echo "vendor $pkgname no disponible (se asume red en chroot)"; }
               if [ -f "$VASSET" ]; then
                 sudo mkdir -p "/mnt/lfs/sources/${pkgname}-vendor"
