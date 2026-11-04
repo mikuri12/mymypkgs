@@ -220,9 +220,12 @@ jobs:
           # Copiar recetas+tools al chroot (scripts del repo corren dentro)
           sudo cp -r recipes /mnt/lfs/
           sudo cp -r tools /mnt/lfs/
-          # mymy y keys también (la receta mymy los instala desde aquí)
-          sudo mkdir -p /mnt/lfs/tmp/build/mymy-repo
-          sudo cp -r mymy keys /mnt/lfs/tmp/build/mymy-repo/
+          # mymy y keys a la RAIZ del chroot: build-pkg.sh borra
+          # /tmp/build antes de copiar, asi que pre-copiar a
+          # /tmp/build/mymy-repo quedaba vacio y el cp desde
+          # /recipes/../mymy (== /mymy, inexistente) fallaba en
+          # silencio (|| true) -> build.sh sin el binario (run 41757749714).
+          sudo cp -r mymy keys /mnt/lfs/
 
           # Orden por CAPAS (PLAN: matriz por dependencias) — el alfabético
           # compilaba foot antes que wayland, que foot necesita para linkear.
