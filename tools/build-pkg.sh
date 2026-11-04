@@ -73,6 +73,7 @@ else
   mkdir -p /tmp/build/mymy-repo
   cp -r /recipes/../mymy /tmp/build/mymy-repo/mymy 2>/dev/null || true
   cp -r /recipes/../keys /tmp/build/mymy-repo/keys 2>/dev/null || true
+  [ -f /tmp/build/mymy-repo/mymy/mymy ] || { echo "falta /mymy en la raiz del chroot para receta sin sources"; exit 1; }
   cd /tmp/build
 fi
 # Ejecutar build.sh de la receta con DESTDIR apuntando al staging.
