@@ -6,4 +6,4 @@ depends = ["wayland", "wayland-protocols", "libxkbcommon", "freetype", "fontconf
 makedepends = ["wayland", "wayland-protocols", "libxkbcommon", "freetype", "fontconfig", "cairo", "pango", "librsvg", "libxml2", "glib", "tomlplusplus", "nlohmann-json", "wlroots", "libinput", "greetd", "pam"]
 sources = ["https://github.com/noctalia-dev/noctalia-greeter/archive/refs/tags/v1.7.0.tar.gz"]
 checksums = ["sha256:5b092784c0147bb6739efc2e8146d2d07e3572a59d7a370e93092f9f56d4fcc8"]
-config_files = ["/etc/greetd/config.toml", "/etc/pam.d/greetd"]
+config_files = []
