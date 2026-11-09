@@ -7,3 +7,5 @@ makedepends = ["sdbus-cpp", "wayland", "wayland-protocols", "libglvnd", "mesa", 
 sources = ["https://github.com/noctalia-dev/noctalia/archive/refs/tags/v5.4.1.tar.gz"]
 checksums = ["sha256:6069d922e9d72488c74e4ce335314ce2203f08bd4641380bfe1bd137004597fa"]
 config_files = ["/etc/xdg/noctalia/settings.toml"]
+build_tools = []
+upstream = "github:noctalia-dev/noctalia"

@@ -9,3 +9,5 @@ sources = ["https://dri.freedesktop.org/libdrm/libdrm-2.4.129.tar.xz"]
 checksums = ["5978183f978d697e26a50ba066174964efb0ab97caa1ecaa1b861fbe5ddf77dc"]
 config_files = []
 # BLFS 12.4: md5 3baec8e685510892b3355a7074baa874 verificado contra la descarga
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/mesa/drm"

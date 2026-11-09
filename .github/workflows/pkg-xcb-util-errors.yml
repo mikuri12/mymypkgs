@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'xcb-util-errors': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-xcb-util-errors
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/xcb-util-errors/**'
+      - '.github/workflows/pkg-xcb-util-errors.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-xcb-util-errors
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: xcb-util-errors

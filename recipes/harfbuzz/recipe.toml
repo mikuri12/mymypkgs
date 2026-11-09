@@ -7,3 +7,5 @@ makedepends = ["freetype", "glib", "cairo"]
 sources = ["https://github.com/harfbuzz/harfbuzz/releases/download/11.3.1/harfbuzz-11.3.1.tar.xz"]
 checksums = ["sha256:d554cca69023178664d36d843af9516e2e2c4c5dfcd117d773a3529f446efa7b"]
 config_files = []
+build_tools = []
+upstream = "github:harfbuzz/harfbuzz"

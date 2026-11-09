@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'xcb-util-renderutil': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-xcb-util-renderutil
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/xcb-util-renderutil/**'
+      - '.github/workflows/pkg-xcb-util-renderutil.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-xcb-util-renderutil
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: xcb-util-renderutil

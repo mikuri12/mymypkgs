@@ -7,3 +7,5 @@ makedepends = []
 sources = ["https://github.com/nothings/stb/archive/f1c79c02822848a9bed4315b12c8c8f3761e1296.tar.gz"]
 checksums = ["sha256:a39b0f2d96d9b64171ac1fd73295b7c5866f904e653b379da886d050a6900db9"]
 config_files = []
+build_tools = []
+upstream = "github:nothings/stb"

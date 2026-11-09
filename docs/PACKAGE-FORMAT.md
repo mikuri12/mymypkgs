@@ -74,6 +74,39 @@ depends = []
 La clave pública de verificación vive en `keys/mymy.pub`; mymy la usa
 para validar el índice antes de sincronizar.
 
+
+## Rolling por paquete (v2)
+
+Cada receta tiene su propio run de GitHub Actions (`pkg-<nombre>.yml`,
+generado por `tools/gen-pkg-workflows.sh`) que se dispara SOLO al cambiar
+`recipes/<nombre>/**`. El run reutilizable `.github/workflows/pkg-build.yml`:
+
+1. restaura el chroot del rootfs (ROOTFS_TAG),
+2. instala en el chroot los paquetes ya publicados en el Release rodante
+   `packages` (en el orden de `tools/order.txt`) — son las dependencias,
+3. compila solo esa receta (`tools/build-pkg.sh`) y la instala,
+4. publica el nuevo `.tar.zst` y regenera `index.toml` (publish serializado
+   con concurrency group `packages-release-publish`).
+
+El run monolítico `packages.yml` queda solo para cambios de infra
+(`tools/**`, `ROOTFS_TAG`, `mymy/**`) y un full rebuild semanal.
+
+## Campos nuevos de recipe.toml
+
+```toml
+build_tools = ["cmake", "rust", "libclang"]   # herramientas del chroot para ESTA receta
+upstream = "github:owner/repo"                # o "gitlab:host/group/proj", "codeberg:o/r"
+```
+
+- `build_tools`: `tools/chroot-prep.sh` instala en el chroot solo lo que la
+  receta necesita (cmake 4.1.0 / rust 1.99.1 / libclang 19.1.7 prebuilt).
+- `upstream`: el workflow `upstream.yml` (diario 05:00 UTC + manual) corre
+  `tools/update-upstream.sh --push`, que consulta la última release/tag del
+  upstream y, si es más nueva, reescribe `version`/`sources`/`checksums`
+  (sha256 real descargando el tarball) con `release = 1`. El push dispara
+  solo el run `pkg-<nombre>` de esa receta → release rodante real con las
+  últimas versiones del upstream, sin copiar versiones de void.
+
 ## Reglas
 
 - Todo paquete se compila DENTRO del chroot del rootfs indicado por

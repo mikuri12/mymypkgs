@@ -7,3 +7,5 @@ sources = ["https://xcb.freedesktop.org/dist/xcb-util-wm-0.4.2.tar.xz"]
 checksums = ["62c34e21d06264687faea7edbf63632c9f04d55e72114aa4a57bb95e4f888a0b"]
 depends = ["libxcb", "xcb-util"]
 makedepends = ["libxcb", "xcb-util"]
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/xorg/util/xcb-util-wm"

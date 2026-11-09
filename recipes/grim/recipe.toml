@@ -13,3 +13,5 @@ checksums = [
   "sha256:1b8288086e5da0ec5cb95cf174a919cc6fe4548f10dc3cd873b3bb1d9e8fdeab",
 ]
 config_files = []
+build_tools = []
+upstream = "github:emersion/grim"

@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'alsa-ucm-conf': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-alsa-ucm-conf
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/alsa-ucm-conf/**'
+      - '.github/workflows/pkg-alsa-ucm-conf.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-alsa-ucm-conf
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: alsa-ucm-conf

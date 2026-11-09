@@ -7,3 +7,5 @@ makedepends = ["libevdev", "mtdev"]
 sources = ["https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.29.0/libinput-1.29.0.tar.gz"]
 checksums = ["sha256:ec71f6ec6632108a62756f49d86e864494108e70cf670e85f8b7579e970e152c"]
 config_files = []
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/libinput/libinput"

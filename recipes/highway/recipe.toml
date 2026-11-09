@@ -8,3 +8,5 @@ sources = ["https://github.com/google/highway/archive/refs/tags/1.3.0.tar.gz"]
 checksums = ["sha256:07b3c1ba2c1096878a85a31a5b9b3757427af963b1141ca904db2f9f4afe0bc2"]
 depends = []
 makedepends = []
+build_tools = ["cmake"]
+upstream = "github:google/highway"

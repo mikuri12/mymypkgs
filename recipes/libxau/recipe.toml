@@ -7,3 +7,5 @@ sources = ["https://xorg.freedesktop.org/archive/individual/lib/libXau-1.0.12.ta
 checksums = ["74d0e4dfa3d39ad8939e99bda37f5967aba528211076828464d2777d477fc0fb"]
 depends = ["xorgproto"]
 makedepends = ["xorgproto"]
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/xorg/lib/libXau"

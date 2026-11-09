@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'tomlplusplus': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-tomlplusplus
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/tomlplusplus/**'
+      - '.github/workflows/pkg-tomlplusplus.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-tomlplusplus
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: tomlplusplus

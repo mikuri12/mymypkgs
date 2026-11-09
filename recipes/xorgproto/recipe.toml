@@ -7,3 +7,5 @@ sources = ["https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2025
 checksums = ["56898c716c0578df8a2d828c9c3e5c528277705c0484381a81960fe1a67668e8"]
 depends = []
 makedepends = []
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/xorg/proto/xorgproto"

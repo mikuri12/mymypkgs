@@ -7,3 +7,5 @@ makedepends = []
 sources = ["https://github.com/mikuri12/mikuri-kernel/releases/download/v7.1.5-mikuri/mikuri-kernel-7.1.5-mikuri.tar.gz"]
 checksums = ["sha256:cf5fe27099311b9b7277f9df6f3eb6a81cacf08bc554d29678bd99c2de90372c"]
 config_files = ["/boot/grub/grub.cfg"]
+build_tools = []
+upstream = "github:mikuri12/mikuri-kernel"

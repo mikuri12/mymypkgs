@@ -1,0 +1,36 @@
+name: upstream
+
+# Rolling de versiones: consulta el upstream (github/gitlab) de cada
+# receta con campo `upstream` y bumpea version/sources/checksums si hay
+# release nueva. El push dispara SOLO el run pkg-<paquete> de las recetas
+# tocadas (paths: recipes/<paquete>/**).
+
+on:
+  schedule:
+    - cron: '0 5 * * *'   # diario 05:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Asegurar workflows pkg-* al día
+        run: |
+          bash tools/gen-pkg-workflows.sh
+          if ! git diff --quiet -- .github/workflows; then
+            git add .github/workflows
+            git commit -m "chore: regenerar workflows pkg-*" || true
+            git push || true
+          fi
+
+      - name: Bumpear versiones desde upstream y pushar
+        run: bash tools/update-upstream.sh --push
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

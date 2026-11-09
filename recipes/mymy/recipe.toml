@@ -7,3 +7,5 @@ makedepends = []
 sources = []
 checksums = []
 config_files = []
+build_tools = []
+upstream = ""   # sin upstream mapeado; bump manual

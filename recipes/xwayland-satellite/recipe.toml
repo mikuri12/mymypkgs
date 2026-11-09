@@ -7,3 +7,5 @@ makedepends = ["wayland", "libxkbcommon", "pixman", "libxcb", "xcb-util-cursor"]
 sources = ["https://github.com/Supreeeme/xwayland-satellite/archive/refs/tags/v0.6.tar.gz"]
 checksums = ["sha256:81d23bf4b75e841f14039efc0b2b1a0ffa81ed6715ca21339d63423e056ccb25"]
 config_files = []
+build_tools = ["rust"]
+upstream = "github:Supreeeme/xwayland-satellite"

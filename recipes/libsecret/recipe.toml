@@ -7,3 +7,5 @@ makedepends = ["glib"]
 sources = ["https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.7.tar.xz"]
 checksums = ["sha256:6b452e4750590a2b5617adc40026f28d2f4903de15f1250e1d1c40bfd68ed55e"]
 config_files = []
+build_tools = []
+upstream = "github:GNOME/libsecret"

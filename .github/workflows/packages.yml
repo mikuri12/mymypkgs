@@ -4,11 +4,16 @@ on:
   push:
     branches: [main]
     paths:
-      - 'recipes/**'
       - 'tools/**'
       - 'ROOTFS_TAG'
       - '.github/workflows/packages.yml'
+      - '.github/workflows/pkg-build.yml'
+      - 'mymy/**'
+  schedule:
+    - cron: '0 6 * * 1'   # full rebuild semanal (lunes 06:00 UTC)
   workflow_dispatch:
+# NOTA: los cambios en recipes/<pkg>/** NO disparan este run: cada paquete
+# tiene su propio run rolling (pkg-<pkg>.yml generado por gen-pkg-workflows.sh).
 
 # PLAN Fase 2: compilar DENTRO del chroot del rootfs de ROOTFS_TAG
 # (descargado de mylfs Releases). Publicar al Release rodante 'packages'.
@@ -232,7 +237,7 @@ jobs:
           # Capa gráficos (paso 2-3 del PLAN): eudev/pixman/libglvnd ANTES que
           # mesa; mesa (iris+intel, sin LLVM) antes que halley.
           # halley/xwayland-satellite van al final (cargo, vendor offline).
-          ORDER="libxml2 libffi pcre2 glib libdrm wayland wayland-protocols libxkbcommon libevdev mtdev libinput dbus alsa-lib alsa-ucm-conf seatd turnstile greetd pipewire lua wireplumber wl-clipboard zlib libpng grim slurp foot fuzzel eudev hwdata pixman libdisplay-info libglvnd mako pyyaml spirv-headers spirv-tools glslang mesa freetype2 fontconfig cairo harfbuzz fribidi pango cargo-c librsvg stb expat basu sdbus-cpp libsecret libsodium polkit curl libqalculate md4c nlohmann-json tomlplusplus libical libwebp highway brotli lcms2 libjxl libsndfile wlroots xcb-proto xorgproto libxau libxdmcp libxcb xcb-util xcb-util-renderutil xcb-util-image xcb-util-wm xcb-util-errors xcb-util-cursor xwayland-satellite halley noctalia noctalia-greeter mymy linux-mikuri"
+          ORDER=$(tr '\n' ' ' < /mnt/lfs/tools/order.txt)
           # recetas no listadas: al final
           EXTRA=""
           for d in /mnt/lfs/recipes/*/; do

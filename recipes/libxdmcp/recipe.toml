@@ -7,3 +7,5 @@ sources = ["https://xorg.freedesktop.org/archive/individual/lib/libXdmcp-1.1.5.t
 checksums = ["d8a5222828c3adab70adf69a5583f1d32eb5ece04304f7f8392b6a353aa2228c"]
 depends = []
 makedepends = []
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/xorg/lib/libXdmcp"

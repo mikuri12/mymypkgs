@@ -7,3 +7,5 @@ makedepends = []
 sources = ["https://gitlab.freedesktop.org/pixman/pixman/-/archive/pixman-0.46.4/pixman-pixman-0.46.4.tar.gz"]
 checksums = ["sha256:1b8288086e5da0ec5cb95cf174a919cc6fe4548f10dc3cd873b3bb1d9e8fdeab"]
 config_files = []
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/pixman/pixman"

@@ -8,3 +8,5 @@ sources = ["https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.25.0/dow
 checksums = ["sha256:c065f040afdff3177680600f249727e41a1afc22fccf27222f15f5306faa1f03"]
 config_files = []
 # BLFS 12.4 §wayland (meson; xml_ressources auto)
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/wayland/wayland"

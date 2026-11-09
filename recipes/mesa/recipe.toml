@@ -7,3 +7,5 @@ makedepends = ["libdrm", "libglvnd", "wayland", "wayland-protocols", "libxkbcomm
 sources = ["https://mesa.freedesktop.org/archive/mesa-25.1.8.tar.xz"]
 checksums = ["sha256:5cf1571d0d646d90047f3d93f57acc787cf88ec7e95efe172c555b492c30fb71"]
 config_files = []
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/mesa/mesa"

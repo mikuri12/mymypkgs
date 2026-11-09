@@ -7,3 +7,5 @@ makedepends = ["glib", "libxml2", "icu"]
 sources = ["https://github.com/libical/libical/releases/download/v3.0.20/libical-3.0.20.tar.gz"]
 checksums = ["sha256:e73de92f5a6ce84c1b00306446b290a2b08cdf0a80988eca0a2c9d5c3510b4c2"]
 config_files = []
+build_tools = ["cmake"]
+upstream = "github:libical/libical"

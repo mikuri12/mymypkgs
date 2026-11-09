@@ -9,3 +9,5 @@ checksums = ["sha256:f904e9ee39da16b5faabc2d36aa3615d2f8f64218c484c700e9d9d96c05
 config_files = []
 # xkeyboard-config NO está en la base LFS: build sin x11 ni wayland
 # (solo la librería; el compose de teclas se compila igual).
+build_tools = []
+upstream = "github:xkbcommon/libxkbcommon"

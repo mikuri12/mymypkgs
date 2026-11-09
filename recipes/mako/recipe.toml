@@ -7,3 +7,5 @@ makedepends = []
 sources = ["https://github.com/sqlalchemy/mako/archive/refs/tags/rel_1_3_10.tar.gz"]
 checksums = ["sha256:e8f1334904611d5cb357b6396790fd4375ac21ad901f4314d222d5d5758979b9"]
 config_files = []
+build_tools = []
+upstream = "github:sqlalchemy/mako"

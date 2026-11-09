@@ -8,3 +8,5 @@ sources = ["https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.7/pip
 checksums = ["sha256:17599eab9cf1ac98bce41954057b1b66d16c99aef341e16d41dbc7302f4fa960"]
 config_files = []
 # PLAN: pipewire-pulse + servicios de USUARIO turnstile (no sistema)
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/pipewire/pipewire"

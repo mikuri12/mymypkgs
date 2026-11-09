@@ -1,0 +1,241 @@
+name: pkg-build (reutilizable)
+
+on:
+  workflow_call:
+    inputs:
+      package:
+        description: 'Nombre de la receta en recipes/ (ej: mesa)'
+        required: true
+        type: string
+
+# Runrolling POR PAQUETE: compila solo `package` dentro del chroot del
+# rootfs (ROOTFS_TAG), con las dependencias ya publicadas en el Release
+# rodante 'packages' instaladas en el chroot. Publica el nuevo .tar.zst
+# y regenera index.toml. Lo llaman los pkg-<nombre>.yml generados.
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      LFS: /mnt/lfs
+      PKG: ${{ inputs.package }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Estado del disco
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc \
+            /usr/local/.ghcup /opt/hostedtoolcache/CodeQL 2>/dev/null || true
+          df -h /
+
+      - name: Descargar rootfs de mylfs (ROOTFS_TAG)
+        run: |
+          TAG=$(head -1 ROOTFS_TAG)
+          echo "ROOTFS_TAG=$TAG"
+          mkdir -p incoming
+          gh release download "$TAG" -R mikuri12/mylfs -D incoming \
+            --pattern 'rootfs-base.tar.zst.part*' --pattern '*.sha256'
+          cat incoming/rootfs-base.tar.zst.part* > incoming/rootfs-base.tar.zst
+          grep 'rootfs-base.tar.zst$' incoming/rootfs-base.tar.zst.sha256 | ( cd incoming && sha256sum -c - )
+          rm -f incoming/rootfs-base.tar.zst.part*
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Restaurar chroot del rootfs
+        run: |
+          sudo mkdir -p /mnt/lfs
+          sudo tar --zstd -xpf incoming/rootfs-base.tar.zst -C /mnt --numeric-owner --keep-directory-symlink
+          rm -f incoming/rootfs-base.tar.zst
+          df -h /mnt
+
+      - name: Descargar fuentes SOLO de esta receta (sha256 verificados)
+        run: |
+          sudo mkdir -p /mnt/lfs/sources
+          r="recipes/$PKG"
+          srcs=$(awk '/^sources *=/{f=1} f{print} f && /\]/{exit}' "$r/recipe.toml" | grep -oE 'https?://[^", ]+') || true
+          wants=$(awk '/^checksums *=/{f=1} f{print} f && /\]/{exit}' "$r/recipe.toml" | grep -oE '[0-9a-f]{64}') || true
+          sidx=0
+          for src in $srcs; do
+            sidx=$((sidx+1))
+            want=$(printf '%s\n' $wants | sed -n "${sidx}p")
+            f="${PKG}__$(basename "$src")"
+            if [ ! -f "/mnt/lfs/sources/$f" ]; then
+              ok=0
+              for i in 1 2 3 4 5 6 7 8 9 10; do
+                sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src" && { ok=1; break; }
+                echo "retry $f (intento $i)"; sleep 20
+              done
+              [ $ok -eq 1 ] || { echo "descarga falló: $src"; exit 1; }
+            fi
+            got=$(sudo sha256sum "/mnt/lfs/sources/$f" | cut -d' ' -f1)
+            [ "$got" = "$want" ] || { echo "SHA256 BAD para $f (want $want)"; exit 1; }
+            echo "fuente OK: $f"
+          done
+
+      - name: Descargar paquetes ya publicados (dependencias) del Release
+        run: |
+          mkdir -p relpkgs
+          gh release download packages -R mikuri12/mymypkgs -D relpkgs \
+            --pattern '*.tar.zst' || true
+          rm -f relpkgs/${PKG}-*.tar.zst
+          ls relpkgs | wc -l
+          echo "relpkgs OK (sin la versión vieja de $PKG)"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Montar vfs y preparar chroot
+        run: |
+          set -e
+          sudo mkdir -p /mnt/lfs/{dev,proc,sys,run,dev/pts,dev/shm} /mnt/lfs/staging /mnt/lfs/packages /mnt/lfs/prebuilt
+          sudo mount --bind /dev /mnt/lfs/dev
+          sudo mount -vt devpts devpts -o gid=5,mode=0620 /mnt/lfs/dev/pts
+          sudo mount -vt proc proc /mnt/lfs/proc
+          sudo mount -vt sysfs sysfs /mnt/lfs/sys
+          sudo mount -vt tmpfs tmpfs /mnt/lfs/run
+          sudo mount -vt tmpfs -o nosuid,nodev tmpfs /mnt/lfs/dev/shm
+          sudo touch /mnt/lfs/etc/resolv.conf
+          sudo mount --bind /etc/resolv.conf /mnt/lfs/etc/resolv.conf
+
+          sudo cp -r recipes /mnt/lfs/
+          sudo cp -r tools /mnt/lfs/
+          sudo cp -r mymy keys /mnt/lfs/
+          sudo cp relpkgs/*.tar.zst /mnt/lfs/prebuilt/ 2>/dev/null || true
+
+          # herramientas de build según el campo build_tools de la receta
+          sudo bash tools/chroot-prep.sh "recipes/$PKG"
+
+          # vendor offline SOLO si esta receta es cargo y hay asset
+          if grep -q 'cargo' "recipes/$PKG/build.sh" 2>/dev/null; then
+            VASSET="/tmp/${PKG}-vendor.tar.gz"
+            if curl -fsSI -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/${PKG}-vendor-fixed.tar.gz" >/dev/null 2>&1; then
+              VASSET="/tmp/${PKG}-vendor-fixed.tar.gz"
+            fi
+            if curl -fsSL --retry 5 --retry-all-errors -o "$VASSET" \
+                 -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/$(basename "$VASSET")"; then
+              sudo mkdir -p "/mnt/lfs/sources/${PKG}-vendor"
+              sudo tar -xzf "$VASSET" -C "/mnt/lfs/sources/${PKG}-vendor" --strip-components=1
+              sudo mkdir -p /mnt/lfs/root/.cargo
+              {
+                printf '%s\n' \
+                  '[source.crates-io]' \
+                  'replace-with = "vendored-sources"' \
+                  '' \
+                  '[source.vendored-sources]' \
+                  "directory = \"/sources/${PKG}-vendor\""
+                if [ "$PKG" = "halley" ]; then
+                  printf '%s\n' \
+                    '[source."git+https://github.com/Smithay/smithay.git?rev=ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"]' \
+                    'git = "https://github.com/Smithay/smithay.git"' \
+                    'rev = "ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"' \
+                    'replace-with = "vendored-sources"'
+                fi
+              } | sudo tee /mnt/lfs/root/.cargo/config.toml >/dev/null
+              echo "vendor $PKG OK"
+            else
+              echo "::warning::vendor $PKG no disponible; se asume red en chroot"
+            fi
+          fi
+
+          # instalar dependencias ya publicadas en el chroot, en orden de capas
+          sudo chroot /mnt/lfs /usr/bin/env -i \
+            HOME=/root TERM="$TERM" PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \
+            bash -e /tools/install-prebuilt.sh /prebuilt
+          echo "dependencias instaladas en el chroot"
+
+      - name: Compilar SOLO este paquete dentro del chroot
+        run: |
+          set -e
+          sudo chroot /mnt/lfs /usr/bin/env -i \
+            HOME=/root TERM="$TERM" PATH=/opt/rust/bin:/usr/bin:/usr/sbin \
+            MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \
+            LIBCLANG_PATH=/opt/llvm/lib \
+            BINDGEN_EXTRA_CLANG_ARGS="-resource-dir /opt/llvm/lib/clang/19" \
+            CFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
+            CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
+            LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
+            XORG_PREFIX=/usr \
+            bash /tools/build-pkg.sh "/recipes/$PKG" /sources /packages || exit 1
+          PKGFILE=$(ls /mnt/lfs/packages/${PKG}-*.tar.zst 2>/dev/null | head -1)
+          [ -n "$PKGFILE" ] || { echo "no se produjo $PKG-*.tar.zst"; exit 1; }
+          sudo chroot /mnt/lfs /usr/bin/env -i \
+            PATH=/usr/bin:/usr/sbin LC_ALL=POSIX \
+            bash /tools/pkg-install.sh "/packages/$(basename "$PKGFILE")" || exit 1
+          echo "OK: $(basename "$PKGFILE")"
+
+      - name: Desmontar vfs
+        run: |
+          sudo umount /mnt/lfs/etc/resolv.conf 2>/dev/null || true
+          sudo umount /mnt/lfs/dev/pts /mnt/lfs/dev/shm /mnt/lfs/sys /mnt/lfs/proc /mnt/lfs/run /mnt/lfs/dev 2>/dev/null || true
+          ls -la /mnt/lfs/packages/
+
+      - name: Subir artefacto del paquete
+        uses: actions/upload-artifact@v4
+        with:
+          name: pkg-${{ inputs.package }}
+          path: |
+            /mnt/lfs/packages/${{ inputs.package }}-*.tar.zst
+            /mnt/lfs/packages/${{ inputs.package }}-*.tar.zst.sha256
+          retention-days: 3
+
+  publish:
+    needs: build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    # serializa la publicación al Release rodante entre todos los pkg-*
+    concurrency:
+      group: packages-release-publish
+      cancel-in-progress: false
+    env:
+      PKG: ${{ inputs.package }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Bajar artefacto y paquetes actuales del Release
+        run: |
+          mkdir -p relpkgs newpkg
+          sudo apt-get update -qq && sudo apt-get install -y -qq zstd
+          gh release download packages -R mikuri12/mymypkgs -D relpkgs --pattern '*.tar.zst' || true
+          rm -f relpkgs/${PKG}-*.tar.zst
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Descargar artefacto
+        uses: actions/download-artifact@v4
+        with:
+          name: pkg-${{ inputs.package }}
+          path: newpkg
+
+      - name: Generar index.toml y firmarlo
+        run: |
+          cp newpkg/${PKG}-*.tar.zst relpkgs/
+          bash tools/make-index.sh relpkgs > index.toml
+          cat index.toml | head -20
+          if [ -n "${{ secrets.MYMY_SIGNING_KEY }}" ]; then
+            printf '%s' "${{ secrets.MYMY_SIGNING_KEY }}" > /tmp/mymy-key
+            chmod 600 /tmp/mymy-key
+            ssh-keygen -Y sign -f /tmp/mymy-key -n mymy index.toml
+            rm -f /tmp/mymy-key
+            ls index.toml.sig
+          else
+            echo "::warning::secret MYMY_SIGNING_KEY no configurado; index sin firmar"
+          fi
+
+      - name: Publicar al Release rodante 'packages' (índice AL FINAL)
+        run: |
+          gh release view packages -R mikuri12/mymypkgs >/dev/null 2>&1 || \
+            gh release create packages -R mikuri12/mymypkgs \
+              --title "packages" --notes "Release rodante: paquetes mymypkgs (un run por paquete). El index.toml se sube SIEMPRE al final."
+          gh release upload packages -R mikuri12/mymypkgs --clobber \
+            newpkg/${PKG}-*.tar.zst newpkg/${PKG}-*.tar.zst.sha256
+          if [ -f index.toml.sig ]; then
+            gh release upload packages -R mikuri12/mymypkgs --clobber index.toml index.toml.sig
+          else
+            gh release upload packages -R mikuri12/mymypkgs --clobber index.toml
+          fi
+          echo "publicado: $(ls newpkg/${PKG}-*.tar.zst)"
+        env:
+          GH_TOKEN: ${{ github.token }}

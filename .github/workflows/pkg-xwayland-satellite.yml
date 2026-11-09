@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'xwayland-satellite': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-xwayland-satellite
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/xwayland-satellite/**'
+      - '.github/workflows/pkg-xwayland-satellite.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-xwayland-satellite
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: xwayland-satellite

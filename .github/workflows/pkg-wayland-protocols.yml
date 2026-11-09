@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'wayland-protocols': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-wayland-protocols
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/wayland-protocols/**'
+      - '.github/workflows/pkg-wayland-protocols.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-wayland-protocols
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: wayland-protocols

@@ -13,3 +13,5 @@ checksums = [
   "sha256:445ed8208a6e4823de1226a74ca319d3600e83f6369f99b14265006599c32ccb",
 ]
 config_files = []
+build_tools = []
+upstream = "github:emersion/slurp"

@@ -7,3 +7,5 @@ sources = ["https://xcb.freedesktop.org/dist/xcb-util-renderutil-0.3.10.tar.xz"]
 checksums = ["3e15d4f0e22d8ddbfbb9f5d77db43eacd7a304029bf25a6166cc63caa96d04ba"]
 depends = ["libxcb", "xcb-util"]
 makedepends = ["libxcb", "xcb-util"]
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/xorg/util/xcb-util-renderutil"

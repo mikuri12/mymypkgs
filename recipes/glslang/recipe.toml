@@ -7,3 +7,5 @@ makedepends = ["spirv-tools", "spirv-headers"]
 sources = ["https://github.com/KhronosGroup/glslang/archive/15.4.0/glslang-15.4.0.tar.gz"]
 checksums = ["sha256:b16c78e7604b9be9f546ee35ad8b6db6f39bbbbfb19e8d038b6fe2ea5bba4ff4"]
 config_files = []
+build_tools = ["cmake"]
+upstream = "github:KhronosGroup/glslang"

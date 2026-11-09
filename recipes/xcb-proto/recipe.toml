@@ -7,3 +7,5 @@ sources = ["https://xcb.freedesktop.org/dist/xcb-proto-1.17.0.tar.xz"]
 checksums = ["2c1bacd2110f4799f74de6ebb714b94cf6f80fb112316b1219480fd22562148c"]
 depends = []
 makedepends = ["python3"]
+build_tools = []
+upstream = "gitlab:gitlab.freedesktop.org/xorg/proto/xcb-proto"
