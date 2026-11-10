@@ -7,5 +7,5 @@ makedepends = ["wayland", "wayland-protocols", "libxkbcommon", "libinput", "seat
 sources = ["https://github.com/mikuri12/halley/archive/refs/tags/v0.8.0-mikuri.20.tar.gz"]
 checksums = ["sha256:7e51e5c3815bbbd959fa6f684cf1919579b624a33225c29b32cf92028e609317"]
 config_files = ["/etc/halley/halley.rune"]
-build_tools = ["rust"]
+build_tools = ["rust", "libclang"]
 upstream = "github:mikuri12/halley"
