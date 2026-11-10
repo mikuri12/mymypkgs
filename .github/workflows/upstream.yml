@@ -21,6 +21,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v5
 
+      - name: Identidad git para los commits del rolling
+        run: |
+          git config user.name "mylfs-ci"
+          git config user.email "mylfs-ci@users.noreply.github.com"
+
       - name: Asegurar workflows pkg-* al día
         run: |
           bash tools/gen-pkg-workflows.sh
