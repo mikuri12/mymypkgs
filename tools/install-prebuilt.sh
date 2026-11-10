@@ -33,7 +33,8 @@ for f in "$DIR"/*.tar.zst; do
 done
 
 install_one() {
-  local name=$1 f=${BEST[$name]#*|}
+  local name=$1
+  local f=${BEST[$name]#*|}
   bash /tools/pkg-install.sh "$f"
 }
 
