@@ -1,11 +1,11 @@
 name = "libsecret"
-version = "0.21.7"
+version = "0.21.8.2"
 release = 1
 description = "libsecret 0.21.7 (secretos; Noctalia la exige)."
 depends = ["glib"]
 makedepends = ["glib"]
-sources = ["https://download.gnome.org/sources/libsecret/0.21/libsecret-0.21.7.tar.xz"]
-checksums = ["sha256:6b452e4750590a2b5617adc40026f28d2f4903de15f1250e1d1c40bfd68ed55e"]
+sources = ["https://github.com/GNOME/libsecret/archive/refs/tags/0.21.8.2.tar.gz"]
+checksums = ["sha256:83b63bdf73124e5de7a24653aee518e861daee65f6ec8593d20fb87f3097bd98"]
 config_files = []
 build_tools = []
 upstream = "github:GNOME/libsecret"

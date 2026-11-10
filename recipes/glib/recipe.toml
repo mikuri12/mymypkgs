@@ -1,11 +1,11 @@
 name = "glib"
-version = "2.84.4"
+version = "start"
 release = 1
 description = "GNOME core library (glib-2.0, gobject, gio)"
 arch = "x86_64-v3"
 depends = ["libffi", "pcre2"]
 makedepends = []
-sources = ["https://download.gnome.org/sources/glib/2.84/glib-2.84.4.tar.xz"]
-checksums = ["sha256:8a9ea10943c36fc117e253f80c91e477b673525ae45762942858aef57631bb90"]
+sources = ["https://github.com/GNOME/glib/archive/refs/tags/start.tar.gz"]
+checksums = ["sha256:61ae0ab0c88dd3fae18b114ba81872e405252949e17d974046fbfc47fd591e29"]
 build_tools = []
 upstream = "github:GNOME/glib"

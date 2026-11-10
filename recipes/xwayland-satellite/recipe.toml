@@ -1,11 +1,11 @@
 name = "xwayland-satellite"
-version = "0.6"
+version = "0.8.3"
 release = 1
 description = "xwayland-satellite 0.6 (runtime XWayland de Halley, PLAN Fase 2 paso 5)."
 depends = ["wayland", "libxkbcommon", "pixman", "libxcb", "xcb-util-cursor"]
 makedepends = ["wayland", "libxkbcommon", "pixman", "libxcb", "xcb-util-cursor"]
-sources = ["https://github.com/Supreeeme/xwayland-satellite/archive/refs/tags/v0.6.tar.gz"]
-checksums = ["sha256:81d23bf4b75e841f14039efc0b2b1a0ffa81ed6715ca21339d63423e056ccb25"]
+sources = ["https://github.com/Supreeeme/xwayland-satellite/archive/refs/tags/v0.8.3.tar.gz"]
+checksums = ["sha256:8b32873d7d740143ce9efa3cfb43c17d0176b89d2e8ffaa497db709f154fc478"]
 config_files = []
 build_tools = ["rust", "libclang"]
 upstream = "github:Supreeeme/xwayland-satellite"

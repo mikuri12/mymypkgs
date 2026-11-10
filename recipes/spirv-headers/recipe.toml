@@ -1,11 +1,11 @@
 name = "spirv-headers"
-version = "1.4.321.0"
+version = "ulkan-sdk-1.4.363.0"
 release = 1
 description = "SPIRV-Headers (vulkan-sdk-1.4.321.0) — solo headers, cmake install a /usr/include/spirv. BLFS 12.4. Build-dep de spirv-tools y glslang."
 depends = []
 makedepends = []
-sources = ["https://github.com/KhronosGroup/SPIRV-Headers/archive/vulkan-sdk-1.4.321.0/SPIRV-Headers-vulkan-sdk-1.4.321.0.tar.gz"]
-checksums = ["sha256:5bbea925663d4cd2bab23efad53874f2718248a73dcaf9dd21dff8cb48e602fc"]
+sources = ["https://github.com/KhronosGroup/SPIRV-Headers/archive/refs/tags/vulkan-sdk-1.4.363.0.tar.gz"]
+checksums = ["sha256:5b3a0d099f5c7649e29c0938476c462e71d66ad89a0bde42fa1ba3eb476956c9"]
 config_files = []
 build_tools = ["cmake"]
 upstream = "github:KhronosGroup/SPIRV-Headers"

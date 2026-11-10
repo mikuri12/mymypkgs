@@ -1,11 +1,11 @@
 name = "wayland-protocols"
-version = "1.49"
+version = "1.50"
 release = 1
 description = "Protocols and extensions complementing the Wayland core protocol"
 depends = []
 makedepends = []
-sources = ["https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.49/downloads/wayland-protocols-1.49.tar.xz"]
-checksums = ["sha256:ec4c8f74942d6dff7ace8b4ce4764f0ef9ff618a935d974ea77edee2ad240b14"]
+sources = ["https://gitlab.freedesktop.org/wayland/wayland-protocols/-/archive/1.50/wayland-protocols-1.50.tar.gz"]
+checksums = ["sha256:6f618077d14f6cd13be53133bc0cfb50107cfff2b98b25c06510300ce3a410da"]
 config_files = []
 build_tools = []
 upstream = "gitlab:gitlab.freedesktop.org/wayland/wayland-protocols"
