@@ -36,13 +36,20 @@ jobs:
           TAG=$(head -1 ROOTFS_TAG)
           echo "ROOTFS_TAG=$TAG"
           mkdir -p incoming
-          gh release download "$TAG" -R mikuri12/mylfs -D incoming \
-            --pattern 'rootfs-base.tar.zst.part*' --pattern '*.sha256'
-          cat incoming/rootfs-base.tar.zst.part* > incoming/rootfs-base.tar.zst
+          # descarga DIRECTA del CDN (sin API de GitHub: 83 runs paralelos
+          # agotan el rate limit del GITHUB_TOKEN). Partes numeradas partNN.
+          base="https://github.com/mikuri12/mylfs/releases/download/$TAG"
+          curl -fsSL --retry 5 --retry-all-errors -o incoming/rootfs-base.tar.zst.sha256 "$base/rootfs-base.tar.zst.sha256"
+          : > incoming/rootfs-base.tar.zst
+          for i in $(seq -w 0 30); do
+            if curl -fsSL --retry 5 --retry-all-errors -o "incoming/rootfs-base.tar.zst.part$i" "$base/rootfs-base.tar.zst.part$i"; then
+              cat "incoming/rootfs-base.tar.zst.part$i" >> incoming/rootfs-base.tar.zst
+              rm -f "incoming/rootfs-base.tar.zst.part$i"
+            else
+              break
+            fi
+          done
           grep 'rootfs-base.tar.zst$' incoming/rootfs-base.tar.zst.sha256 | ( cd incoming && sha256sum -c - )
-          rm -f incoming/rootfs-base.tar.zst.part*
-        env:
-          GH_TOKEN: ${{ github.token }}
 
       - name: Restaurar chroot del rootfs
         run: |
@@ -78,12 +85,18 @@ jobs:
       - name: Descargar paquetes ya publicados (dependencias) del Release
         run: |
           mkdir -p relpkgs
-          for i in 1 2 3 4 5 6; do
-            gh release download packages -R mikuri12/mymypkgs -D relpkgs \
-              --pattern '*.tar.zst' && break
-            echo "release download retry $i (rate limit?)"; sleep 45
-          done || true
-          rm -f relpkgs/${PKG}-*.tar.zst
+          # paquetes vía index.toml + descarga directa (sin API)
+          curl -fsSL --retry 5 --retry-all-errors \
+            "https://github.com/mikuri12/mymypkgs/releases/download/packages/index.toml" -o index.toml
+          files=$(grep -oE 'filename = "[^"]+"' index.toml | cut -d'"' -f2 | grep '\.tar\.zst$')
+          echo "$files" | while read -r f; do
+            case "$f" in ${PKG}-*) continue ;; esac
+            for i in 1 2 3 4 5; do
+              curl -fsSL --retry 3 --retry-all-errors -o "relpkgs/$f" \
+                "https://github.com/mikuri12/mymypkgs/releases/download/packages/$f" && break
+              echo "retry $f ($i)"; sleep 30
+            done
+          done
           ls relpkgs | wc -l
           echo "relpkgs OK (sin la versión vieja de $PKG)"
         env:
@@ -201,13 +214,14 @@ jobs:
         run: |
           mkdir -p relpkgs newpkg
           sudo apt-get update -qq && sudo apt-get install -y -qq zstd
-          for i in 1 2 3 4 5 6 7 8; do
-            gh release download packages -R mikuri12/mymypkgs -D relpkgs --pattern '*.tar.zst' && break
-            echo "release download retry $i"; sleep 60
-          done || true
-          rm -f relpkgs/${PKG}-*.tar.zst
-        env:
-          GH_TOKEN: ${{ github.token }}
+          curl -fsSL --retry 5 --retry-all-errors \
+            "https://github.com/mikuri12/mymypkgs/releases/download/packages/index.toml" -o index.toml
+          files=$(grep -oE 'filename = "[^"]+"' index.toml | cut -d'"' -f2 | grep '\.tar\.zst$')
+          echo "$files" | while read -r f; do
+            case "$f" in ${PKG}-*) continue ;; esac
+            curl -fsSL --retry 3 -o "relpkgs/$f" \
+              "https://github.com/mikuri12/mymypkgs/releases/download/packages/$f" || true
+          done
 
       - name: Descargar artefacto
         uses: actions/download-artifact@v4
