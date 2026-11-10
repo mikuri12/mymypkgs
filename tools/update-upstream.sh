@@ -35,7 +35,11 @@ update_one() {
   case "$scheme" in
     github)
       tag=$(gh api "repos/$rest/releases/latest" -q .tag_name 2>/dev/null) || tag=$(gh api "repos/$rest/tags?per_page=1" -q ".[0].name" 2>/dev/null) || tag=""
-      url="https://github.com/$rest/archive/refs/tags/$tag.tar.gz"
+      cur_src=$(grep -m1 '^sources' "$dir/recipe.toml" | cut -d'"' -f2)
+      case "$cur_src" in
+        */releases/download/*) url="https://github.com/$rest/releases/download/$tag/$(basename "$cur_src")" ;;
+        *) url="https://github.com/$rest/archive/refs/tags/$tag.tar.gz" ;;
+      esac
       ;;
     codeberg)
       # API Gitea: /api/v1/repos/{owner}/{repo}/releases/latest
