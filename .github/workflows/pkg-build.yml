@@ -78,8 +78,11 @@ jobs:
       - name: Descargar paquetes ya publicados (dependencias) del Release
         run: |
           mkdir -p relpkgs
-          gh release download packages -R mikuri12/mymypkgs -D relpkgs \
-            --pattern '*.tar.zst' || true
+          for i in 1 2 3 4 5 6; do
+            gh release download packages -R mikuri12/mymypkgs -D relpkgs \
+              --pattern '*.tar.zst' && break
+            echo "release download retry $i (rate limit?)"; sleep 45
+          done || true
           rm -f relpkgs/${PKG}-*.tar.zst
           ls relpkgs | wc -l
           echo "relpkgs OK (sin la versión vieja de $PKG)"
@@ -198,7 +201,10 @@ jobs:
         run: |
           mkdir -p relpkgs newpkg
           sudo apt-get update -qq && sudo apt-get install -y -qq zstd
-          gh release download packages -R mikuri12/mymypkgs -D relpkgs --pattern '*.tar.zst' || true
+          for i in 1 2 3 4 5 6 7 8; do
+            gh release download packages -R mikuri12/mymypkgs -D relpkgs --pattern '*.tar.zst' && break
+            echo "release download retry $i"; sleep 60
+          done || true
           rm -f relpkgs/${PKG}-*.tar.zst
         env:
           GH_TOKEN: ${{ github.token }}
@@ -226,15 +232,16 @@ jobs:
 
       - name: Publicar al Release rodante 'packages' (índice AL FINAL)
         run: |
-          gh release view packages -R mikuri12/mymypkgs >/dev/null 2>&1 || \
-            gh release create packages -R mikuri12/mymypkgs \
+          ghretry() { for i in 1 2 3 4 5 6 7 8 9 10; do "$@" && return 0; echo "gh retry $i: $*"; sleep 60; done; return 1; }
+          ghretry gh release view packages -R mikuri12/mymypkgs >/dev/null 2>&1 || \
+            ghretry gh release create packages -R mikuri12/mymypkgs \
               --title "packages" --notes "Release rodante: paquetes mymypkgs (un run por paquete). El index.toml se sube SIEMPRE al final."
-          gh release upload packages -R mikuri12/mymypkgs --clobber \
+          ghretry gh release upload packages -R mikuri12/mymypkgs --clobber \
             newpkg/${PKG}-*.tar.zst newpkg/${PKG}-*.tar.zst.sha256
           if [ -f index.toml.sig ]; then
-            gh release upload packages -R mikuri12/mymypkgs --clobber index.toml index.toml.sig
+            ghretry gh release upload packages -R mikuri12/mymypkgs --clobber index.toml index.toml.sig
           else
-            gh release upload packages -R mikuri12/mymypkgs --clobber index.toml
+            ghretry gh release upload packages -R mikuri12/mymypkgs --clobber index.toml
           fi
           echo "publicado: $(ls newpkg/${PKG}-*.tar.zst)"
         env:
