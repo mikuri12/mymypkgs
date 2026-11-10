@@ -21,7 +21,8 @@ done
 # los que no estén en order.txt: al final, alfabético
 for f in "$DIR"/*.tar.zst; do
   [ -e "$f" ] || continue
-  p=$(basename "$f"); p=${p%%-*}
-  case " $installed " in *" $p "*) ;; *) bash /tools/pkg-install.sh "$f" ;; esac
+  b=$(basename "$f" .tar.zst)
+  p=${b%-*-*}   # quita -<version>-<release> (wayland-protocols-1.49-1 -> wayland-protocols)
+  case " $installed " in *" $p "*) ;; *) bash /tools/pkg-install.sh "$f"; installed="$installed $p" ;; esac
 done
 echo "==> prebuilt OK ($(ls "$DIR"/*.tar.zst 2>/dev/null | wc -l) paquetes)"
