@@ -25,7 +25,7 @@ newer() { # newer <actual> <nueva> → 0 si nueva > actual
 }
 
 update_one() {
-  local dir=$1 pkg up scheme rest tag url ver cur
+  local dir=$1 pkg up scheme rest tag url ver cur out
   pkg=$(basename "$dir")
   up=$(awk -F'=' -v k="upstream" '$1 ~ "^[[:space:]]*"k"[[:space:]]*$" {v=$2; gsub(/^[[:space:]]+|[[:space:]]+$/,"",v); gsub(/^"|"$/,"",v); print v; exit}' "$dir/recipe.toml")
   [ -n "$up" ] || { echo "$pkg: sin upstream, skip"; return 0; }
@@ -34,33 +34,26 @@ update_one() {
 
   case "$scheme" in
     github)
-      tag=$(gh api "repos/$rest/releases/latest" -q .tag_name 2>/dev/null \
-           || gh api "repos/$rest/tags?per_page=1" -q '.[0].name')
+      tag=$(gh api "repos/$rest/releases/latest" -q .tag_name 2>/dev/null) || tag=$(gh api "repos/$rest/tags?per_page=1" -q ".[0].name" 2>/dev/null) || tag=""
       url="https://github.com/$rest/archive/refs/tags/$tag.tar.gz"
       ;;
     codeberg)
       # API Gitea: /api/v1/repos/{owner}/{repo}/releases/latest
-      tag=$(curl -fsSL "https://codeberg.org/api/v1/repos/$rest/releases/latest" 2>/dev/null \
-            | python3 -c "import json,sys; print(json.load(sys.stdin)['tag_name'])" 2>/dev/null \
-           || curl -fsSL "https://codeberg.org/api/v1/repos/$rest/tags?limit=1" \
-            | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['name'])")
+      tag=$(curl -fsSL "https://codeberg.org/api/v1/repos/$rest/releases/latest" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin)['tag_name'])" 2>/dev/null) || tag=$(curl -fsSL "https://codeberg.org/api/v1/repos/$rest/tags?limit=1" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['name'])" 2>/dev/null) || tag=""
       url="https://codeberg.org/$rest/archive/$tag.tar.gz"
       ;;
     gitlab)
-      local host=${rest%%:*} path=${rest#*:}
+      local host=${rest%%/*} path=${rest#*/}
       local enc
       enc=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1],safe=''))" "$path")
-      tag=$(curl -fsSL "https://$host/api/v4/projects/$enc/releases/permalink/latest" 2>/dev/null \
-            | python3 -c "import json,sys; print(json.load(sys.stdin)['tag_name'])" 2>/dev/null \
-           || curl -fsSL "https://$host/api/v4/projects/$enc/repository/tags?per_page=1" \
-            | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['name'])")
+      tag=$(curl -fsSL "https://$host/api/v4/projects/$enc/releases/permalink/latest" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin)['tag_name'])" 2>/dev/null) || tag=$(curl -fsSL "https://$host/api/v4/projects/$enc/repository/tags?per_page=1" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin)[0]['name'])" 2>/dev/null) || tag=""
       url="https://$host/$path/-/archive/$tag/$(basename "$path")-$tag.tar.gz"
       ;;
     *) echo "$pkg: esquema desconocido '$scheme'"; return 0 ;;
   esac
-  [ -n "$tag" ] || { echo "$pkg: no se pudo resolver tag de $up"; return 0; }
+  echo "$tag" | grep -qE "^[A-Za-z0-9._+~-]+$" && [ "$tag" != "null" ] || { echo "$pkg: tag inválido de $up, skip"; return 0; }
 
-  ver=$(norm "$tag")
+  ver=$(norm "$tag"); ver=${ver#"$pkg"-}
   cur=$(awk -F'=' -v k="version" '$1 ~ "^[[:space:]]*"k"[[:space:]]*$" {v=$2; gsub(/^[[:space:]]+|[[:space:]]+$/,"",v); gsub(/^"|"$/,"",v); print v; exit}' "$dir/recipe.toml")
   if ! newer "$cur" "$ver"; then
     echo "$pkg: $cur == último upstream ($tag), sin cambio"
@@ -69,7 +62,7 @@ update_one() {
 
   echo "$pkg: $cur -> $ver (tag $tag)"
   tmp=$(mktemp -d)
-  curl -fsSL --retry 3 -o "$tmp/src.tar.gz" "$url"
+  if ! curl -fsSL --retry 3 -o "$tmp/src.tar.gz" "$url"; then echo "$pkg: fallo descargando $url, skip"; return 0; fi
   sha=$(sha256sum "$tmp/src.tar.gz" | cut -d' ' -f1)
   rm -rf "$tmp"
 
