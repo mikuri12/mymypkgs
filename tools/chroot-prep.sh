@@ -9,7 +9,7 @@ set -euo pipefail
 RECIPE_DIR=$1
 LFS=/mnt/lfs
 
-get() { awk -F'=' -v k="$1" '$1 ~ "^[[:space:]]*"k"[[:space:]]*$" {v=$2; gsub(/^[[:space:]]+|[[:space:]]+$/,"",v); gsub(/^"|"$/,"",v); print v; exit}' "$RECIPE_DIR/recipe.toml"; }
+get() { awk -F'=' -v k="$1" '$1 ~ "^[[:space:]]*"k"[[:space:]]*$" {v=$2; gsub(/^[[:space:]]+|[[:space:]]+$/,"",v); gsub(/^"|"$/,"",v); gsub(/^\[|\]$/,"",v); gsub(/"/,"",v); gsub(/,/," ",v); print v; exit}' "$RECIPE_DIR/recipe.toml"; }
 
 BT=$(get build_tools)
 echo "build_tools de $(basename "$RECIPE_DIR"): ${BT:-<ninguno>}"
