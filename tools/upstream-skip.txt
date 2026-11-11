@@ -1,0 +1,11 @@
+# Paquetes que NO se auto-bumpan: su build.sh esta atado a la version verde
+# actual (fallaron en la ola 3ffcb1f o rompen a un consumidor).
+# Quitar de aqui solo tras arreglar build.sh y verificar un pkg-* verde.
+fontconfig
+foot
+libdisplay-info
+libical
+libwebp
+lua
+pipewire
+xwayland-satellite

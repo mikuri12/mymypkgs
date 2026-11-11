@@ -1,11 +1,11 @@
 name = "libdisplay-info"
-version = "0.4.0"
+version = "0.3.0"
 release = 1
 description = "libdisplay-info 0.3.0 (EDID/DisplayID). smithay/libdisplay-info-sys 0.3.0 exige pkg-config libdisplay-info < 0.4.0 (run 41733819575 fallo con 0.4.0 instalado); wlroots 0.20.0 acepta >=0.2.0. hwdata dep native opcional con fallback a /usr/share/hwdata/pnp.ids."
 depends = ["hwdata"]
 makedepends = ["hwdata"]
-sources = ["https://gitlab.freedesktop.org/emersion/libdisplay-info/-/archive/0.4.0/libdisplay-info-0.4.0.tar.gz"]
-checksums = ["sha256:787b58aec473830b0030251ba2b880560b4b3853dc5d6961a6e9701abae29b55"]
+sources = ["https://gitlab.freedesktop.org/emersion/libdisplay-info/-/archive/0.3.0/libdisplay-info-0.3.0.tar.gz"]
+checksums = ["sha256:2b467e3336aec63819d6aca28d7310d3dc7415b2b3a3c3a5aec9d3727053c078"]
 config_files = []
 build_tools = []
 upstream = "gitlab:gitlab.freedesktop.org/emersion/libdisplay-info"
