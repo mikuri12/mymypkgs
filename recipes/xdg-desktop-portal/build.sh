@@ -14,6 +14,7 @@
 # Opcionales: libportal (disabled), geoclue (disabled: sin geoclue en el
 # chroot), systemd (disabled: el PLAN usa turnstile/runit), flatpak-interfaces
 # (disabled: no hay flatpak), docbook-docs (disabled: no hay xmlto).
+# sandboxed-image-validation = BOOLEAN (default true) en meson_options.txt 1.18.3: con true, meson.build:117 hace find_program(bwrap) obligatorio y el build falla (pkg-xdg-desktop-portal 43080477047/43087640170/43092939680, packages 43080476644/43085952950/43092812075). Con false no se exige bubblewrap en el chroot.
 #
 # Servicio de USUARIO (turnstile): /usr/share/mymy/user-services/...
 # El .desktop de sesión lo pone Halley/Noctalia, no este paquete.
@@ -25,6 +26,7 @@ meson setup --prefix=/usr --buildtype=release \
   -D geoclue=disabled \
   -D systemd=disabled \
   -D docbook-docs=disabled \
+  -D sandboxed-image-validation=false \
   -D dbus-service-dir=/usr/share/dbus-1/services \
   ..
 ninja
