@@ -1,11 +1,11 @@
 name = "lua"
-version = "5.5.1"
+version = "5.4.8"
 release = 1
 description = "Lua 5.4 scripting language (necesaria para wireplumber modules)"
 arch = "x86_64-v3"
 depends = []
 makedepends = []
-sources = ["https://github.com/lua/lua/archive/refs/tags/v5.5.1.tar.gz"]
-checksums = ["sha256:ffed0b0e2987e66b0142491b26c63170ffd2d86e425ff3703799f4933fd91810"]
+sources = ["https://www.lua.org/ftp/lua-5.4.8.tar.gz"]
+checksums = ["sha256:4f18ddae154e793e46eeab727c59ef1c0c0c2b744e7b94219710d76f530629ae"]
 build_tools = []
 upstream = "github:lua/lua"

@@ -1,10 +1,10 @@
 name = "libxau"
-version = "libXau-1.0.12"
+version = "1.0.12"
 release = 1
 description = "libxau 1.0.12 — Xorg auxiliary library (dependencia de libxcb)"
 build_system = "autotools"
-sources = ["https://gitlab.freedesktop.org/xorg/lib/libXau/-/archive/libXau-1.0.12/libXau-libXau-1.0.12.tar.gz"]
-checksums = ["sha256:afe38053fdbd5726a97c5ec63279c10e2451bf2f75160450336f6db1fbe261db"]
+sources = ["https://xorg.freedesktop.org/archive/individual/lib/libXau-1.0.12.tar.xz"]
+checksums = ["74d0e4dfa3d39ad8939e99bda37f5967aba528211076828464d2777d477fc0fb"]
 depends = ["xorgproto"]
 makedepends = ["xorgproto"]
 build_tools = []

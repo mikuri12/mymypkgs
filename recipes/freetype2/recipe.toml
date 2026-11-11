@@ -1,11 +1,11 @@
 name = "freetype2"
-version = "ER-2-15-0"
+version = "2.13.3"
 release = 1
 description = "FreeType 2.13.3 (dep de fontconfig, cairo, pango, noctalia)."
 depends = ["zlib", "libpng"]
 makedepends = ["zlib", "libpng"]
-sources = ["https://gitlab.freedesktop.org/freetype/freetype/-/archive/VER-2-15-0/freetype-VER-2-15-0.tar.gz"]
-checksums = ["sha256:87c7f1f8699b91e89f773f7dcfa505b044e1dae67f62a55d4e29c3afdcac4fb8"]
+sources = ["https://download.savannah.gnu.org/releases/freetype/freetype-2.13.3.tar.xz"]
+checksums = ["sha256:0550350666d427c74daeb85d5ac7bb353acba5f76956395995311a9c6f063289"]
 config_files = []
 build_tools = []
 upstream = "gitlab:gitlab.freedesktop.org/freetype/freetype"

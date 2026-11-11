@@ -1,11 +1,11 @@
 name = "expat"
-version = "2.10.0"
+version = "2.6.4"
 release = 1
 description = "Expat 2.6.4 (parser XML; dep de sdbus-c++ y mesa)."
 depends = []
 makedepends = []
-sources = ["https://github.com/libexpat/libexpat/archive/refs/tags/R_2_10_0.tar.gz"]
-checksums = ["sha256:b3644a12f62d7762b62c444f69d169ba0234f13138d0240244bca64cbe35286f"]
+sources = ["https://github.com/libexpat/libexpat/releases/download/R_2_6_4/expat-2.6.4.tar.xz"]
+checksums = ["sha256:a695629dae047055b37d50a0ff4776d1d45d0a4c842cf4ccee158441f55ff7ee"]
 config_files = []
 build_tools = ["cmake"]
 upstream = "github:libexpat/libexpat"

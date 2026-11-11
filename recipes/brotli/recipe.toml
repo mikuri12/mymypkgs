@@ -1,11 +1,11 @@
 name = "brotli"
-version = "1.2.1"
+version = "1.1.0"
 release = 1
 description = "brotli 1.1.0 (BLFS 12.4). Compresion; requerida por libjxl (find_package(Brotli) en third_party/CMakeLists.txt)."
 depends = []
 makedepends = []
-sources = ["https://github.com/google/brotli/archive/refs/tags/v1.2.1.tar.gz"]
-checksums = ["sha256:98d35d11a78dc453aebb7d10c3748f3f73ff78c8267c0dc697b8631f67bf7e8f"]
+sources = ["https://github.com/google/brotli/archive/v1.1.0/brotli-1.1.0.tar.gz"]
+checksums = ["sha256:e720a6ca29428b803f4ad165371771f5398faba397edf6778837a18599ea13ff"]
 config_files = []
 build_tools = ["cmake"]
 upstream = "github:google/brotli"

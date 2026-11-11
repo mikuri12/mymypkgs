@@ -1,11 +1,11 @@
 name = "hwdata"
-version = "0.413"
+version = "0.398"
 release = 1
 description = "hwdata 0.398 (pci.ids/usb.ids/pnp.ids/etc). Instala hwdata.pc con pkgdatadir -> /usr/share/hwdata (libdisplay-info 0.4.0 lo busca via dependency hwdata native)."
 depends = []
 makedepends = []
-sources = ["https://github.com/vcrhonek/hwdata/archive/refs/tags/v0.413.tar.gz"]
-checksums = ["sha256:5a71ab7a48c668ef912fcfdbec046949087019f8dd7fb967445d36fbeb778350"]
+sources = ["https://github.com/vcrhonek/hwdata/archive/refs/tags/v0.398.tar.gz"]
+checksums = ["sha256:cd52f7eb5c0f438a3605d1799d9f345a2894ad0f269ab6e8441f55e27e80dd78"]
 config_files = []
 build_tools = []
 upstream = "github:vcrhonek/hwdata"

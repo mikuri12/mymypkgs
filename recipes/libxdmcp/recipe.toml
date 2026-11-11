@@ -1,10 +1,10 @@
 name = "libxdmcp"
-version = "libXdmcp-1.1.5"
+version = "1.1.5"
 release = 1
 description = "libxdmcp 1.1.5 — Xorg auxiliary library (dependencia de libxcb)"
 build_system = "autotools"
-sources = ["https://gitlab.freedesktop.org/xorg/lib/libXdmcp/-/archive/libXdmcp-1.1.5/libXdmcp-libXdmcp-1.1.5.tar.gz"]
-checksums = ["sha256:9d28fb4c29c594471aeec7fc42d70fdf30f3a183d0748862fedccf85948eb698"]
+sources = ["https://xorg.freedesktop.org/archive/individual/lib/libXdmcp-1.1.5.tar.xz"]
+checksums = ["d8a5222828c3adab70adf69a5583f1d32eb5ece04304f7f8392b6a353aa2228c"]
 depends = []
 makedepends = []
 build_tools = []

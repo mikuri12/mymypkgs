@@ -1,11 +1,11 @@
 name = "librsvg"
-version = "release-2-11-1"
+version = "2.61.1"
 release = 1
 description = "librsvg 2.61.1 (SVG; Noctalia iconos). CARGO offline vía vendor (librsvg usa cargo para el loader)."
 depends = ["cairo", "pango", "harfbuzz", "glib", "libxml2", "pixman", "cargo-c"]
 makedepends = ["cairo", "pango", "harfbuzz", "glib", "libxml2", "pixman", "cargo-c"]
-sources = ["https://github.com/GNOME/librsvg/archive/refs/tags/release-2-11-1.tar.gz"]
-checksums = ["sha256:ddd58972f716e849d6d8dd7a4a9f125b61b6d35d07aaad4b827d3216d7e2ec75"]
+sources = ["https://download.gnome.org/sources/librsvg/2.61/librsvg-2.61.1.tar.xz"]
+checksums = ["sha256:bc1bbcd419120b098db28bea55335d9de2470d4e6a9f6ee97207b410fc15867d"]
 config_files = []
 build_tools = ["rust", "libclang"]
 upstream = "github:GNOME/librsvg"

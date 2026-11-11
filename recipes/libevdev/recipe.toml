@@ -1,11 +1,11 @@
 name = "libevdev"
-version = "1.14.0"
+version = "1.10.0"
 release = 1
 description = "Wrapper library for evdev devices"
 depends = []
 makedepends = []
-sources = ["https://gitlab.freedesktop.org/libevdev/libevdev/-/archive/libevdev-1.14.0/libevdev-libevdev-1.14.0.tar.gz"]
-checksums = ["sha256:14901e22b3acf2e5298a7d043b30dc66a88253be3b6e32cef026e4b4eddad406"]
+sources = ["https://www.freedesktop.org/software/libevdev/libevdev-1.10.0.tar.xz"]
+checksums = ["sha256:3522c26e2c148be0ad68ce26fbced408a4185dea90bfe8079dc82b8ace962d4a"]
 config_files = []
 build_tools = []
 upstream = "gitlab:gitlab.freedesktop.org/libevdev/libevdev"

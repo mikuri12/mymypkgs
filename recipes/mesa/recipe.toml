@@ -1,11 +1,11 @@
 name = "mesa"
-version = "26.3.0"
+version = "25.1.8"
 release = 1
 description = "Mesa 3D: solo gallium iris + vulkan intel (HD 530), sin LLVM. Fuentes BLFS 12.4 (md5 fe3eb39e8a3c6fbb36eb3da57be022e7)."
 depends = ["libdrm", "libglvnd", "wayland", "wayland-protocols", "libxkbcommon", "pixman", "zlib", "eudev", "mako", "pyyaml", "glslang"]
 makedepends = ["libdrm", "libglvnd", "wayland", "wayland-protocols", "libxkbcommon", "pixman", "zlib", "eudev", "mako", "pyyaml", "glslang"]
-sources = ["https://gitlab.freedesktop.org/mesa/mesa/-/archive/mesa-26.3.0/mesa-mesa-26.3.0.tar.gz"]
-checksums = ["sha256:d9b055a42fc744e8a1eca722193023100d78e969e222a49f68f33cbda07543ad"]
+sources = ["https://mesa.freedesktop.org/archive/mesa-25.1.8.tar.xz"]
+checksums = ["sha256:5cf1571d0d646d90047f3d93f57acc787cf88ec7e95efe172c555b492c30fb71"]
 config_files = []
 build_tools = []
 upstream = "gitlab:gitlab.freedesktop.org/mesa/mesa"
