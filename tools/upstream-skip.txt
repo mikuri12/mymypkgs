@@ -4,6 +4,7 @@
 fontconfig
 foot
 libdisplay-info
+librsvg
 libical
 libwebp
 lua
