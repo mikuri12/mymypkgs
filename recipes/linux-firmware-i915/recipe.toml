@@ -1,0 +1,19 @@
+name = "linux-firmware-i915"
+version = "2026.11"
+release = 1
+description = "Firmware i915 para Intel HD 530 (Skylake/Gen9): DMC + GuC + HuC. NO es linux-firmware completo."
+depends = []
+makedepends = []
+sources = [
+  "https://raw.githubusercontent.com/kernelorg-mirror/linux_kernel_git_firmware_linux-firmware/main/i915/skl_dmc_ver1_27.bin",
+  "https://raw.githubusercontent.com/kernelorg-mirror/linux_kernel_git_firmware_linux-firmware/main/i915/skl_guc_70.1.1.bin",
+  "https://raw.githubusercontent.com/kernelorg-mirror/linux_kernel_git_firmware_linux-firmware/main/i915/skl_huc_2.0.0.bin",
+]
+checksums = [
+  "sha256:d3b6dc1a39bb2aeb37a1179f2b4e8145c24986da78c533571a5712dc91ec3f61",
+  "sha256:ccb6e2abf19a88c1ab0fc09f5340a6ff85d52548340031c4e04088d9fc9dc2ce",
+  "sha256:c7a1dce013050f823471de2cdc5f0170b1acf8c811ca8c8da41e35f526bcb1d7",
+]
+config_files = []
+build_tools = []
+upstream = ""

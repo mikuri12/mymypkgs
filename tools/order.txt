@@ -76,8 +76,13 @@ xcb-util-wm
 xcb-util-errors
 xcb-util-cursor
 xwayland-satellite
+json-glib
+fuse3
+gdk-pixbuf
+xdg-desktop-portal
 halley
 noctalia
 noctalia-greeter
 mymy
 linux-mikuri
+linux-firmware-i915

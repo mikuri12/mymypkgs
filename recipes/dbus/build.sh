@@ -11,3 +11,8 @@ cmake -DCMAKE_POLICY_VERSION_MINIMUM=3.5 -DCMAKE_INSTALL_PREFIX=/usr \
       -W no ..
 make
 DESTDIR="$DESTDIR" make install
+# Servicio runit del sistema (PLAN: dbus como servicio del sistema, sin systemd).
+install -v -d "$DESTDIR/etc/sv/dbus"
+printf '%s\n' '#!/bin/sh' 'exec /usr/bin/dbus-daemon --system --nofork' \
+  > "$DESTDIR/etc/sv/dbus/run"
+chmod 755 "$DESTDIR/etc/sv/dbus/run"

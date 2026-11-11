@@ -1,34 +1,47 @@
 #!/bin/bash
-# mesa 25.1.8 — BLFS 12.4.
-# HARDWARE REAL: iGPU Intel HD 530 (Broadwell, Gfx8/Gen8) → el driver correcto
-# es CROCUS (ELK compiler), NO iris (iris es para Gfx9+/Skylake+).
+# mesa 24.0.9 — gallium iris + vulkan intel (anv) para Intel HD 530.
 #
-# Por qué NO iris: en mesa 25.x `with_driver_using_cl` (meson.build:834) incluye
-# with_gallium_iris y with_intel_vk incondicionalmente → with_clc=true →
-# dependency('libclc') → dependency('llvm') → clang + LLVMSPIRVLib. Eso exige
-# LLVM/clang/libclc (la rama "solo si Mesa lo exige" del PLAN) y no es viable.
-# Crocus usa el compilador ELK propio (src/intel/compiler/elk), SIN LLVM.
+# HARDWARE REAL: OptiPlex 7050, i3-6100 (Skylake), iGPU Intel HD 530 = Gen9/9lp
+# (verificado en el código fuente de mesa):
+#   iris_screen.c:318  "return devinfo->ver >= 9;"  → iris soporta Gen9+
+#   crocus_screen.c:731 "if (devinfo.ver > 8) return NULL;" → crocus SOLO Gen8
+# ⇒ con crocus (lo que tenía antes) esta CPU se queda SIN aceleración 3D.
+#   El driver correcto es IRIS + ANV.
 #
-# Vulkan: la HD530 es Gen8 → sin Vulkan de Intel (anv no da soporte para
-# Broadwell). Se deja vulkan-drivers vacío.
+# POR QUÉ 24.0.9 Y NO 25.x: en mesa 25.x meson.build:834
+#   with_driver_using_cl = [with_gallium_iris, with_intel_vk, ...]
+# → with_clc=true → dependency('libclc') → dependency('llvm') → clang+LLVMSPIRVLib.
+# En mesa 24.0.9 meson.build:328
+#   with_clc = with_microsoft_clc or with_intel_clc or with_gallium_asahi
+# → iris/anv NO activan clc. Verificado también el bloque dep_llvm (línea 1749):
+#   required = (with_amd_vk or with_gallium_radeonsi or with_gallium_opencl
+#               or with_clc or _llvm.enabled())
+#   → con iris+anv y llvm=disabled NO se busca LLVM en absoluto.
+# intel-clc queda 'disabled' (default de 24.0.9) → sin intel-clc, sin RT.
 #
-# Plataformas: solo wayland; glx=disabled (sin x11, meson.build:555 exige x11
-# para GLX; xwayland-satellite no usa GLX).
+# Opciones VERIFICADAS contra meson_options.txt de 24.0.9 (85 opciones):
+#   platforms/gallium-drivers/vulkan-drivers/video-codecs/vulkan-layers = array
+#   glx/intel-clc = combo ; llvm/gallium-va/gallium-vdpau/shared-glapi/
+#   gles1/gles2/egl/gbm/valgrind/libunwind = feature
+#   opengl/build-tests = boolean
+# OJO: 'mesa-clc' y 'precomp-compiler' NO EXISTEN en 24.0.9 (sí en 25.x) →
+# pasarlos aborta meson con "Unknown options".
+#
+# glslangValidator es obligatorio: meson.build:618 lo exige con with_intel_vk.
+# Plataformas: solo wayland (xwayland-satellite es wayland puro, no usa GLX);
+# glx=disabled porque con x11 meson exige x11 para GLX.
 set -euo pipefail
 rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D platforms=wayland \
   -D glx=disabled \
-  -D gallium-drivers=crocus \
-  -D vulkan-drivers= \
+  -D gallium-drivers=iris \
+  -D vulkan-drivers=intel \
   -D vulkan-layers= \
   -D gles1=disabled -D gles2=enabled \
   -D opengl=true -D egl=enabled -D gbm=enabled \
   -D llvm=disabled \
-  -D mesa-clc=auto \
-  -D precomp-compiler=system \
-  -D intel-clc=auto \
-  -D intel-elk=true \
+  -D intel-clc=disabled \
   -D video-codecs=all_free \
   -D valgrind=disabled -D libunwind=disabled \
   -D shared-glapi=enabled \

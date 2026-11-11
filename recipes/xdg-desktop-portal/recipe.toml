@@ -1,0 +1,11 @@
+name = "xdg-desktop-portal"
+version = "1.18.3"
+release = 1
+description = "xdg-desktop-portal: portales de escritorio (Screen/Wayland/OpenURI/FileChooser) para Halley/Noctalia."
+depends = ["glib", "json-glib", "fuse3", "gdk-pixbuf", "libxml2"]
+makedepends = ["glib", "json-glib", "fuse3", "gdk-pixbuf", "libxml2"]
+sources = ["https://github.com/flatpak/xdg-desktop-portal/archive/refs/tags/1.18.3.tar.gz"]
+checksums = ["sha256:43239438ea6a38ad3b425ecc112414954f0364307e37c0b587044fa7d81e6543"]
+config_files = []
+build_tools = []
+upstream = "github:flatpak/xdg-desktop-portal"

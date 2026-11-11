@@ -52,7 +52,13 @@ for u in $(printf '%s' "$ALL_SRCS" | tr ',' ' ' | tr -d '"'); do
   tb="${NAME}__$(basename "$u")"
   [ -f "${SRC}/${tb}" ] || { echo "falta fuente $tb en $SRC"; exit 1; }
   if [ $i -eq 1 ]; then first="${SRC}/${tb}"; fi
-  tar -xpf "${SRC}/${tb}" -C /tmp/build --keep-directory-symlink
+  # Fuente NO-tarball (fichero plano, p.ej. firmware .bin): `tar -xpf` fallaría
+  # con "not in gzip format" y mataría el build. Se copia tal cual.
+  if tar -tf "${SRC}/${tb}" >/dev/null 2>&1; then
+    tar -xpf "${SRC}/${tb}" -C /tmp/build --keep-directory-symlink
+  else
+    cp -f "${SRC}/${tb}" "/tmp/build/${tb}"
+  fi
 done
 export PKG_SRC="$first"
 if [ -n "$first" ]; then

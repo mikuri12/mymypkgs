@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'xdg-desktop-portal': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-xdg-desktop-portal
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/xdg-desktop-portal/**'
+      - '.github/workflows/pkg-xdg-desktop-portal.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-xdg-desktop-portal
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: xdg-desktop-portal

@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'gdk-pixbuf': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-gdk-pixbuf
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/gdk-pixbuf/**'
+      - '.github/workflows/pkg-gdk-pixbuf.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-gdk-pixbuf
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: gdk-pixbuf
