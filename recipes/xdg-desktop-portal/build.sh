@@ -15,6 +15,9 @@
 # chroot), systemd (disabled: el PLAN usa turnstile/runit), flatpak-interfaces
 # (disabled: no hay flatpak), docbook-docs (disabled: no hay xmlto).
 # sandboxed-image-validation = BOOLEAN (default true) en meson_options.txt 1.18.3: con true, meson.build:117 hace find_program(bwrap) obligatorio y el build falla (pkg-xdg-desktop-portal 43080477047/43087640170/43092939680, packages 43080476644/43085952950/43092812075). Con false no se exige bubblewrap en el chroot.
+# gcc 15 del chroot convierte -Wincompatible-pointer-types en error (permerror):
+# src/pipewire.c:332 pasa struct pw_proxy * a pw_registry_add_listener (run 43115412476).
+# -Wno-error=... lo baja a warning (el patron pw_registry==pw_proxy es valido en pipewire).
 #
 # Servicio de USUARIO (turnstile): /usr/share/mymy/user-services/...
 # El .desktop de sesión lo pone Halley/Noctalia, no este paquete.
@@ -27,6 +30,7 @@ meson setup --prefix=/usr --buildtype=release \
   -D systemd=disabled \
   -D docbook-docs=disabled \
   -D sandboxed-image-validation=false \
+  -Dc_args="-Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration" \
   -D dbus-service-dir=/usr/share/dbus-1/services \
   ..
 ninja
