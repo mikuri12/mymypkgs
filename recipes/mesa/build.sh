@@ -30,11 +30,19 @@
 # glslangValidator es obligatorio: meson.build:618 lo exige con with_intel_vk.
 # Plataformas: solo wayland (xwayland-satellite es wayland puro, no usa GLX);
 # glx=disabled porque con x11 meson exige x11 para GLX.
+#
+# -D glvnd=true (boolean, default false): el sistema YA tiene libglvnd 1.7.0
+# (receta libglvnd, dependencia del PLAN). Sin esta opción mesa 24.0.9 instala
+# SU PROPIO libEGL/libGLESv2 y choca con libglvnd al instalar el paquete
+# (CONFLICTO: /usr/lib/libEGL.so ya pertenece a libglvnd-1.7.0-1 — run
+# pkg-mesa 43080477062). Con glvnd=true, mesa compila el vendor DRI
+# (libEGL_mesa.so) y delega el dispatch a libglvnd.
 set -euo pipefail
 rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D platforms=wayland \
   -D glx=disabled \
+  -D glvnd=true \
   -D gallium-drivers=iris \
   -D vulkan-drivers=intel \
   -D vulkan-layers= \
