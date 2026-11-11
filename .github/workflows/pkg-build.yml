@@ -99,6 +99,24 @@ jobs:
           done
           ls relpkgs | wc -l
           echo "relpkgs OK (sin la versión vieja de $PKG)"
+          # BUG ARREGELADO (2026-11-11): el index.toml se generaba SOLO con los
+          # paquetes listados en el index.toml viejo → el índice se encogía en
+          # cada run y los paquetes nuevos (json-glib, fuse3, gdk-pixbuf,
+          # linux-firmware-i915...) nunca entraban, rompiendo las deps de los
+          # paquetes siguientes. Fix: se descargan TODOS los .tar.zst del
+          # Release (no solo los del índice) y el índice se regenera con todos.
+          echo "== descargando TODOS los .tar.zst del Release (para el índice) =="
+          for f in $(curl -fsSL --retry 5 --retry-all-errors \
+               "https://api.github.com/repos/mikuri12/mymypkgs/releases/tags/packages?per_page=100" \
+               | grep -oE '"browser_download_url": *"[^"]+\.tar\.zst"' \
+               | cut -d'"' -f4); do
+            b=$(basename "$f")
+            case "$b" in ${PKG}-*) continue ;; esac
+            [ -f "relpkgs/$b" ] && continue
+            curl -fsSL --retry 3 --retry-all-errors -o "relpkgs/$b" "$f" || \
+              echo "aviso: no se pudo descargar $b (sigue en el índice?)"
+          done
+          ls relpkgs/*.tar.zst 2>/dev/null | wc -l
         env:
           GH_TOKEN: ${{ github.token }}
 
