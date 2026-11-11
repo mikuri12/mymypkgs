@@ -63,16 +63,21 @@ done
 export PKG_SRC="$first"
 if [ -n "$first" ]; then
   # cwd de build.sh = dir raiz del PRIMER tarball (sin pipes: leccion stage4).
-  tar -tf "$first" > /tmp/build/.list 2>/dev/null
-  PKG_DIR=$(awk -F/ 'NR==1{print $1; exit}' /tmp/build/.list)
-  if [ -n "$PKG_DIR" ] && [ -d "/tmp/build/$PKG_DIR" ]; then
-    cd "/tmp/build/$PKG_DIR"
-  elif ! grep -q '/' /tmp/build/.list; then
-    # tarball PLANO: binarios en la raiz sin subdir (cargo-c) → build.sh
-    # trabaja en /tmp/build.
-    cd /tmp/build
+  # Fuente PLANA (no tarball, p.ej. .bin de firmware): no hay dir raiz que
+  # entrar → el build.sh trabaja en /tmp/build (donde se copiaron).
+  if tar -tf "$first" > /tmp/build/.list 2>/dev/null && [ -s /tmp/build/.list ]; then
+    PKG_DIR=$(awk -F/ 'NR==1{print $1; exit}' /tmp/build/.list)
+    if [ -n "$PKG_DIR" ] && [ -d "/tmp/build/$PKG_DIR" ]; then
+      cd "/tmp/build/$PKG_DIR"
+    elif ! grep -q '/' /tmp/build/.list; then
+      # tarball PLANO: binarios en la raiz sin subdir (cargo-c) → build.sh
+      # trabaja en /tmp/build.
+      cd /tmp/build
+    else
+      echo "tarball sin dir raíz: $first"; exit 1
+    fi
   else
-    echo "tarball sin dir raíz: $first"; exit 1
+    cd /tmp/build
   fi
 else
   # receta SIN sources (mymy): copiar repo a /tmp/build/mymy-repo

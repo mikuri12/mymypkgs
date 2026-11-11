@@ -25,6 +25,7 @@ meson setup --prefix=/usr --buildtype=release \
   -D tests=false \
   -D installed_tests=false \
   -D relocatable=false \
+  -D gio_sniffing=false \
   ..
 ninja
 DESTDIR="$DESTDIR" ninja install
