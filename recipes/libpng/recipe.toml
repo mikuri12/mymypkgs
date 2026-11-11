@@ -1,15 +1,11 @@
 name = "libpng"
-version = "1.6.44"
+version = "1.6.59"
 release = 1
 description = "PNG reference library (needs zlib)"
 depends = ["zlib"]
 makedepends = []
-sources = [
-  "https://downloads.sourceforge.net/libpng/libpng-1.6.44.tar.xz",
-]
-checksums = [
-  "sha256:60c4da1d5b7f0aa8d158da48e8f8afa9773c1c8baa5d21974df61f1886b8ce8e",
-]
+sources = ["https://downloads.sourceforge.net/libpng/libpng-1.6.59.tar.xz"]
+checksums = ["sha256:d80dd2a38a37f803cb9b6ac7b14bd6e74ddc3b654780a8380bdf93523fdb4389"]
 config_files = []
 build_tools = []
 upstream = "github:pnggroup/libpng"

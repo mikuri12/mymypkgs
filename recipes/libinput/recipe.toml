@@ -1,11 +1,11 @@
 name = "libinput"
-version = "1.29.0"
+version = "1.32.0"
 release = 1
 description = "Provides handling input devices in Wayland compositors and X"
 depends = ["libevdev", "mtdev"]
 makedepends = ["libevdev", "mtdev"]
-sources = ["https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.29.0/libinput-1.29.0.tar.gz"]
-checksums = ["sha256:ec71f6ec6632108a62756f49d86e864494108e70cf670e85f8b7579e970e152c"]
+sources = ["https://gitlab.freedesktop.org/libinput/libinput/-/archive/1.32.0/libinput-1.32.0.tar.gz"]
+checksums = ["sha256:7dd6c1ca964c86eb6810ccd6639cda634e68bdca43bf3afec39e94e942fac8d4"]
 config_files = []
 build_tools = []
 upstream = "gitlab:gitlab.freedesktop.org/libinput/libinput"
