@@ -92,8 +92,8 @@ fi
 # 'cd /tmp/build' (bug de esta saga: build.sh quedaba sin fuentes).
 export DESTDIR="$DESTDIR_STG"
 export SRC
-# rust vive en /opt/rust (build_tool rust); sin esto 'cargo: command not found'.
-export PATH="/opt/rust/bin:/usr/bin:/usr/sbin:/bin:$PATH"
+# rust y go viven en /opt (build_tools rust/go); sin esto 'cargo/go: command not found'.
+export PATH="/opt/rust/bin:/opt/go/bin:/usr/bin:/usr/sbin:/bin:$PATH"
 bash "$RECIPE_DIR/build.sh"
 
 # Verificar que produjo algo

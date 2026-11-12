@@ -1,0 +1,11 @@
+name = "bluez"
+version = "5.86"
+release = 1
+description = "bluez 5.86 — stack Bluetooth (bluetoothd, bluetoothctl). ell va vendored dentro del tarball (ell/); configure pre-generado. Sin systemd."
+depends = ["dbus", "glib", "eudev"]
+makedepends = ["dbus", "glib", "eudev"]
+sources = ["https://mirrors.edge.kernel.org/pub/linux/bluetooth/bluez-5.86.tar.xz"]
+checksums = ["sha256:99f144540c6070591e4c53bcb977eb42664c62b7b36cb35a29cf72ded339621d"]
+config_files = []
+build_tools = []
+upstream = "kernel:bluez"

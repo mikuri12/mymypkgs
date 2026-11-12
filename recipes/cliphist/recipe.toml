@@ -1,0 +1,11 @@
+name = "cliphist"
+version = "0.7.0"
+release = 1
+description = "cliphist 0.7.0 — historial del portapapeles para Wayland (wl-clipboard). Go; build_tool go."
+depends = ["wl-clipboard"]
+makedepends = []
+sources = ["https://codeload.github.com/sentriz/cliphist/tar.gz/refs/tags/v0.7.0"]
+checksums = ["sha256:8d7dc7b4495e5812b5613274c250ba5d3900933d78888ce7921c01247f191cc8"]
+config_files = []
+build_tools = ["go"]
+upstream = "github:sentriz/cliphist"

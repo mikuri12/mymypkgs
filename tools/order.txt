@@ -4,10 +4,12 @@ alsa-lib
 alsa-ucm-conf
 alsa-utils
 basu
+bluez
 brotli
 btop
 cairo
 cargo-c
+cliphist
 cmatrix
 curl
 dbus
@@ -22,6 +24,7 @@ freetype2
 fribidi
 fuse3
 fuzzel
+fzf
 gamemode
 gdk-pixbuf
 git
@@ -37,6 +40,7 @@ hwdata
 imagemagick
 inih
 json-glib
+lazygit
 lcms2
 libass
 libdisplay-info
@@ -76,7 +80,6 @@ mikucat-cursor
 mpv
 mtdev
 mymy
-libndp
 networkmanager
 nlohmann-json
 noctalia

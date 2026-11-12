@@ -1,0 +1,11 @@
+name = "fzf"
+version = "0.75.0"
+release = 1
+description = "fzf 0.75.0 — fuzzy finder. Go; build_tool go (toolchain en /opt/go). Módulos vía GOPROXY en el build."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/junegunn/fzf/tar.gz/refs/tags/v0.75.0"]
+checksums = ["sha256:165f6e0c1b9ba082346233681e3f1d1374e37f9fd3c1d7b6dfe09659ab893faa"]
+config_files = []
+build_tools = ["go"]
+upstream = "github:junegunn/fzf"

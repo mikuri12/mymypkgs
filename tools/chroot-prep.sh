@@ -3,7 +3,7 @@
 # de build que necesita UNA receta (leídas del campo build_tools de
 # recipe.toml). Corre EN EL HOST (usa sudo + chroot); NO dentro del chroot.
 # USO: chroot-prep.sh <receta-dir>   (asume /mnt/lfs ya restaurado)
-#   build_tools posibles: cmake | rust | libclang | autotools   (CA bundle: siempre)
+#   build_tools posibles: cmake | rust | libclang | autotools | go   (CA bundle: siempre)
 set -euo pipefail
 
 RECIPE_DIR=$1
@@ -158,5 +158,32 @@ ATEOF
       PATH=/usr/bin:/usr/sbin LC_ALL=POSIX bash -e /sources/build-autotools.sh
     sudo test -x "$LFS/usr/bin/autoconf" || { echo "autoconf no instalado"; exit 1; }
     echo "autotools OK (autoconf 2.73, automake 1.17, libtool 2.5.4)"
+    ;;
+esac
+
+case " $BT " in
+  *" go "*)
+    # Go toolchain oficial a /opt/go (como rust). sha256 de dl.google.com.
+    GO_OK=0
+    for i in 1 2 3 4 5; do
+      sudo curl -fsSL -o "$LFS/sources/go.tar.gz" \
+        "https://dl.google.com/go/go1.25.3.linux-amd64.tar.gz" \
+        && { GO_OK=1; break; }
+      rm -f "$LFS/sources/go.tar.gz"; sleep 15
+    done
+    [ $GO_OK -eq 1 ] || { echo "go.tar.gz inaccesible tras 5 intentos"; exit 1; }
+    echo "$(sudo curl -fsSL https://dl.google.com/go/go1.25.3.linux-amd64.tar.gz.sha256 | awk '{print $1}')  /mnt/lfs/sources/go.tar.gz" | \
+      sudo tee "$LFS/sources/go.sha256" >/dev/null
+    sudo bash -c 'cd /mnt/lfs/sources && sha256sum -c go.sha256'
+    cat > /tmp/install-go.sh << 'GOEOF'
+set -euo pipefail
+rm -rf /opt/go
+tar -xzf /sources/go.tar.gz -C /opt
+GOEOF
+    sudo cp /tmp/install-go.sh "$LFS/sources/install-go.sh"
+    sudo chroot "$LFS" /usr/bin/env -i HOME=/root TERM="${TERM:-xterm}" \
+      PATH=/usr/bin:/usr/sbin LC_ALL=POSIX bash -e /sources/install-go.sh
+    sudo test -x "$LFS/opt/go/bin/go" || { echo "go no instalado"; exit 1; }
+    echo "go 1.25.3 OK (/opt/go)"
     ;;
 esac
