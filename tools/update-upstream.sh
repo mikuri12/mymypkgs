@@ -14,7 +14,7 @@ ftags() { while IFS= read -r t; do vlike "$t" && printf "%s\n" "$t"; done | sort
 getf() { sed -n "s/^$1 *= *\"\(.*\)\".*/\1/p" "$2"; }
 san() { local x=$1; printf "%s" "$x" | grep -qE "^[A-Za-z0-9._+~-]+$" && printf "%s" "$x" || true; }
 oktag() { [ -n "$(san "$1")" ]; }
-pick() { local s=$1 r=$2 t; case "$s" in
+pick() { local s=$1 r=$2 t=""; case "$s" in
 github) t=$(san "$(gh api "repos/$r/releases/latest" -q .tag_name 2>/dev/null || true)"); oktag "$t" || t=$(gh api "repos/$r/tags?per_page=100" -q ".[].name" 2>/dev/null | ftags) ;;
 gitlab) local h=${r%%/*} p=${r#*/} e; e=$(python3 -c "import urllib.parse,sys; print(urllib.parse.quote(sys.argv[1],safe=\"\"))" "$p"); t=$(curl -fsSL --max-time 30 "https://$h/api/v4/projects/$e/releases/permalink/latest" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin)[\"tag_name\"])" 2>/dev/null || true); oktag "$t" || t=$(curl -fsSL --max-time 30 "https://$h/api/v4/projects/$e/repository/tags?per_page=100" 2>/dev/null | python3 -c "import json,sys; [print(x[\"name\"]) for x in json.load(sys.stdin)]" 2>/dev/null | ftags) ;;
 codeberg) t=$(curl -fsSL --max-time 30 "https://codeberg.org/api/v1/repos/$r/releases/latest" 2>/dev/null | python3 -c "import json,sys; print(json.load(sys.stdin)[\"tag_name\"])" 2>/dev/null || true); oktag "$t" || t=$(curl -fsSL --max-time 30 "https://codeberg.org/api/v1/repos/$r/tags?limit=100" 2>/dev/null | python3 -c "import json,sys; [print(x[\"name\"]) for x in json.load(sys.stdin)]" 2>/dev/null | ftags) ;;
