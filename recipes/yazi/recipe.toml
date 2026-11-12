@@ -1,0 +1,11 @@
+name = "yazi"
+version = "26.5.6"
+release = 1
+description = "yazi 26.5.6 — gestor de archivos TUI. Rust offline con yazi-vendor.tar.gz; binario desde el crate yazi-fm del workspace."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/sxyazi/yazi/tar.gz/refs/tags/v26.5.6"]
+checksums = ["sha256:a18445df86a20068f7b17609d12d6f635de488958579ae7a2b143a244ba7e63f"]
+config_files = []
+build_tools = []
+upstream = "github:sxyazi/yazi"

@@ -1,0 +1,11 @@
+name = "ripgrep"
+version = "15.2.0"
+release = 1
+description = "ripgrep 15.2.0 (rg) — búsqueda recursiva. Rust, offline con vendor asset ripgrep-vendor.tar.gz (pkg-build.yml inyecta el config de cargo al ver 'cargo' en build.sh)."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/BurntSushi/ripgrep/tar.gz/refs/tags/15.2.0"]
+checksums = ["sha256:7605249d3eb0d5f170e3414498e3344e26b1e7a147aec518b57090b80036a562"]
+config_files = []
+build_tools = []
+upstream = "github:BurntSushi/ripgrep"
