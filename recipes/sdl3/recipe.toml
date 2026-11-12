@@ -1,0 +1,11 @@
+name = "sdl3"
+version = "3.4.18"
+release = 1
+description = "SDL3 3.4.18 — multimedia. Wayland+ALSA+PipeWire; sin X11/Pulse/JACK."
+depends = ["alsa-lib", "pipewire", "wayland", "libxkbcommon"]
+makedepends = ["alsa-lib", "pipewire", "wayland", "libxkbcommon"]
+sources = ["https://codeload.github.com/libsdl-org/SDL/tar.gz/refs/tags/release-3.4.18"]
+checksums = ["sha256:c4b08b950bd29d83caae0ab8d884298d27046a9d30700fb42841c50992665c90"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "github:libsdl-org/SDL"

@@ -1,0 +1,11 @@
+name = "acpid"
+version = "2.0.34"
+release = 1
+description = "acpid 2.0.34 — daemon de eventos ACPI (tapa de portátil, power button). Tarball de SourceForge con configure pre-generado."
+depends = []
+makedepends = []
+sources = ["https://downloads.sourceforge.net/project/acpid2/acpid-2.0.34.tar.xz"]
+checksums = ["sha256:2d095c8cfcbc847caec746d62cdc8d0bff1ec1bc72ef7c674c721e04da6ab333"]
+config_files = []
+build_tools = []
+upstream = "sourceforge:acpid2"

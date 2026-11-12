@@ -1,0 +1,11 @@
+name = "inih"
+version = "62"
+release = 1
+description = "inih r62 — parser INI minimalista en C; dep de gamemode."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/benhoyt/inih/tar.gz/refs/tags/r62"]
+checksums = ["sha256:9c15fa751bb8093d042dae1b9f125eb45198c32c6704cd5481ccde460d4f8151"]
+config_files = []
+build_tools = []
+upstream = "github:benhoyt/inih"

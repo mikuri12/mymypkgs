@@ -1,0 +1,11 @@
+name = "7zip"
+version = "26.04"
+release = 1
+description = "7zip 26.04 — archivador (binario 7zz). cmake; se instala solo el ejecutable 7zz."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/ip7z/7zip/tar.gz/refs/tags/26.04"]
+checksums = ["sha256:48fdc6dfe879ee2db867bb07f19c4a9406bfea01d51f48785b6c7a137881e25c"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "github:ip7z/7zip"

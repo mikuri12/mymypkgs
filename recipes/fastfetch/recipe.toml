@@ -1,0 +1,11 @@
+name = "fastfetch"
+version = "2.69.0"
+release = 1
+description = "fastfetch 2.69.0 — system information tool. Las features opcionales (vulkan, drm, wayland...) se detectan por pkg-config y se apagan solas si faltan."
+depends = ["libdrm", "libglvnd", "wayland", "glib"]
+makedepends = ["libdrm", "libglvnd", "wayland", "glib"]
+sources = ["https://codeload.github.com/fastfetch-cli/fastfetch/tar.gz/refs/tags/2.69.0"]
+checksums = ["sha256:d0e42faf307e39e7b531d632745a56e4eb558a6545f557280099c622562355ee"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "github:fastfetch-cli/fastfetch"

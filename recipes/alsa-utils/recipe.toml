@@ -1,0 +1,11 @@
+name = "alsa-utils"
+version = "1.2.16"
+release = 1
+description = "alsa-utils 1.2.16 — alsamixer, aplay, amixer... (alsa-project.org)."
+depends = ["alsa-lib"]
+makedepends = ["alsa-lib"]
+sources = ["https://www.alsa-project.org/files/pub/utils/alsa-utils-1.2.16.tar.bz2"]
+checksums = ["sha256:092399d5e8749a1d5e188e393157521cec4b75693b60ebb79bbce728cff2232c"]
+config_files = []
+build_tools = []
+upstream = "alsa:alsa-utils"

@@ -1,0 +1,11 @@
+name = "gamemode"
+version = "1.8.2"
+release = 1
+description = "gamemode 1.8.2 — optimiza el rendimiento del sistema bajo demanda (Steam lo usa). sd-bus provider no-daemon (sin systemd/elogind); sin unidad systemd ni PAM."
+depends = ["dbus", "inih"]
+makedepends = ["dbus", "inih"]
+sources = ["https://codeload.github.com/FeralInteractive/gamemode/tar.gz/refs/tags/1.8.2"]
+checksums = ["sha256:2b4a20894822caf04767af6a1601130d6b718fc30b8a77895607341b1674740f"]
+config_files = ["etc/dbus-1/system.d/org.freedesktop.Policy1.conf"]
+build_tools = []
+upstream = "github:FeralInteractive/gamemode"
