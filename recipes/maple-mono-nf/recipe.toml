@@ -1,0 +1,11 @@
+name = "maple-mono-nf"
+version = "7.9"
+release = 1
+description = "Maple Mono NF 7.9 (Nerd Font, unhinted) — fuente mono del usuario (maple-mono-nf en Nix)"
+depends = ["fontconfig"]
+makedepends = []
+sources = ["https://github.com/subframe7536/maple-font/releases/download/v7.9/MapleMono-NF-unhinted.zip"]
+checksums = ["sha256:8248d6260660be1066b5ebe90d25131582df8383f38db1c284dd1f2dc9d2b46e"]
+config_files = []
+build_tools = []
+upstream = "github:subframe7536/maple-font"

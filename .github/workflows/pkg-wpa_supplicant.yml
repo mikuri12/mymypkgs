@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'wpa_supplicant': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-wpa_supplicant
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/wpa_supplicant/**'
+      - '.github/workflows/pkg-wpa_supplicant.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-wpa_supplicant
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: wpa_supplicant

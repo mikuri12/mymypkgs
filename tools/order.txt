@@ -94,3 +94,11 @@ playerctl
 lm-sensors
 git
 steam-launcher
+libnl
+wpa_supplicant
+networkmanager
+ffmpeg
+mpv
+vesktop
+noto-color-emoji
+maple-mono-nf

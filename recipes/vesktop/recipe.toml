@@ -1,0 +1,11 @@
+name = "vesktop"
+version = "1.6.9"
+release = 1
+description = "Vesktop 1.6.9 (Vencord/Vesktop, Electron bundleado) — cliente Discord de escritorio. Binario oficial, extraído del tar.gz."
+depends = ["alsa-lib"]
+makedepends = []
+sources = ["https://github.com/Vencord/Vesktop/releases/download/v1.6.9/vesktop-1.6.9.tar.gz"]
+checksums = ["sha256:c9eabe5e0a6dc1ee3f48a32f9b876ecbf938738fef1a76bc2350eb82f3bc8517"]
+config_files = []
+build_tools = []
+upstream = "github:Vencord/Vesktop"
