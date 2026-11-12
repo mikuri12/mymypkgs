@@ -1,0 +1,11 @@
+name = "steam-launcher"
+version = "1.0"
+release = 1
+description = "Lanzador de Steam: descarga el bootstrap oficial de Valve en el primer arranque (Steam es propietario: NO se empaqueta su binario). Requiere multilib (Fase 4) para el cliente 32-bit."
+depends = ["curl", "xz"]
+makedepends = []
+sources = ["https://raw.githubusercontent.com/mikuri12/mymypkgs/main/recipes/steam-launcher/steam-launcher.sh"]
+checksums = ["sha256:d85b6d71807ffc88c0e6466ce21a9a2a709cd4ff6eaf212e8dc8ca92a3bec3c9"]
+config_files = []
+build_tools = []
+upstream = "https://repo.steampowered.com/steam/"

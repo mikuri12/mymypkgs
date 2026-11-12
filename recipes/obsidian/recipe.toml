@@ -1,0 +1,11 @@
+name = "obsidian"
+version = "1.13.7"
+release = 1
+description = "Obsidian 1.13.7 (AppImage oficial extraído en build; sin FUSE en runtime) — notas Markdown locales"
+depends = ["alsa-lib"]
+makedepends = []
+sources = ["https://github.com/obsidianmd/obsidian-releases/releases/download/v1.13.7/Obsidian-1.13.7.AppImage"]
+checksums = ["sha256:e0d8e0a611624de8c9c7dcd8a9e648279fb0a0d552faa1312b7e4f3a5fa72663"]
+config_files = []
+build_tools = []
+upstream = "github:obsidianmd/obsidian-releases"

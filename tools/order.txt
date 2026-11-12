@@ -86,3 +86,11 @@ noctalia-greeter
 mymy
 linux-mikuri
 linux-firmware-i915
+yt-dlp
+obsidian
+wlsunset
+btop
+playerctl
+lm-sensors
+git
+steam-launcher

@@ -1,0 +1,11 @@
+name = "playerctl"
+version = "2.4.1"
+release = 1
+description = "playerctl — control MPRIS (play/pause/next) desde CLI o scripts (Noctalia)"
+depends = ["glib"]
+makedepends = ["glib"]
+sources = ["https://github.com/altdesktop/playerctl/archive/refs/tags/v2.4.1.tar.gz"]
+checksums = ["sha256:75957ad5071956f563542c7557af16a57e40b4a7f66bc9b6373d022ec5eef548"]
+config_files = []
+build_tools = []
+upstream = "github:altdesktop/playerctl"
