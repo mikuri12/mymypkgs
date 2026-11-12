@@ -1,11 +1,15 @@
 #!/bin/bash
-# NetworkManager 1.56.0 — meson. Opciones conservadoras (nombres de meson_options
-# de NM 1.5x); introspection es feature → disabled.
+# NetworkManager 1.56.0 — meson. En NM 1.5x varias opciones pasaron a boolean
+# (introspection/selinux/concheck/ovs/ppp/modem_manager; modemmanager reenombrado
+# a modem_manager): "disabled" ya no vale en boolean (usar false), y bluez/
+# libndp ya no existen como opcion (bluez5_dun es la unica). SysV sin systemd
+# ni nss/gnutls en la base: session_tracking=no, systemd_journal=false, crypto=null.
 set -euo pipefail
-rm -rf build && mkdir build && cd build
+mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
-  -Dintrospection=disabled -Dselinux=disabled -Dmodemmanager=disabled \
-  -Dconcheck=disabled -Dovs=disabled -Dppp=disabled -Dbluez=disabled \
-  -Dlibndp=disabled -Dnm_cloud_setup=false ..
+  -Dintrospection=false -Dselinux=false -Dmodem_manager=false \
+  -Dconcheck=false -Dovs=false -Dppp=false -Dbluez5_dun=false \
+  -Dnm_cloud_setup=false -Dsession_tracking=no -Dsystemd_journal=false \
+  -Dcrypto=null -Dlibpsl=false -Dlibaudit=no -Dqt=false -Dman=false -Dtests=no ..
 ninja
 DESTDIR="$DESTDIR" ninja install

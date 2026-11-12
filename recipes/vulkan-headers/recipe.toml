@@ -1,0 +1,11 @@
+name = "vulkan-headers"
+version = "1.4.368"
+release = 1
+description = "Vulkan-Headers 1.4.368 — solo headers + cmake config; lo exige vulkan-loader y libplacebo (mpv 0.41 hard-dep)."
+depends = []
+makedepends = []
+sources = ["https://github.com/KhronosGroup/Vulkan-Headers/archive/refs/tags/v1.4.368.tar.gz"]
+checksums = ["sha256:5c5c6f64fcce28a24cc934143a048707af036a858e4ed11d7f71fe016006ecda"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "github:KhronosGroup/Vulkan-Headers"

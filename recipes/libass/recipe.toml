@@ -1,0 +1,11 @@
+name = "libass"
+version = "0.17.5"
+release = 1
+description = "libass 0.17.5 — render de subtítulos; HARD dep de mpv desde 0.40. freetype+harfbuzz+fribidi+fontconfig (ya en el sistema)."
+depends = ["freetype2", "fontconfig", "harfbuzz", "fribidi"]
+makedepends = ["freetype2", "fontconfig", "harfbuzz", "fribidi"]
+sources = ["https://github.com/libass/libass/archive/refs/tags/0.17.5.tar.gz"]
+checksums = ["sha256:fa286fc9ee1ba3b932703a3df7b8474d01dc8abe29ec69b6fa68781dc4bf7acc"]
+config_files = []
+build_tools = []
+upstream = "github:libass/libass"

@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'vulkan-headers': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-vulkan-headers
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/vulkan-headers/**'
+      - '.github/workflows/pkg-vulkan-headers.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-vulkan-headers
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: vulkan-headers

@@ -1,0 +1,11 @@
+name = "libplacebo"
+version = "7.387.0"
+release = 1
+description = "libplacebo 7.387.0 — HARD dep de mpv desde 0.40. vulkan=enabled (vulkan-loader), shaderc/glslang/dovi/unwind/opengl OFF, lcms ON, demos/tests OFF."
+depends = ["vulkan-loader", "lcms2"]
+makedepends = ["vulkan-headers", "vulkan-loader", "lcms2"]
+sources = ["https://github.com/haasn/libplacebo/archive/refs/tags/v7.387.0.tar.gz"]
+checksums = ["sha256:f9e62d3774a9c4cfd198ec3abaa88294aaade2e31c04d5ab02bcf4abc98b1df5"]
+config_files = []
+build_tools = []
+upstream = "github:haasn/libplacebo"

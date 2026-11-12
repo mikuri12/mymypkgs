@@ -98,6 +98,10 @@ libnl
 wpa_supplicant
 networkmanager
 ffmpeg
+vulkan-headers
+vulkan-loader
+libass
+libplacebo
 mpv
 vesktop
 noto-color-emoji
