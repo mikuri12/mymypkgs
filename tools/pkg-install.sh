@@ -43,7 +43,7 @@ tar --zstd -xpf "$PKG" -C "$STG" --numeric-owner --keep-directory-symlink
 conflict=0
 exec 3< "$STG/.FILES"
 while IFS= read -r f <&3; do
-    if [ "$f" = ".FILES" ] || [ "$f" = ".PKGINFO.toml" ]; then continue; fi
+    case "$f" in .FILES|.PKGINFO.toml|usr/.crates.toml|usr/.crates2.json) continue;; esac  # metadatos de paquete/cargo: no son archivos del sistema
     if [ -e "/$f" ]; then
         for other in "$DB"/*/; do
             if [ ! -d "$other" ]; then continue; fi
@@ -66,7 +66,7 @@ fi
 # 4) Mover a / y registrar (fd 3: mv consume stdin del while)
 exec 3< "$STG/.FILES"
 while IFS= read -r f <&3; do
-    if [ "$f" = ".FILES" ] || [ "$f" = ".PKGINFO.toml" ]; then continue; fi
+    case "$f" in .FILES|.PKGINFO.toml|usr/.crates.toml|usr/.crates2.json) continue;; esac  # metadatos de paquete/cargo: no son archivos del sistema
     target="/$f"
     mkdir -p "$(dirname "$target")"
     if [ -e "$target" ] && [ ! -L "$target" ]; then
@@ -81,7 +81,7 @@ exec 3<&-
 # el PKGINFO/FILES ya quedaron copiados abajo en la DB)
 PKGNAME=$(basename "$PKG" .tar.zst)
 mkdir -p "$DB/$PKGNAME"
-grep -v -x -e '.FILES' -e '.PKGINFO.toml' "$STG/.FILES" > "$DB/$PKGNAME/FILES" \
+grep -v -x -e '.FILES' -e '.PKGINFO.toml' -e 'usr/.crates.toml' -e 'usr/.crates2.json' "$STG/.FILES" > "$DB/$PKGNAME/FILES" \
     || { echo "FILES vacío tras filtrar" >&2; exit 1; }
 if [ -f "$STG/.PKGINFO.toml" ]; then
     cp "$STG/.PKGINFO.toml" "$DB/$PKGNAME/PKGINFO.toml"
