@@ -1,0 +1,11 @@
+name = "mikucat-cursor"
+version = "1.0"
+release = 1
+description = "Tema de cursor Hatsune-Miku (miku-cursor-linux) — el que usa mikuri12 (xcursor-theme \"Hatsune-Miku\" en su nix config). Instalado en /usr/share/icons/Hatsune-Miku."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/supermariofps/hatsune-miku-windows-linux-cursors/tar.gz/refs/heads/main"]
+checksums = ["sha256:08e53441c63dfb21951c99bf1ba45037d0e40cd2fd398199781816e9a5804db1"]
+config_files = []
+build_tools = []
+upstream = "github:supermariofps/hatsune-miku-windows-linux-cursors"

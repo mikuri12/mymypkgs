@@ -106,3 +106,7 @@ mpv
 vesktop
 noto-color-emoji
 maple-mono-nf
+libjpeg-turbo
+imagemagick
+cmatrix
+mikucat-cursor

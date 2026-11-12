@@ -1,0 +1,11 @@
+name = "libjpeg-turbo"
+version = "3.2.1"
+release = 1
+description = "libjpeg-turbo 3.2.1 — JPEG con SIMD desactivado (no hay nasm en el chroot; -DWITH_SIMD=0)"
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/libjpeg-turbo/libjpeg-turbo/tar.gz/refs/tags/3.2.1"]
+checksums = ["sha256:6f5819c51649bce2571a23b1b0cd41eae2f57fc3f8908c7ec9e7047efb65ca13"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "github:libjpeg-turbo/libjpeg-turbo"

@@ -1,0 +1,11 @@
+name = "cmatrix"
+version = "2.0"
+release = 1
+description = "cmatrix v2.0 — efecto Matrix en terminal (ncurses, cmake)"
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/abishekvashok/cmatrix/tar.gz/refs/tags/v2.0"]
+checksums = ["sha256:ad93ba39acd383696ab6a9ebbed1259ecf2d3cf9f49d6b97038c66f80749e99a"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "github:abishekvashok/cmatrix"
