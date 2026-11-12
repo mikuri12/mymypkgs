@@ -76,6 +76,7 @@ mikucat-cursor
 mpv
 mtdev
 mymy
+libndp
 networkmanager
 nlohmann-json
 noctalia

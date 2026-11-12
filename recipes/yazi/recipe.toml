@@ -7,5 +7,5 @@ makedepends = []
 sources = ["https://codeload.github.com/sxyazi/yazi/tar.gz/refs/tags/v26.5.6"]
 checksums = ["sha256:a18445df86a20068f7b17609d12d6f635de488958579ae7a2b143a244ba7e63f"]
 config_files = []
-build_tools = []
+build_tools = ["rust"]
 upstream = "github:sxyazi/yazi"

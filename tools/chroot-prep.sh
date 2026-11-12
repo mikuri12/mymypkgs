@@ -3,7 +3,7 @@
 # de build que necesita UNA receta (leídas del campo build_tools de
 # recipe.toml). Corre EN EL HOST (usa sudo + chroot); NO dentro del chroot.
 # USO: chroot-prep.sh <receta-dir>   (asume /mnt/lfs ya restaurado)
-#   build_tools posibles: cmake | rust | libclang   (CA bundle: siempre)
+#   build_tools posibles: cmake | rust | libclang | autotools   (CA bundle: siempre)
 set -euo pipefail
 
 RECIPE_DIR=$1
@@ -122,5 +122,41 @@ LLEOF
     sudo test -f "$LFS/opt/llvm/lib/libclang.so.19.1.7" || { echo "libclang no instalada"; exit 1; }
     sudo test -f "$LFS/opt/llvm/lib/clang/19/include/stddef.h" || { echo "resource dir ausente"; exit 1; }
     echo "libclang OK (/opt/llvm/lib + clang/19)"
+    ;;
+esac
+
+case " $BT " in
+  *" autotools "*)
+    # autoconf/automake/libtool desde ftp.gnu.org (tarballs release con
+    # configure pre-generado; solo necesitan m4+perl+make, ya en la base LFS).
+    dl() { # dl <nombre> <url> <sha256>
+      local n="$1" u="$2" s="$3" i
+      for i in 1 2 3 4 5; do
+        sudo curl -fsSL --retry 2 -o "$LFS/sources/$n.tar.xz" "$u" && break
+        rm -f "$LFS/sources/$n.tar.xz"; sleep 15
+      done
+      echo "$s  /mnt/lfs/sources/$n.tar.xz" | sudo tee "$LFS/sources/$n.sha256" >/dev/null
+      sudo bash -c "cd /mnt/lfs/sources && sha256sum -c $n.sha256"
+    }
+    dl autoconf "https://ftp.gnu.org/gnu/autoconf/autoconf-2.73.tar.xz" "9fd672b1c8425fac2fa67fa0477b990987268b90ff36d5f016dae57be0d6b52e"
+    dl automake "https://ftp.gnu.org/gnu/automake/automake-1.17.tar.xz" "8920c1fc411e13b90bf704ef9db6f29d540e76d232cb3b2c9f4dc4cc599bd990"
+    dl libtool  "https://ftp.gnu.org/gnu/libtool/libtool-2.5.4.tar.xz"  "f81f5860666b0bc7d84baddefa60d1cb9fa6fceb2398cc3baca6afaa60266675"
+    cat > /tmp/build-autotools.sh << 'ATEOF'
+set -euo pipefail
+cd /sources
+for t in autoconf-2.73 automake-1.17 libtool-2.5.4; do
+  rm -rf "$t"
+  tar -xpf "$t.tar.xz" && cd "$t"
+  ./configure --prefix=/usr
+  make -j"$(nproc)"
+  make install
+  cd /sources && rm -rf "$t"
+done
+ATEOF
+    sudo cp /tmp/build-autotools.sh "$LFS/sources/build-autotools.sh"
+    sudo chroot "$LFS" /usr/bin/env -i HOME=/root TERM="${TERM:-xterm}" \
+      PATH=/usr/bin:/usr/sbin LC_ALL=POSIX bash -e /sources/build-autotools.sh
+    sudo test -x "$LFS/usr/bin/autoconf" || { echo "autoconf no instalado"; exit 1; }
+    echo "autotools OK (autoconf 2.73, automake 1.17, libtool 2.5.4)"
     ;;
 esac

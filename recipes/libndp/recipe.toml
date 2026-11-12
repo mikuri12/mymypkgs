@@ -1,10 +1,10 @@
 name = "libndp"
 version = "1.9"
 release = 1
-description = "libndp 1.9 — Neighbor Discovery Protocol; hard dep de NetworkManager 1.56 (meson.build: dependency('libndp') sin opción)."
+description = "libndp 1.9 — Neighbor Discovery Protocol lib; hard dep incondicional de NetworkManager 1.56 (meson.build dependency(libndp))."
 depends = []
 makedepends = []
-sources = ["https://codeload.github.com/jpirko/libndp/tar.gz/refs/tags/v1.9"]
+sources = ["https://github.com/jpirko/libndp/archive/v1.9.tar.gz"]
 checksums = ["sha256:e564f5914a6b1b799c3afa64c258824a801c1b79a29e2fe6525b682249c65261"]
 config_files = []
 build_tools = []
