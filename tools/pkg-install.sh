@@ -9,6 +9,8 @@ set -euo pipefail
 PKG=$1
 [ -f "$PKG" ] || { echo "no existe $PKG" >&2; exit 1; }
 [ "$(id -u)" -eq 0 ] || { echo "requiere root" >&2; exit 1; }
+# nombre completo del paquete (mismo criterio que abajo): libndp-1.9-1
+PKGNAME=$(basename "$PKG" .tar.zst)
 
 STG=/var/lib/mymy/staging/.install-$$
 DB=/var/lib/mymy/db
@@ -47,6 +49,8 @@ while IFS= read -r f <&3; do
             if [ ! -d "$other" ]; then continue; fi
             oname=${other%/}; oname=${oname##*/}
             if grep -qxF "$f" "$other/FILES" 2>/dev/null; then
+                # reinstalar/actualizar el MISMO paquete no es conflicto
+                if [ "$oname" = "$PKGNAME" ]; then continue; fi
                 echo "CONFLICTO: /$f ya pertenece a $oname" >&2
                 conflict=1
             fi

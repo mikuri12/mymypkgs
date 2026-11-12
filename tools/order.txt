@@ -81,6 +81,7 @@ mpv
 mtdev
 mymy
 networkmanager
+niri
 nlohmann-json
 noctalia
 noctalia-greeter
