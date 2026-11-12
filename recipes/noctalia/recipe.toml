@@ -1,11 +1,11 @@
 name = "noctalia"
-version = "5.4.1"
+version = "5.5.0"
 release = 1
 description = "Noctalia Shell v5.4.1 (C++ nativo, sin Qt/QML). Deps de meson.build verificadas. AVISO: polkit-agent-1/polkit-gobject-1 son required al compilar (sin opción de desactivar); el agente en runtime se deshabilita por config."
 depends = ["sdbus-cpp", "wayland", "wayland-protocols", "libglvnd", "mesa", "freetype", "fontconfig", "cairo", "pango", "harfbuzz", "libxkbcommon", "glib", "libsecret", "libsodium", "polkit", "pipewire", "wireplumber", "curl", "libwebp", "libjxl", "libsndfile", "librsvg", "libqalculate", "libxml2", "md4c", "nlohmann-json", "tomlplusplus", "libical", "stb", "pam", "jemalloc"]
 makedepends = ["sdbus-cpp", "wayland", "wayland-protocols", "libglvnd", "mesa", "freetype", "fontconfig", "cairo", "pango", "harfbuzz", "libxkbcommon", "glib", "libsecret", "libsodium", "polkit", "pipewire", "wireplumber", "curl", "libwebp", "libjxl", "libsndfile", "librsvg", "libqalculate", "libxml2", "md4c", "nlohmann-json", "tomlplusplus", "libical", "stb", "pam", "jemalloc"]
-sources = ["https://github.com/noctalia-dev/noctalia/archive/refs/tags/v5.4.1.tar.gz"]
-checksums = ["sha256:6069d922e9d72488c74e4ce335314ce2203f08bd4641380bfe1bd137004597fa"]
+sources = ["https://github.com/noctalia-dev/noctalia/archive/refs/tags/v5.5.0.tar.gz"]
+checksums = ["sha256:f3fe8a1f1d4306280413e04f934400b787dba212d296d97dfd638bcb55c78262"]
 config_files = ["/etc/xdg/noctalia/settings.toml"]
 build_tools = []
 upstream = "github:noctalia-dev/noctalia"

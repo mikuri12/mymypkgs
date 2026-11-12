@@ -1,11 +1,11 @@
 name = "gdk-pixbuf"
-version = "2.42.12"
+version = "2.44.8"
 release = 1
 description = "gdk-pixbuf: carga de imagenes (dep de xdg-desktop-portal). Solo loaders png/jpeg/gif + png builtin."
 depends = ["glib", "libpng"]
 makedepends = ["glib", "libpng"]
-sources = ["https://download.gnome.org/sources/gdk-pixbuf/2.42/gdk-pixbuf-2.42.12.tar.xz"]
-checksums = ["sha256:b9505b3445b9a7e48ced34760c3bcb73e966df3ac94c95a148cb669ab748e3c7"]
+sources = ["https://download.gnome.org/sources/gdk-pixbuf/2.44/gdk-pixbuf-2.44.8.tar.xz"]
+checksums = ["sha256:919f529512961a12e81cd4b4b466a48c3933469e7f9a310c6513cd4fb252ba3c"]
 config_files = []
 build_tools = []
 upstream = "gitlab:gitlab.gnome.org/GNOME/gdk-pixbuf"

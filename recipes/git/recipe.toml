@@ -1,11 +1,11 @@
 name = "git"
-version = "2.54.0"
+version = "2.56.1"
 release = 1
 description = "git 2.54.0 — control de versiones (sin gettext ni tcltk; libcurl para https)"
 depends = ["curl", "expat", "zlib", "pcre2"]
 makedepends = ["curl", "expat", "zlib", "pcre2"]
-sources = ["https://kernel.org/pub/software/scm/git/git-2.54.0.tar.xz"]
-checksums = ["sha256:f689162364c10de79ef89aa8dbf48731eb057e34edbbd20aca510ce0154681a3"]
+sources = ["https://kernel.org/pub/software/scm/git/git-2.56.1.tar.xz"]
+checksums = ["sha256:f0b0bf89264b9bd2e1c640363e7529643989da76281600473c50745cd34a607f"]
 config_files = []
 build_tools = []
 upstream = "github:git/git"
