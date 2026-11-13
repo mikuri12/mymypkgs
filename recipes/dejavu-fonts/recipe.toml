@@ -1,0 +1,11 @@
+name = "dejavu-fonts"
+version = "2.37"
+release = 1
+description = "DejaVu Fonts 2.37 — TTF (Sans, Sans Mono, Serif) a /usr/share/fonts/dejavu."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/dejavu-fonts/dejavu-fonts/tar.gz/refs/tags/version_2_37"]
+checksums = ["sha256:c4d10a1b665db893adc0c0aaee7ecd81b2b47c877d5cea0b40216707cbf327e4"]
+config_files = []
+build_tools = []
+upstream = "github:dejavu-fonts/dejavu-fonts"

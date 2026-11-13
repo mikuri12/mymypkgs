@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'dejavu-fonts': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-dejavu-fonts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/dejavu-fonts/**'
+      - '.github/workflows/pkg-dejavu-fonts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-dejavu-fonts
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: dejavu-fonts
