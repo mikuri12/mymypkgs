@@ -10,6 +10,6 @@ meson setup --prefix=/usr --buildtype=release \
   -Dcdda=disabled -Drubberband=disabled -Dzimg=disabled \
   -Duchardet=disabled -Dcplugins=disabled \
   -Dgl=enabled -Dwayland=enabled -Degl=enabled \
-  -Dalsa=enabled -Dpipewire=enabled -Dlua=enabled ..
+  -Dalsa=enabled -Dpipewire=enabled -Dlua=disabled ..
 ninja
 DESTDIR="$DESTDIR" ninja install

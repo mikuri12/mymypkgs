@@ -7,5 +7,5 @@ makedepends = ["libxkbcommon", "eudev", "libinput", "seatd", "libdisplay-info", 
 sources = ["https://codeload.github.com/YaLTeR/niri/tar.gz/refs/tags/v26.04"]
 checksums = ["sha256:134c602d8e0d53413a52d6cd58f9ce7e79a07d03288ee0a51ba1abd5db1b1ad9"]
 config_files = []
-build_tools = ["rust"]
+build_tools = ["rust", "libclang"]
 upstream = "github:YaLTeR/niri"
