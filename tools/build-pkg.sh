@@ -96,9 +96,15 @@ export PATH="/opt/rust/bin:/opt/go/bin:/usr/bin:/usr/sbin:/bin:$PATH"
 # pkg-config: cubrir rutas estándar + spa (pipewire instala libspa-0.2.pc en
 # /usr/lib/spa-0.2, fuera del path por defecto → libspa-sys fallaba en niri).
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/spa-0.2:/usr/share/spa-0.2:/usr/lib64/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
-# bindgen (libspa-sys en niri, etc.): libclang vive en /opt/llvm/lib si el
-# build_tool libclang corrió; exportarla siempre que exista.
-[ -d /opt/llvm/lib ] && export LIBCLANG_PATH="/opt/llvm/lib${LIBCLANG_PATH:+:$LIBCLANG_PATH}"
+# bindgen (libspa-sys en niri): libclang vive en /opt/llvm/lib si el build_tool
+# libclang corrió. OJO (runs niri 43352853586/43356014527/43363372133/43367520735):
+# clang-sys 1.8 trata LIBCLANG_PATH como UNA SOLA ruta (NO hace split en dos
+# puntos); concatenar el valor previo del workflow deja /opt/llvm/lib:/opt/llvm/lib
+# y bindgen no encuentra nada (invalid: []).
+if [ -d /opt/llvm/lib ]; then
+  export LIBCLANG_PATH="/opt/llvm/lib"
+  ls /opt/llvm/lib/libclang.so* >/dev/null 2>&1 || { echo "ERROR: /opt/llvm/lib sin libclang.so*"; exit 1; }
+fi
 bash "$RECIPE_DIR/build.sh"
 
 # Verificar que produjo algo
