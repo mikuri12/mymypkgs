@@ -69,9 +69,8 @@ if [ -n "$first" ]; then
     PKG_DIR=$(awk -F/ 'NR==1{print $1; exit}' /tmp/build/.list)
     if [ -n "$PKG_DIR" ] && [ -d "/tmp/build/$PKG_DIR" ]; then
       cd "/tmp/build/$PKG_DIR"
-    elif ! grep -q '/' /tmp/build/.list; then
-      # tarball PLANO: binarios en la raiz sin subdir (cargo-c) → build.sh
-      # trabaja en /tmp/build.
+    elif ! head -1 /tmp/build/.list | grep -q '/'; then
+      # tarball PLANO (primera entrada sin '/'): build.sh trabaja en /tmp/build.
       cd /tmp/build
     else
       echo "tarball sin dir raíz: $first"; exit 1
