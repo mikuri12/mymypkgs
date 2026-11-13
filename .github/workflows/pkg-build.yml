@@ -159,7 +159,12 @@ jobs:
                   '' \
                   '[source.vendored-sources]' \
                   "directory = \"/sources/${PKG}-vendor\""
-                if [ "$PKG" = "halley" ]; then
+                # fuentes git (smithay etc.): si hay asset <pkg>-vendor-config.toml
+                # (salida de `cargo vendor`), se añade tal cual; fallback halley.
+                if curl -fsSL -o "/tmp/${PKG}-vendor-config.toml" -L \
+                     "https://github.com/mikuri12/mymypkgs/releases/download/packages/${PKG}-vendor-config.toml"; then
+                  cat "/tmp/${PKG}-vendor-config.toml"
+                elif [ "$PKG" = "halley" ]; then
                   printf '%s\n' \
                     '[source."git+https://github.com/Smithay/smithay.git?rev=ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"]' \
                     'git = "https://github.com/Smithay/smithay.git"' \

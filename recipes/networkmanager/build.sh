@@ -10,6 +10,7 @@ meson setup --prefix=/usr --buildtype=release \
   -Dintrospection=false -Dselinux=false -Dmodem_manager=false \
   -Dconcheck=false -Dovs=false -Dppp=false -Dbluez5_dun=false \
   -Dnm_cloud_setup=false -Dsession_tracking=no -Dsystemd_journal=false \
+  -Dsystemdsystemunitdir=no \
   -Dcrypto=null -Dlibpsl=false -Dlibaudit=no -Dqt=false -Dman=false -Dtests=no ..
 ninja
 DESTDIR="$DESTDIR" ninja install
