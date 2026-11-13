@@ -1,9 +1,9 @@
 name = "vulkan-loader"
 version = "1.4.368"
 release = 1
-description = "Vulkan-Loader 1.4.368 (libvulkan.so) — WSI xlib/xcb/wayland OFF (sin deps de servidor), tests OFF; lo exige libplacebo (mpv 0.41 hard-dep)."
-depends = ["vulkan-headers"]
-makedepends = ["vulkan-headers"]
+description = "Vulkan-Loader 1.4.368 (libvulkan.so) — WSI wayland ON (exporta vkCreateWaylandSurfaceKHR, lo linkea mpv); xlib/xcb OFF; tests OFF; lo exige libplacebo (mpv 0.41 hard-dep)."
+depends = ["vulkan-headers", "wayland"]
+makedepends = ["vulkan-headers", "wayland"]
 sources = ["https://github.com/KhronosGroup/Vulkan-Loader/archive/refs/tags/v1.4.368.tar.gz"]
 checksums = ["sha256:d2fe102c8493d80f2e3d6c5b3304a331e69072d7a041b1323c6f0246b94cbf3c"]
 config_files = []
