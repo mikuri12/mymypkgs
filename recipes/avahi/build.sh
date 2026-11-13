@@ -1,6 +1,8 @@
 #!/bin/bash
 # avahi 0.8 — autotools. Solo el core (sin GUI/Qt/Python/mono).
 set -euo pipefail
+# el tarball de GitHub NO trae ./configure → autogen.sh (autotools en build_tools)
+NOCONFIGURE=1 ./autogen.sh
 ./configure --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
   --disable-static \
   --disable-qt3 --disable-qt4 --disable-qt5 --disable-qt6 \

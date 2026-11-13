@@ -7,5 +7,5 @@ makedepends = ["pcre2"]
 sources = ["https://codeload.github.com/fish-shell/fish-shell/tar.gz/refs/tags/4.9.3"]
 checksums = ["sha256:9aac04d7be06e9f7bb41c9162e8804857cadbfbfcb4012fb3d4f591fc19b25be"]
 config_files = []
-build_tools = ["rust"]
+build_tools = ["rust", "cmake"]
 upstream = "github:fish-shell/fish-shell"
