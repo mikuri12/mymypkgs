@@ -93,6 +93,9 @@ export DESTDIR="$DESTDIR_STG"
 export SRC
 # rust y go viven en /opt (build_tools rust/go); sin esto 'cargo/go: command not found'.
 export PATH="/opt/rust/bin:/opt/go/bin:/usr/bin:/usr/sbin:/bin:$PATH"
+# pkg-config: cubrir rutas estándar + spa (pipewire instala libspa-0.2.pc en
+# /usr/lib/spa-0.2, fuera del path por defecto → libspa-sys fallaba en niri).
+export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/spa-0.2:/usr/share/spa-0.2:/usr/lib64/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
 bash "$RECIPE_DIR/build.sh"
 
 # Verificar que produjo algo
