@@ -1,0 +1,11 @@
+name = "avahi"
+version = "0.8"
+release = 1
+description = "avahi 0.8 — mDNS/DNS-SD (Bonjour). Solo core+cliente+utils, sin Qt/GTK/Python; con dbus y compat-libdns_sd. Dep: libdaemon."
+depends = ["libdaemon", "dbus", "expat"]
+makedepends = ["libdaemon", "dbus", "expat"]
+sources = ["https://codeload.github.com/lathiat/avahi/tar.gz/refs/tags/v0.8"]
+checksums = ["sha256:c15e750ef7c6df595fb5f2ce10cac0fee2353649600e6919ad08ae8871e4945f"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "github:lathiat/avahi"

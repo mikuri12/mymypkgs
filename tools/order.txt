@@ -134,3 +134,9 @@ niri
 dejavu-fonts
 jdk21
 prismlauncher
+libdaemon
+avahi
+gstreamer
+gst-plugins-base
+liberation-fonts
+fish

@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'liberation-fonts': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-liberation-fonts
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/liberation-fonts/**'
+      - '.github/workflows/pkg-liberation-fonts.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-liberation-fonts
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: liberation-fonts

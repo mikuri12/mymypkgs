@@ -1,0 +1,11 @@
+name = "gstreamer"
+version = "1.26.11"
+release = 1
+description = "gstreamer 1.26.11 — core del framework multimedia (GStreamer). meson, shared. Tarball oficial freedesktop (autocontenido)."
+depends = ["glib"]
+makedepends = ["glib"]
+sources = ["https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.26.11.tar.xz"]
+checksums = ["sha256:2e0bd192d0438ea606a6f76a95c8e16542167656ffec2c2bc3aaf6ee0837fbf6"]
+config_files = []
+build_tools = []
+upstream = "freedesktop:gstreamer"

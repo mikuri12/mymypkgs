@@ -1,0 +1,11 @@
+name = "gst-plugins-base"
+version = "1.26.11"
+release = 1
+description = "gst-plugins-base 1.26.11 — plugins base (alsa, playback, ogg/vorbis/opus, pango off). Dep: gstreamer. Tarball oficial freedesktop."
+depends = ["gstreamer", "glib", "alsa-lib"]
+makedepends = ["gstreamer", "glib", "alsa-lib"]
+sources = ["https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.26.11.tar.xz"]
+checksums = ["sha256:fc50f885d41f5d0407ce0876ec7235d9e7b82d48db2f4bc72c5f244a4ac79263"]
+config_files = []
+build_tools = []
+upstream = "freedesktop:gst-plugins-base"

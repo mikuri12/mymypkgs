@@ -1,0 +1,11 @@
+name = "libdaemon"
+version = "0.14"
+release = 1
+description = "libdaemon 0.14 — librería C para daemons Unix (dep de avahi). autotools."
+depends = []
+makedepends = []
+sources = ["https://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz"]
+checksums = ["sha256:fd23eb5f6f986dcc7e708307355ba3289abe03cc381fc47a80bca4a50aa6b834"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "freedesktop:libdaemon"

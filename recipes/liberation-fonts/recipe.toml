@@ -1,0 +1,11 @@
+name = "liberation-fonts"
+version = "2.1.5"
+release = 1
+description = "Liberation Fonts 2.1.5 (TTF) — métricas compatibles Arial/Times/Courier. Asset oficial del release."
+depends = []
+makedepends = []
+sources = ["https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz"]
+checksums = ["sha256:7191c669bf38899f73a2094ed00f7b800553364f90e2637010a69c0e268f25d0"]
+config_files = []
+build_tools = []
+upstream = "github:liberationfonts/liberation-fonts"
