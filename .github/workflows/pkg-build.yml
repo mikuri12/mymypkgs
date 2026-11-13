@@ -81,6 +81,23 @@ jobs:
             [ "$got" = "$want" ] || { echo "SHA256 BAD para $f (want $want)"; exit 1; }
             echo "fuente OK: $f"
           done
+          # prefetch: pares "dest=url" (sin sha obligatorio) para archivos extra que
+          # build.sh copia a sitios como subprojects/packagecache (wraps meson).
+          pref=$(awk '/^prefetch *=/{f=1} f{print} f && /\]/{exit}' "$r/recipe.toml" | grep -oE '"[^"]+"' | tr -d '"') || true
+          for p in $pref; do
+            dest="${p%%=*}"; url="${p#*=}"
+            tf="/mnt/lfs/sources/${PKG}__${dest}"
+            if [ ! -f "$tf" ]; then
+              sudo mkdir -p "$(dirname "$tf")"
+              ok=0
+              for i in 1 2 3 4 5; do
+                sudo curl -fsSL --retry 3 -o "$tf" "$url" && { ok=1; break; }
+                sleep 10
+              done
+              [ $ok -eq 1 ] || { echo "prefetch falló: $p"; exit 1; }
+            fi
+            echo "prefetch OK: $dest"
+          done
 
       - name: Descargar paquetes ya publicados (dependencias) del Release
         run: |

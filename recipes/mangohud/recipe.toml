@@ -6,6 +6,19 @@ depends = ["libglvnd", "libdrm", "libxkbcommon"]
 makedepends = ["libglvnd", "libdrm", "libxkbcommon", "mako"]
 sources = ["https://codeload.github.com/FlightlessMango/MangoHud/tar.gz/refs/tags/v0.8.4"]
 checksums = ["sha256:0f79671dbc825f33d7014088cb7750c166934ade26bbd6007a171aa2d960cd2f"]
+# Wraps meson que v0.8.4 SIEMPRE usa como subproyectos (el código de sistema
+# está comentado en su meson.build): el chroot no tiene CA para descargarlos,
+# así que el workflow los prefetch-a a subprojects/packagecache con el nombre
+# exacto que cada .wrap espera (source_filename / patch_filename).
+prefetch = [
+  "packagecache/imgui-1.91.6.tar.gz=https://github.com/ocornut/imgui/archive/refs/tags/v1.91.6.tar.gz",
+  "packagecache/implot-0.16.zip=https://github.com/epezent/implot/archive/refs/tags/v0.16.zip",
+  "packagecache/implot_0.16-1_patch.zip=https://wrapdb.mesonbuild.com/v2/implot_0.16-1/get_patch",
+  "packagecache/spdlog-1.14.1.tar.gz=https://github.com/gabime/spdlog/archive/refs/tags/v1.14.1.tar.gz",
+  "packagecache/spdlog_1.14.1-1_patch.zip=https://wrapdb.mesonbuild.com/v2/spdlog_1.14.1-1/get_patch",
+  "packagecache/vulkan-headers-1.4.346.tar.gz=https://github.com/KhronosGroup/Vulkan-Headers/archive/v1.4.346.tar.gz",
+  "packagecache/vulkan-utility-libraries-1.4.346.tar.gz=https://github.com/KhronosGroup/Vulkan-Utility-Libraries/archive/v1.4.346.tar.gz",
+]
 config_files = []
 build_tools = []
 upstream = "github:FlightlessMango/MangoHud"

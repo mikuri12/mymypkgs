@@ -96,6 +96,9 @@ export PATH="/opt/rust/bin:/opt/go/bin:/usr/bin:/usr/sbin:/bin:$PATH"
 # pkg-config: cubrir rutas estándar + spa (pipewire instala libspa-0.2.pc en
 # /usr/lib/spa-0.2, fuera del path por defecto → libspa-sys fallaba en niri).
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig:/usr/share/pkgconfig:/usr/lib/spa-0.2:/usr/share/spa-0.2:/usr/lib64/pkgconfig${PKG_CONFIG_PATH:+:$PKG_CONFIG_PATH}"
+# bindgen (libspa-sys en niri, etc.): libclang vive en /opt/llvm/lib si el
+# build_tool libclang corrió; exportarla siempre que exista.
+[ -d /opt/llvm/lib ] && export LIBCLANG_PATH="/opt/llvm/lib${LIBCLANG_PATH:+:$LIBCLANG_PATH}"
 bash "$RECIPE_DIR/build.sh"
 
 # Verificar que produjo algo
