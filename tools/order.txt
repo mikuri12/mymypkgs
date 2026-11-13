@@ -135,6 +135,7 @@ dejavu-fonts
 jdk21
 prismlauncher
 libdaemon
+libevent
 avahi
 gstreamer
 gst-plugins-base
