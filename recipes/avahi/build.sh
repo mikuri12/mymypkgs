@@ -6,6 +6,7 @@ set -euo pipefail
   --disable-static \
   --disable-qt3 --disable-qt4 --disable-qt5 --disable-qt6 \
   --disable-gtk --disable-gtk3 --disable-glib \
+  --disable-gobject \
   --disable-python --disable-mono --disable-monodoc \
   --disable-doxygen-doc --disable-doxygen-html --disable-xmltoman --disable-lynx \
   --enable-compat-libdns_sd --enable-compat-howl \
