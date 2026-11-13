@@ -6,7 +6,7 @@ set -euo pipefail
 # para que meson no intente descargar (el chroot no tiene certificados CA).
 d=$(find /tmp/build -maxdepth 1 -type d ! -path /tmp/build | head -1)
 mkdir -p "$d/subprojects/packagecache"
-for f in /lfs/sources/mangohud__packagecache/*; do
+for f in /sources/mangohud__packagecache/*; do
   [ -e "$f" ] && cp -v "$f" "$d/subprojects/packagecache/"
 done
 rm -rf build && mkdir build && cd build
