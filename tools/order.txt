@@ -141,3 +141,4 @@ gstreamer
 gst-plugins-base
 liberation-fonts
 fish
+vesktop
