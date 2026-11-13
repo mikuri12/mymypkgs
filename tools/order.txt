@@ -145,3 +145,4 @@ vesktop
 fftw3
 cava
 brave
+helix

@@ -1,0 +1,11 @@
+name = "helix"
+version = "25.07.1"
+release = 1
+description = "helix 25.07.1 — editor modal. cargo offline con vendor asset helix-vendor.tar.gz (+config solo-git). Gramáticas tree-sitter se descargan en runtime con 'hx --grammar fetch' (HELIX_DISABLE_AUTO_GRAMMAR_BUILD=1 en build)."
+depends = []
+makedepends = []
+sources = ["https://codeload.github.com/helix-editor/helix/tar.gz/refs/tags/25.07.1"]
+checksums = ["sha256:27c8bc3eba46bc7bab1e3629c6b28ff94882eeff17366b3ea69cd8ceffba7541"]
+config_files = []
+build_tools = ["rust"]
+upstream = "github:helix-editor/helix"
