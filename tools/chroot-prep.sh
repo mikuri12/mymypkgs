@@ -129,18 +129,19 @@ case " $BT " in
   *" autotools "*)
     # autoconf/automake/libtool desde ftp.gnu.org (tarballs release con
     # configure pre-generado; solo necesitan m4+perl+make, ya en la base LFS).
-    dl() { # dl <nombre> <url> <sha256>
-      local n="$1" u="$2" s="$3" i
+    dl() { # dl <nombre> <version> <url> <sha256>  → guarda <nombre>-<version>.tar.xz
+      local n="$1" v="$2" u="$3" s="$4" i
       for i in 1 2 3 4 5; do
-        sudo curl -fsSL --retry 2 -o "$LFS/sources/$n.tar.xz" "$u" && break
-        rm -f "$LFS/sources/$n.tar.xz"; sleep 15
+        sudo curl -fsSL --retry 2 -o "$LFS/sources/$n-$v.tar.xz" "$u" && break
+        rm -f "$LFS/sources/$n-$v.tar.xz"; sleep 15
       done
-      echo "$s  /mnt/lfs/sources/$n.tar.xz" | sudo tee "$LFS/sources/$n.sha256" >/dev/null
-      sudo bash -c "cd /mnt/lfs/sources && sha256sum -c $n.sha256"
+      [ -s "$LFS/sources/$n-$v.tar.xz" ] || { echo "descarga falló: $n-$v"; exit 1; }
+      echo "$s  /mnt/lfs/sources/$n-$v.tar.xz" | sudo tee "$LFS/sources/$n-$v.sha256" >/dev/null
+      sudo bash -c "cd /mnt/lfs/sources && sha256sum -c $n-$v.sha256"
     }
-    dl autoconf "https://ftp.gnu.org/gnu/autoconf/autoconf-2.73.tar.xz" "9fd672b1c8425fac2fa67fa0477b990987268b90ff36d5f016dae57be0d6b52e"
-    dl automake "https://ftp.gnu.org/gnu/automake/automake-1.17.tar.xz" "8920c1fc411e13b90bf704ef9db6f29d540e76d232cb3b2c9f4dc4cc599bd990"
-    dl libtool  "https://ftp.gnu.org/gnu/libtool/libtool-2.5.4.tar.xz"  "f81f5860666b0bc7d84baddefa60d1cb9fa6fceb2398cc3baca6afaa60266675"
+    dl autoconf 2.73 "https://ftp.gnu.org/gnu/autoconf/autoconf-2.73.tar.xz" "9fd672b1c8425fac2fa67fa0477b990987268b90ff36d5f016dae57be0d6b52e"
+    dl automake 1.17 "https://ftp.gnu.org/gnu/automake/automake-1.17.tar.xz" "8920c1fc411e13b90bf704ef9db6f29d540e76d232cb3b2c9f4dc4cc599bd990"
+    dl libtool  2.5.4 "https://ftp.gnu.org/gnu/libtool/libtool-2.5.4.tar.xz"  "f81f5860666b0bc7d84baddefa60d1cb9fa6fceb2398cc3baca6afaa60266675"
     cat > /tmp/build-autotools.sh << 'ATEOF'
 set -euo pipefail
 cd /sources
