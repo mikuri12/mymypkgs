@@ -1,11 +1,11 @@
 name = "networkmanager"
-version = "1.56.0"
+version = "1.58.1"
 release = 1
 description = "NetworkManager 1.56.0 — gestión de red (ethernet/wifi vía wpa_supplicant). Servicio runit aparte. Sin modemmanager/ppp/ovs/bluetooth."
 depends = ["glib", "dbus", "libnl", "libndp", "polkit", "eudev", "wpa_supplicant", "curl"]
 makedepends = ["glib", "dbus", "libnl", "libndp", "polkit", "eudev", "wpa_supplicant", "curl"]
-sources = ["https://github.com/NetworkManager/NetworkManager/archive/refs/tags/1.56.0.tar.gz"]
-checksums = ["sha256:42c1249f2e7c1d877ae03b63540d8d81fed94fabcdb4186b247295ac24d4088e"]
+sources = ["https://github.com/NetworkManager/NetworkManager/archive/refs/tags/1.58.1.tar.gz"]
+checksums = ["sha256:8d112eefc0e0e15d44e93453a8a16760ec07a4037e1f93097abdf55abd5dca2d"]
 config_files = ["/etc/NetworkManager/NetworkManager.conf"]
 build_tools = []
 upstream = "github:NetworkManager/NetworkManager"
