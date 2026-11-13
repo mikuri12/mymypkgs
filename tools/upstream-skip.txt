@@ -10,3 +10,4 @@ libwebp
 lua
 pipewire
 xwayland-satellite
+mikucat-cursor

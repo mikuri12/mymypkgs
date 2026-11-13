@@ -1,14 +1,14 @@
 #!/bin/bash
-# gdk-pixbuf 2.42.12 — meson.
+# gdk-pixbuf 2.44.8 — meson.
 # Opciones VERIFICADAS contra meson_options.txt: png/tiff/jpeg/gif/others/
-# introspection = feature ; builtin_loaders = array ; gtk_doc/docs/man/
+# introspection = feature ; builtin_loaders = array ; gtk_doc(deprecated->documentation)/documentation/man/
 # tests/installed_tests/relocatable = boolean
 #
 # Solo PNG (hay libpng en el chroot) + GIF (builtin, sin dependencia externa).
 # jpeg/tiff/others OFF: libjpeg/libtiff NO están en el chroot (y son pesados);
 # el builtin de jpeg no requiere libjpeg pero su loader está deprecated, así que
 # se deja fuera (xdg-desktop-portal solo necesita PNG para sus iconos).
-# docs/gtk_doc/man/introspection fuera: no hay gi-docgen/xmlto/xsltproc.
+# documentation(gtk_doc)/man/introspection fuera: no hay gi-docgen/xmlto/xsltproc.
 set -euo pipefail
 rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
@@ -19,7 +19,6 @@ meson setup --prefix=/usr --buildtype=release \
   -D others=disabled \
   -D builtin_loaders=png \
   -D gtk_doc=false \
-  -D docs=false \
   -D man=false \
   -D introspection=disabled \
   -D tests=false \
