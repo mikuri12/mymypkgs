@@ -71,8 +71,18 @@ jobs:
             f="${PKG}__$(basename "$src")"
             if [ ! -f "/mnt/lfs/sources/$f" ]; then
               ok=0
+              # candidatos: URL original + mirror edge de kernel.org
+              # (kernel.org a veces es inalcanzable desde runners GH;
+              #  runs 43399361866/43399760456 murieron descargando git-2.56.1)
+              cands="$src"
+              case "$src" in
+                https://kernel.org/*) cands="$cands https://mirrors.edge.kernel.org/${src#https://kernel.org/}" ;;
+              esac
               for i in 1 2 3 4 5 6 7 8 9 10; do
-                sudo curl -fsSL --retry 3 -o "/mnt/lfs/sources/$f" "$src" && { ok=1; break; }
+                for url in $cands; do
+                  sudo curl -fsSL --retry 3 --connect-timeout 30 -o "/mnt/lfs/sources/$f" "$url" && { ok=1; break; }
+                done
+                [ $ok -eq 1 ] && break
                 echo "retry $f (intento $i)"; sleep 20
               done
               [ $ok -eq 1 ] || { echo "descarga falló: $src"; exit 1; }
@@ -90,8 +100,15 @@ jobs:
             if [ ! -f "$tf" ]; then
               sudo mkdir -p "$(dirname "$tf")"
               ok=0
+              cands="$url"
+              case "$url" in
+                https://kernel.org/*) cands="$cands https://mirrors.edge.kernel.org/${url#https://kernel.org/}" ;;
+              esac
               for i in 1 2 3 4 5; do
-                sudo curl -fsSL --retry 3 -o "$tf" "$url" && { ok=1; break; }
+                for u in $cands; do
+                  sudo curl -fsSL --retry 3 --connect-timeout 30 -o "$tf" "$u" && { ok=1; break; }
+                done
+                [ $ok -eq 1 ] && break
                 sleep 10
               done
               [ $ok -eq 1 ] || { echo "prefetch falló: $p"; exit 1; }
