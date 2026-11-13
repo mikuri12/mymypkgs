@@ -5,6 +5,6 @@ meson setup build --prefix=/usr --buildtype=release --libdir=lib --default-libra
   -Dtests=disabled -Dexamples=disabled -Ddoc=disabled -Dintrospection=disabled \
   -Dnls=disabled -Dwrap_mode=nodownload \
   -Dgl=disabled -Dpango=disabled -Dalsa=enabled -Dcdparanoia=disabled \
-  -Dogg=enabled -Dvorbis=enabled -Dtheora=disabled -Dopus=enabled -Dtremor=disabled
+  -Dogg=disabled -Dvorbis=disabled -Dtheora=disabled -Dopus=disabled -Dtremor=disabled
 ninja -C build
 DESTDIR="$DESTDIR" ninja -C build install
