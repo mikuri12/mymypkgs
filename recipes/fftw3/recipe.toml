@@ -1,0 +1,11 @@
+name = "fftw3"
+version = "3.3.10"
+release = 1
+description = "FFTW 3.3.10 — FFT library (dep de cava). autotools, shared."
+depends = []
+makedepends = []
+sources = ["https://www.fftw.org/fftw-3.3.10.tar.gz"]
+checksums = ["sha256:56c932549852cddcfafdab3820b0200c7742675be92179e59e6215b340e26467"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "fftw.org"

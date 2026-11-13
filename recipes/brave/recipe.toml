@@ -1,0 +1,11 @@
+name = "brave"
+version = "1.99.57"
+release = 1
+description = "Brave Browser 1.99.57 — .deb oficial del repo apt de Brave, extraído con ar+tar a /usr/lib/brave + wrapper /usr/bin/brave."
+depends = []
+makedepends = []
+sources = ["https://brave-browser-apt-release.s3.brave.com/pool/main/b/brave-browser/brave-browser_1.99.57_amd64.deb"]
+checksums = ["sha256:8cd14c57f7fd6d79dfd9a25450175b5438a1b11b565ff5d08ad991b702de9fd5"]
+config_files = []
+build_tools = []
+upstream = "brave:apt-release"

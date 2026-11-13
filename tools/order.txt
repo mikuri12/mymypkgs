@@ -142,3 +142,6 @@ gst-plugins-base
 liberation-fonts
 fish
 vesktop
+fftw3
+cava
+brave
