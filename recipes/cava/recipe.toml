@@ -1,11 +1,11 @@
 name = "cava"
-version = "0.10.6"
+version = "1.0.0"
 release = 1
 description = "cava 0.10.6 — visualizador de audio en consola (FFT). autotools, dep fftw3."
 depends = ["fftw3", "iniparser"]
 makedepends = ["fftw3", "iniparser"]
-sources = ["https://codeload.github.com/LukashonakV/cava/tar.gz/refs/tags/0.10.6"]
-checksums = ["sha256:e715c4c6a625b8dc063e57e8e81c80e4d1015ec1b98db69a283b2c6770f839f4"]
+sources = ["https://codeload.github.com/LukashonakV/cava/tar.gz/refs/tags/1.0.0"]
+checksums = ["sha256:437df0a29e52e555357a06238f4c5cbe6d51b5dd4225700cb7adbb19d8bb9474"]
 config_files = []
 build_tools = ["autotools"]
 upstream = "github:LukashonakV/cava"
