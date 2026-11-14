@@ -1,0 +1,11 @@
+name = "exo"
+version = "4.20.0"
+release = 1
+description = "exo 4.20.0 — extensiones de libxfce4ui (dep de thunar)."
+depends = ["libxfce4util", "libxfce4ui"]
+makedepends = ["libxfce4util", "libxfce4ui"]
+sources = ["https://codeload.github.com/xfce-mirror/exo/tar.gz/refs/tags/exo-4.20.0"]
+checksums = ["sha256:6b3f9de0192749922441a81c23d20e4f6038a80fe91f18e34f01267305419146"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xfce:exo"

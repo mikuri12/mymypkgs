@@ -1,0 +1,11 @@
+name = "libxfce4util"
+version = "4.20.1"
+release = 1
+description = "libxfce4util 4.20.1 — base de las libs xfce. autotools/meson auto."
+depends = ["glib"]
+makedepends = ["glib"]
+sources = ["https://codeload.github.com/xfce-mirror/libxfce4util/tar.gz/refs/tags/libxfce4util-4.20.1"]
+checksums = ["sha256:998e6ede1b908a34b2f91defcdcc9e7103e7d2628b7830698d65409743ccec72"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xfce:libxfce4util"

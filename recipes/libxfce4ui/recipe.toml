@@ -1,0 +1,11 @@
+name = "libxfce4ui"
+version = "4.20.0"
+release = 1
+description = "libxfce4ui 4.20.0 — widgets UI xfce (dep de exo/thunar). gtk3."
+depends = ["libxfce4util", "xfconf", "gtk3"]
+makedepends = ["libxfce4util", "xfconf", "gtk3"]
+sources = ["https://codeload.github.com/xfce-mirror/libxfce4ui/tar.gz/refs/tags/libxfce4ui-4.20.0"]
+checksums = ["sha256:ebef06db0e4a80efd4dbe992cf317bcb3d62ca2d8b389995db193530fb635ba9"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xfce:libxfce4ui"

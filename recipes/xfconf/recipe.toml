@@ -1,0 +1,11 @@
+name = "xfconf"
+version = "4.20.0"
+release = 1
+description = "xfconf 4.20.0 — sistema de configuración xfce (daemon D-Bus). Dep de thunar."
+depends = ["libxfce4util", "dbus", "glib"]
+makedepends = ["libxfce4util", "dbus", "glib"]
+sources = ["https://codeload.github.com/xfce-mirror/xfconf/tar.gz/refs/tags/xfconf-4.20.0"]
+checksums = ["sha256:a432495a0f1e0aab7cd644373ed6dec7da0f974f4deee3d763b7d8553a0bfc3c"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xfce:xfconf"

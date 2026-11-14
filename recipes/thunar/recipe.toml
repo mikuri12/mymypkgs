@@ -1,0 +1,11 @@
+name = "thunar"
+version = "4.20.9"
+release = 1
+description = "Thunar 4.20.9 — gestor de archivos xfce (gtk3, wayland via xwayland-satellite opcional)."
+depends = ["exo", "libxfce4ui", "xfconf", "gtk3", "libnotify", "pcre2"]
+makedepends = ["exo", "libxfce4ui", "xfconf", "gtk3", "libnotify", "pcre2"]
+sources = ["https://codeload.github.com/xfce-mirror/Thunar/tar.gz/refs/tags/thunar-4.20.9"]
+checksums = ["sha256:c3582dd823663d2c5d569ed7dc8d4206aae6a4d23789736695bdc575037a6ead"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xfce:Thunar"
