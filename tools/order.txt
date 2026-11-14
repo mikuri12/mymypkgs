@@ -154,6 +154,7 @@ xkeyboard-config
 adwaita-icon-theme
 gtk3
 helium
+xfce4-dev-tools
 libxfce4util
 xfconf
 libxfce4ui

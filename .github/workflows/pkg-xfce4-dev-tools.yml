@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'xfce4-dev-tools': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-xfce4-dev-tools
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/xfce4-dev-tools/**'
+      - '.github/workflows/pkg-xfce4-dev-tools.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-xfce4-dev-tools
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: xfce4-dev-tools
