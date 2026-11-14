@@ -1,0 +1,11 @@
+name = "libxslt"
+version = "1.1.45"
+release = 1
+description = "libxslt 1.1.45 — XSLT (xsltproc). Dep build de xfce4-dev-tools. Dep libxml2."
+depends = ["libxml2"]
+makedepends = ["libxml2"]
+sources = ["https://download.gnome.org/sources/libxslt/1.1/libxslt-1.1.45.tar.xz"]
+checksums = ["sha256:9acfe68419c4d06a45c550321b3212762d92f41465062ca4ea19e632ee5d216e"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "gnome:libxslt"
