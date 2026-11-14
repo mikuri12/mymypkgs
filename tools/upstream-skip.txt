@@ -11,3 +11,4 @@ lua
 pipewire
 xwayland-satellite
 mikucat-cursor
+xdg-desktop-portal
