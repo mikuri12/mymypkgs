@@ -1,0 +1,11 @@
+name = "libxi"
+version = "1.8.2"
+release = 1
+description = "libXi 1.8.2 — XInput (dep thunar/gtk)."
+depends = ["libx11", "libxext"]
+makedepends = ["libx11", "libxext"]
+sources = ["https://gitlab.freedesktop.org/xorg/lib/libXi/-/archive/libXi-1.8.2/libXi-libXi-1.8.2.tar.gz"]
+checksums = ["sha256:ebc6042903496dfb8998bb4bdb8bffc80a9b3f0f990ba85b5cfcf1058cbe0ed0"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:libxi"

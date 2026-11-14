@@ -1,0 +1,11 @@
+name = "libnotify"
+version = "0.8.7"
+release = 1
+description = "libnotify 0.8.7 — notificaciones de escritorio (dep thunar). gtk3."
+depends = ["gdk-pixbuf", "gtk3"]
+makedepends = ["gdk-pixbuf", "gtk3"]
+sources = ["https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.7.tar.xz"]
+checksums = ["sha256:4be15202ec4184fce1ac15997ece5530d2be32fe9573875aeb10e3b573858748"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "gnome:libnotify"

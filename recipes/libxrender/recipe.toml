@@ -1,0 +1,11 @@
+name = "libxrender"
+version = "0.9.12"
+release = 1
+description = "libXrender 0.9.12 — render ext X11."
+depends = ["libx11"]
+makedepends = ["libx11"]
+sources = ["https://gitlab.freedesktop.org/xorg/lib/libXrender/-/archive/libXrender-0.9.12/libXrender-libXrender-0.9.12.tar.gz"]
+checksums = ["sha256:582a871824a0aebbf30ed93fd36bc3eb4c3ac4fbda5929ce1ca27e1d73b3afdf"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:libxrender"
