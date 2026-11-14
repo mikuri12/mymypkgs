@@ -1,0 +1,11 @@
+name = "xtrans"
+version = "1.6.0"
+release = 1
+description = "xtrans 1.6.0 — macros de transporte X (XTRANS_CONNECTION_FLAGS). Dep build libX11."
+depends = []
+makedepends = []
+sources = ["https://gitlab.freedesktop.org/xorg/lib/xtrans/-/archive/xtrans-1.6.0/xtrans-xtrans-1.6.0.tar.gz"]
+checksums = ["sha256:c66b7bfb758bd87eeab10ebae2fa1a26fac1b38dfe6502a4fab6ca7c2eccc7ff"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:xtrans"

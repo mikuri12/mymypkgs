@@ -156,6 +156,7 @@ gtk3
 helium
 libxslt
 util-macros
+xtrans
 libx11
 libxext
 libxrender
