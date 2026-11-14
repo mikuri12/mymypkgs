@@ -1,0 +1,11 @@
+name = "hicolor-icon-theme"
+version = "0.18"
+release = 1
+description = "hicolor-icon-theme 0.18 — tema de iconos base (fallback). Solo datos."
+depends = []
+makedepends = []
+sources = ["https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.18.tar.xz"]
+checksums = ["sha256:db0e50a80aa3bf64bb45cbca5cf9f75efd9348cf2ac690b907435238c3cf81d7"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "freedesktop:hicolor-icon-theme"

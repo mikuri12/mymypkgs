@@ -1,0 +1,11 @@
+name = "atk"
+version = "2.38.0"
+release = 1
+description = "ATK 2.38.0 — accesibilidad toolkit (dep de gtk3). meson, shared."
+depends = ["glib"]
+makedepends = ["glib"]
+sources = ["https://download.gnome.org/sources/atk/2.38/atk-2.38.0.tar.xz"]
+checksums = ["sha256:ac4de2a4ef4bd5665052952fe169657e65e895c5057dffb3c2a810f6191a0c36"]
+config_files = []
+build_tools = []
+upstream = "gnome:atk"

@@ -1,0 +1,11 @@
+name = "libepoxy"
+version = "1.5.10"
+release = 1
+description = "libepoxy 1.5.10 — dispatch de GL/EGL (dep de gtk3). meson, shared."
+depends = ["libglvnd"]
+makedepends = ["libglvnd"]
+sources = ["https://github.com/NixOS/libepoxy/archive/refs/tags/1.5.10.tar.gz"]
+checksums = ["sha256:PLACEHOLDER"]
+config_files = []
+build_tools = []
+upstream = "github:NixOS/libepoxy"

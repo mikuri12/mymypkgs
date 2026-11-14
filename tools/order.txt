@@ -147,3 +147,9 @@ iniparser
 cava
 brave
 helix
+atk
+libepoxy
+hicolor-icon-theme
+xkeyboard-config
+adwaita-icon-theme
+gtk3

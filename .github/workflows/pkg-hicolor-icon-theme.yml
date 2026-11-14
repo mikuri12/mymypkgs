@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'hicolor-icon-theme': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-hicolor-icon-theme
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/hicolor-icon-theme/**'
+      - '.github/workflows/pkg-hicolor-icon-theme.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-hicolor-icon-theme
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: hicolor-icon-theme

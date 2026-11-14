@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'xkeyboard-config': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-xkeyboard-config
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/xkeyboard-config/**'
+      - '.github/workflows/pkg-xkeyboard-config.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-xkeyboard-config
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: xkeyboard-config

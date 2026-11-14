@@ -1,0 +1,11 @@
+name = "xkeyboard-config"
+version = "2.44"
+release = 1
+description = "xkeyboard-config 2.44 — layouts de teclado (dep de gtk3/xkb). meson, datos."
+depends = []
+makedepends = []
+sources = ["https://www.x.org/releases/individual/data/xkeyboard-config/xkeyboard-config-2.44.tar.xz"]
+checksums = ["sha256:54d2c33eeebb031d48fa590c543e54c9bcbd0f00386ebc6489b2f47a0da4342a"]
+config_files = []
+build_tools = []
+upstream = "x.org:xkeyboard-config"

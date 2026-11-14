@@ -1,0 +1,11 @@
+name = "gtk3"
+version = "3.24.49"
+release = 1
+description = "GTK 3.24.49 — toolkit gráfico (para Thunar etc.). meson, shared, sin wayland? con wayland+x11 off (Xwayland no); solo broadway off."
+depends = ["atk", "libepoxy", "gdk-pixbuf", "cairo", "pango", "xkeyboard-config", "libxkbcommon", "wayland", "libglvnd"]
+makedepends = ["atk", "libepoxy", "gdk-pixbuf", "cairo", "pango", "xkeyboard-config", "libxkbcommon", "wayland", "libglvnd"]
+sources = ["https://download.gnome.org/sources/gtk/3.24/gtk-3.24.49.tar.xz"]
+checksums = ["sha256:5ea52c6a28f0e5ecf2e9a3c2facbb30d040b73871fcd5f33cd1317e9018a146e"]
+config_files = []
+build_tools = []
+upstream = "gnome:gtk"
