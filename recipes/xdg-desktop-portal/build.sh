@@ -25,6 +25,7 @@ meson setup --prefix=/usr --buildtype=release \
   -D geoclue=disabled \
   -D systemd=disabled \
   -D sandboxed-image-validation=false \
+  -Dc_args="-Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration" \
   -D docbook-docs=disabled \
   -D dbus-service-dir=/usr/share/dbus-1/services \
   ..
