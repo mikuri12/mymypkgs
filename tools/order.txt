@@ -155,6 +155,7 @@ adwaita-icon-theme
 gtk3
 helium
 libxslt
+util-macros
 libx11
 libxext
 libxrender

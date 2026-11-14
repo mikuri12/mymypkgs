@@ -1,0 +1,11 @@
+name = "util-macros"
+version = "1.20.2"
+release = 1
+description = "xorg util-macros 1.20.2 — macros autoconf X.ORG (dep build de libs X)."
+depends = []
+makedepends = []
+sources = ["https://gitlab.freedesktop.org/xorg/util/macros/-/archive/util-macros-1.20.2/util-macros-util-macros-1.20.2.tar.gz"]
+checksums = ["sha256:2682b1cce29005ec60c55136d08589b825889dde6f523e3139b1871e56ce68da"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:util-macros"
