@@ -3,7 +3,7 @@
 # --appimage-extract (no necesita FUSE en runtime) y se instala en
 # /usr/lib/obsidian + wrapper /usr/bin/obsidian. Fuente plana → cwd /tmp/build.
 set -euo pipefail
-src=$(find /tmp/build -maxdepth 1 -name "*__Obsidian-1.13.7.AppImage" -type f | head -1)
+src=$(find /tmp/build -maxdepth 1 -name "*__Obsidian-*.AppImage" -type f | head -1)
 [ -n "$src" ] || { echo "falta el AppImage en /tmp/build"; exit 1; }
 chmod +x "$src"
 work=$(mktemp -d /tmp/obsx.XXXXXX)

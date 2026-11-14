@@ -5,5 +5,5 @@
 set -euo pipefail
 ./configure --prefix=/usr --with-curl --with-expat \
   --with-openssl --with-zlib --without-tcltk
-make -j"$(nproc)" NO_GETTEXT=YesPlease NO_TCLTK=YesPlease all
-make NO_GETTEXT=YesPlease NO_TCLTK=YesPlease DESTDIR="$DESTDIR" install
+make -j"$(nproc)" NO_GETTEXT=YesPlease NO_TCLTK=YesPlease NO_RUST=YesPlease all
+make NO_GETTEXT=YesPlease NO_TCLTK=YesPlease NO_RUST=YesPlease DESTDIR="$DESTDIR" install

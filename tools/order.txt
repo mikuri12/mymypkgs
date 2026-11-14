@@ -153,3 +153,4 @@ hicolor-icon-theme
 xkeyboard-config
 adwaita-icon-theme
 gtk3
+helium
