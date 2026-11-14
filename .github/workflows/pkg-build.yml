@@ -226,9 +226,9 @@ jobs:
             MAKEFLAGS="-j$(nproc)" LC_ALL=POSIX \
             LIBCLANG_PATH=/opt/llvm/lib \
             BINDGEN_EXTRA_CLANG_ARGS="-resource-dir /opt/llvm/lib/clang/19" \
-            CFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
-            CXXFLAGS="-march=skylake -mtune=skylake -O2 -pipe -fno-plt" \
-            LDFLAGS="-Wl,-O1,--as-needed,--sort-common" \
+            CFLAGS="-march=skylake -mtune=skylake -O3 -pipe -fno-plt -flto=auto" \
+            CXXFLAGS="-march=skylake -mtune=skylake -O3 -pipe -fno-plt -flto=auto" \
+            LDFLAGS="-Wl,-O1,--as-needed,--sort-common -flto=auto" \
             XORG_PREFIX=/usr \
             bash /tools/build-pkg.sh "/recipes/$PKG" /sources /packages || exit 1
           PKGFILE=$(ls /mnt/lfs/packages/${PKG}-*.tar.zst 2>/dev/null | head -1)
