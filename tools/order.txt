@@ -143,6 +143,7 @@ liberation-fonts
 fish
 vesktop
 fftw3
+iniparser
 cava
 brave
 helix
