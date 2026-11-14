@@ -25,10 +25,8 @@ set -euo pipefail
 rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
   -D flatpak-interfaces=disabled \
-  -D libportal=disabled \
   -D geoclue=disabled \
   -D systemd=disabled \
-  -D docbook-docs=disabled \
   -D sandboxed-image-validation=disabled \
   -Dc_args="-Wno-error=incompatible-pointer-types -Wno-error=int-conversion -Wno-error=implicit-function-declaration" \
   -D dbus-service-dir=/usr/share/dbus-1/services \
