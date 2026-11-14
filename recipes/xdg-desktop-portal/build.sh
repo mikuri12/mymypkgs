@@ -24,6 +24,7 @@ meson setup --prefix=/usr --buildtype=release \
   -D libportal=disabled \
   -D geoclue=disabled \
   -D systemd=disabled \
+  -D sandboxed-image-validation=false \
   -D docbook-docs=disabled \
   -D dbus-service-dir=/usr/share/dbus-1/services \
   ..
