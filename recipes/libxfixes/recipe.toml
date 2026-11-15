@@ -1,0 +1,11 @@
+name = "libxfixes"
+version = "6.0.2"
+release = 1
+description = "libXfixes 6.0.2 — X fixes extension (dep build de libXi: xfixes >= 5). fixesproto viene de xorgproto"
+build_system = "autotools"
+sources = ["https://xorg.freedesktop.org/archive/individual/lib/libXfixes-6.0.2.tar.xz"]
+checksums = ["39f115d72d9c5f8111e4684164d3d68cc1fd21f9b27ff2401b08fddfc0f409ba"]
+depends = ["xorgproto", "libx11"]
+makedepends = ["util-macros", "xorgproto", "libx11"]
+build_tools = []
+upstream = "xorg:libXfixes"

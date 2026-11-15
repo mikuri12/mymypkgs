@@ -160,6 +160,7 @@ xtrans
 libx11
 libxext
 libxrender
+libxfixes
 libxi
 libnotify
 xfce4-dev-tools
