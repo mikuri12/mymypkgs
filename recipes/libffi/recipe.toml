@@ -1,11 +1,11 @@
 name = "libffi"
-version = "3.8.0"
+version = "3.8.1"
 release = 1
 description = "Library providing a portable foreign function interface"
 arch = "x86_64-v3"
 depends = []
 makedepends = []
-sources = ["https://github.com/libffi/libffi/releases/download/v3.8.0/libffi-3.8.0.tar.gz"]
-checksums = ["sha256:7da3e2d9a171eb0a038f592ecad3ff2bb2550f3496d87b3b29ad0cf4430c0db4"]
+sources = ["https://github.com/libffi/libffi/releases/download/v3.8.1/libffi-3.8.1.tar.gz"]
+checksums = ["sha256:81e879c094cc5ec3186c48510c6385ac6b3e866192e8bc71a35245703757ee40"]
 build_tools = []
 upstream = "github:libffi/libffi"
