@@ -1,11 +1,11 @@
 name = "xtrans"
-version = "1.5.2"
+version = "1.6.0"
 release = 1
-description = "xtrans 1.5.2 — X transport (headers X11/Xtrans + xtrans.pc + xtrans.m4 con XTRANS_CONNECTION_FLAGS); dep build de libX11. La URL gitlab xtrans-1.6.0 no existe (devuelve HTML) -> release oficial xorg"
+description = "xtrans 1.6.0 — macros de transporte X (XTRANS_CONNECTION_FLAGS). Dep build libX11."
 depends = []
 makedepends = []
-sources = ["https://xorg.freedesktop.org/archive/individual/lib/xtrans-1.5.2.tar.xz"]
-checksums = ["sha256:5c5cbfe34764a9131d048f03c31c19e57fb4c682d67713eab6a65541b4dff86c"]
+sources = ["https://deb.debian.org/debian/pool/main/x/xtrans/xtrans_1.6.0.orig.tar.gz"]
+checksums = ["sha256:936b74c60b19c317c3f3cb1b114575032528dbdaf428740483200ea874c2ca0a"]
 config_files = []
 build_tools = ["autotools"]
 upstream = "xorg:xtrans"
