@@ -7,5 +7,5 @@ makedepends = ["gdk-pixbuf", "gtk3"]
 sources = ["https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.7.tar.xz"]
 checksums = ["sha256:4be15202ec4184fce1ac15997ece5530d2be32fe9573875aeb10e3b573858748"]
 config_files = []
-build_tools = ["autotools"]
+build_tools = []
 upstream = "gnome:libnotify"
