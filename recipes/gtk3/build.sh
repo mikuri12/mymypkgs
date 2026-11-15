@@ -6,7 +6,7 @@
 # string y tracker3 boolean aparte); colord es combo yes/no/auto.
 set -euo pipefail
 meson setup build --prefix=/usr --buildtype=release --libdir=lib --default-library=shared \
-  -Dwayland_backend=true -Dx11_backend=false -Dbroadway_backend=false -Dwin32_backend=false -Dquartz_backend=false \
+  -Dwayland_backend=true -Dx11_backend=true -Dbroadway_backend=false -Dwin32_backend=false -Dquartz_backend=false \
   -Dintrospection=false -Ddemos=false -Dtests=false -Dexamples=false -Dgtk_doc=false -Dman=false \
   -Dcolord=no
 ninja -C build
