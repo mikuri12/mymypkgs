@@ -1,0 +1,11 @@
+name = "libxdamage"
+version = "1.1.6"
+release = 1
+description = "libXdamage 1.1.6 (dep gtk3-x11)."
+depends = ["libx11", "libxfixes"]
+makedepends = ["util-macros", "libx11", "libxfixes"]
+sources = ["https://gitlab.freedesktop.org/xorg/lib/libXdamage/-/archive/libXdamage-1.1.6/libXdamage-libXdamage-1.1.6.tar.gz"]
+checksums = ["sha256:6beb897f093fcd8f1cfbce5131ad46bf62aa327ecb55ba9072c5ca96c932e302"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:libxdamage"

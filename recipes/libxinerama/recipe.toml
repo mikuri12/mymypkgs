@@ -1,0 +1,11 @@
+name = "libxinerama"
+version = "1.1.5"
+release = 1
+description = "libXinerama 1.1.5 (dep gtk3-x11)."
+depends = ["libx11", "libxext"]
+makedepends = ["util-macros", "libx11", "libxext"]
+sources = ["https://gitlab.freedesktop.org/xorg/lib/libXinerama/-/archive/libXinerama-1.1.5/libXinerama-libXinerama-1.1.5.tar.gz"]
+checksums = ["sha256:97b8bda32655004d42e2e04ae19710dc03612da20a6af0cd8a44ff0a3ade7ab2"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:libxinerama"

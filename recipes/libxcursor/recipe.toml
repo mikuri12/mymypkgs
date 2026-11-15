@@ -1,0 +1,11 @@
+name = "libxcursor"
+version = "1.2.3"
+release = 1
+description = "libXcursor 1.2.3 (dep gtk3-x11)."
+depends = ["libx11", "libxrender"]
+makedepends = ["util-macros", "libx11", "libxrender"]
+sources = ["https://gitlab.freedesktop.org/xorg/lib/libXcursor/-/archive/libXcursor-1.2.3/libXcursor-libXcursor-1.2.3.tar.gz"]
+checksums = ["sha256:d2bcf7bde47059d35a18b6b3ef408536c6f5f70e0a92891bab746128109e5eb9"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:libxcursor"

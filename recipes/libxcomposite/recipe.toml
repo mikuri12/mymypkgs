@@ -1,0 +1,11 @@
+name = "libxcomposite"
+version = "0.4.6"
+release = 1
+description = "libXcomposite 0.4.6 (dep gtk3-x11)."
+depends = ["libx11", "libxfixes"]
+makedepends = ["util-macros", "libx11", "libxfixes"]
+sources = ["https://gitlab.freedesktop.org/xorg/lib/libXcomposite/-/archive/libXcomposite-0.4.6/libXcomposite-libXcomposite-0.4.6.tar.gz"]
+checksums = ["sha256:3717cdff0e7248f7c2736fa9059c08c6e09aa53f18f5daadd2e9b92d8f6b1744"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:libxcomposite"

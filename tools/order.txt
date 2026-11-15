@@ -169,3 +169,8 @@ xfconf
 libxfce4ui
 exo
 thunar
+libxrandr
+libxcursor
+libxinerama
+libxcomposite
+libxdamage
