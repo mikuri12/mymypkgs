@@ -1,0 +1,11 @@
+name = "at-spi2-core"
+version = "2.56.4"
+release = 1
+description = "at-spi2-core 2.56.4 — bus de accesibilidad (dep at-spi2-atk/gtk3-x11). meson, dbus."
+depends = ["glib", "dbus", "libxtst", "libxml2"]
+makedepends = ["glib", "dbus", "libxtst", "libxml2"]
+sources = ["https://download.gnome.org/sources/at-spi2-core/2.56/at-spi2-core-2.56.4.tar.xz"]
+checksums = ["sha256:dbe35b951499e1d6f1fb552c2e0a09cea7cba2adf6c2eba0b2c85b6c094a3a02"]
+config_files = []
+build_tools = ["meson"]
+upstream = "gnome:at-spi2-core"

@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'at-spi2-core': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-at-spi2-core
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/at-spi2-core/**'
+      - '.github/workflows/pkg-at-spi2-core.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-at-spi2-core
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: at-spi2-core

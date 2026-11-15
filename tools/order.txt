@@ -152,9 +152,6 @@ libepoxy
 hicolor-icon-theme
 xkeyboard-config
 adwaita-icon-theme
-gtk3
-helium
-libxslt
 util-macros
 xtrans
 libx11
@@ -162,6 +159,14 @@ libxext
 libxrender
 libxfixes
 libxi
+libxrandr
+libxcursor
+libxinerama
+libxcomposite
+libxdamage
+gtk3
+helium
+libxslt
 libnotify
 xfce4-dev-tools
 libxfce4util
@@ -169,8 +174,6 @@ xfconf
 libxfce4ui
 exo
 thunar
-libxrandr
-libxcursor
-libxinerama
-libxcomposite
-libxdamage
+libxtst
+at-spi2-core
+at-spi2-atk

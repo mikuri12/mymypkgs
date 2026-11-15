@@ -1,0 +1,11 @@
+name = "libxtst"
+version = "1.2.5"
+release = 1
+description = "libXtst 1.2.5 — XTest (dep at-spi2-core)."
+depends = ["libx11", "libxi"]
+makedepends = ["util-macros", "libx11", "libxi", "inputproto"]
+sources = ["https://gitlab.freedesktop.org/xorg/lib/libXtst/-/archive/libXtst-1.2.5/libXtst-libXtst-1.2.5.tar.gz"]
+checksums = ["sha256:fa1faf1cf802b8289b3337ea84a9d963bd30f03c405ceb3990d304bd0e02e284"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:libXtst"

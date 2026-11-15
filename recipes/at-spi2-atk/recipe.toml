@@ -1,0 +1,11 @@
+name = "at-spi2-atk"
+version = "2.38.0"
+release = 1
+description = "at-spi2-atk 2.38.0 — puente ATK (gtk3 x11_backend lo exige). meson."
+depends = ["atk", "at-spi2-core"]
+makedepends = ["atk", "at-spi2-core"]
+sources = ["https://download.gnome.org/sources/at-spi2-atk/2.38/at-spi2-atk-2.38.0.tar.xz"]
+checksums = ["sha256:cfa008a5af822b36ae6287f18182c40c91dd699c55faa38605881ed175ca464f"]
+config_files = []
+build_tools = ["meson"]
+upstream = "gnome:at-spi2-atk"
