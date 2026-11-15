@@ -8,6 +8,6 @@ set -euo pipefail
 meson setup build --prefix=/usr --buildtype=release --libdir=lib --default-library=shared \
   -Dwayland_backend=true -Dx11_backend=true -Dbroadway_backend=false -Dwin32_backend=false -Dquartz_backend=false \
   -Dintrospection=false -Ddemos=false -Dtests=false -Dexamples=false -Dgtk_doc=false -Dman=false \
-  -Dcolord=no
+  -Dcolord=no -Datk_bridge=false
 ninja -C build
 DESTDIR="$DESTDIR" ninja -C build install
