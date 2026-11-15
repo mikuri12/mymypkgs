@@ -1,0 +1,11 @@
+name = "inputproto"
+version = "2.3.2"
+release = 1
+description = "inputproto 2.3.2 — cabeceras XInput2 (dep build libXi)."
+depends = []
+makedepends = []
+sources = ["https://snapshot.debian.org/archive/debian/20170601T000000Z/pool/main/x/x11proto-input/x11proto-input_2.3.2.orig.tar.gz"]
+checksums = ["sha256:10eaadd531f38f7c92ab59ef0708ca195caf3164a75c4ed99f0c04f2913f6ef3"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "xorg:inputproto"
