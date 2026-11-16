@@ -18,11 +18,8 @@ greetd
 pipewire
 lua
 wireplumber
-wl-clipboard
 zlib
 libpng
-grim
-slurp
 foot
 fuzzel
 eudev
@@ -177,3 +174,8 @@ xfconf
 libxfce4ui
 exo
 thunar
+wofi
+dunst
+grim
+slurp
+wl-clipboard

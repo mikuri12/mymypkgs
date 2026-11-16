@@ -1,17 +1,11 @@
 name = "grim"
 version = "1.4.0"
 release = 1
-description = "Grab images from a Wayland compositor"
-depends = ["wayland"]
-makedepends = []
-sources = [
-  "https://github.com/emersion/grim/archive/refs/tags/v1.4.0.tar.gz",
-  "https://gitlab.freedesktop.org/pixman/pixman/-/archive/pixman-0.46.4/pixman-pixman-0.46.4.tar.gz",
-]
-checksums = [
-  "sha256:b6786e889ed93568634189a59f6b6429c041bf74883c10e8b6e2ed6772ae7ffb",
-  "sha256:1b8288086e5da0ec5cb95cf174a919cc6fe4548f10dc3cd873b3bb1d9e8fdeab",
-]
+description = "grim 1.4.0 — capturas de pantalla wayland (wlr-screencopy)."
+depends = ["wayland", "wayland-protocols", "pixman", "libpng"]
+makedepends = ["wayland", "wayland-protocols", "pixman", "libpng"]
+sources = ["https://codeload.github.com/emersion/grim/tar.gz/refs/tags/v1.4.0"]
+checksums = ["sha256:b6786e889ed93568634189a59f6b6429c041bf74883c10e8b6e2ed6772ae7ffb"]
 config_files = []
-build_tools = []
-upstream = "github:emersion/grim"
+build_tools = ["meson"]
+upstream = "github:grim"

@@ -1,7 +1,5 @@
 #!/bin/bash
-# wl-clipboard 2.3.0 — meson.
 set -euo pipefail
-rm -rf build && mkdir build && cd build
-meson setup --prefix=/usr --buildtype=release ..
-ninja
-DESTDIR="$DESTDIR" ninja install
+meson setup build --prefix=/usr --buildtype=release --libdir=lib --default-library=shared 
+ninja -C build
+DESTDIR="$DESTDIR" ninja -C build install

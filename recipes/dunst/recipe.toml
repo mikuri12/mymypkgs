@@ -1,0 +1,11 @@
+name = "dunst"
+version = "1.12.2"
+release = 1
+description = "dunst 1.12.2 — notificaciones wayland/x11. meson."
+depends = ["cairo", "pango", "gdk-pixbuf", "glib", "libx11", "libxinerama", "libxrandr", "libnotify", "wayland", "wayland-protocols", "libxscrnsaver"]
+makedepends = ["cairo", "pango", "gdk-pixbuf", "glib", "libx11", "libxinerama", "libxrandr", "libnotify", "wayland", "wayland-protocols", "libxscrnsaver"]
+sources = ["https://codeload.github.com/dunst-project/dunst/tar.gz/refs/tags/v1.12.2"]
+checksums = ["sha256:8f7664bd4e6083e9604e282145fe5b8dee7655fa0b099a5b682a2549e1f33d32"]
+config_files = []
+build_tools = ["meson"]
+upstream = "github:dunst"

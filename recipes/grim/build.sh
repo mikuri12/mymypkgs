@@ -1,14 +1,5 @@
 #!/bin/bash
-# grim 1.4.0 — pixman YA extraído por build-pkg.sh.
 set -euo pipefail
-STAGING="$DESTDIR"   # staging del paquete; deps van al chroot real
-unset DESTDIR       # ninja/make install heredan el export del build-pkg
-cd /tmp/build/pixman-pixman-0.46.4
-meson setup --prefix=/usr build --buildtype=release -D demos=disabled -D tests=disabled
-ninja -C build && ninja -C build install
-cd ..
-cd /tmp/build/grim-1.4.0
-rm -rf build && mkdir build && cd build
-meson setup --prefix=/usr --buildtype=release ..
-ninja
-DESTDIR="$STAGING" ninja install
+meson setup build --prefix=/usr --buildtype=release --libdir=lib --default-library=shared 
+ninja -C build
+DESTDIR="$DESTDIR" ninja -C build install

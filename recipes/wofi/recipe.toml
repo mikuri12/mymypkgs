@@ -1,0 +1,11 @@
+name = "wofi"
+version = "1.4.1"
+release = 1
+description = "wofi 1.4.1 (fork SimplyCEO) — lanzador wayland. meson."
+depends = ["wayland", "wayland-protocols", "cairo", "pango", "glib", "gdk-pixbuf", "libxkbcommon"]
+makedepends = ["wayland", "wayland-protocols", "cairo", "pango", "glib", "gdk-pixbuf", "libxkbcommon"]
+sources = ["https://codeload.github.com/SimplyCEO/wofi/tar.gz/refs/tags/v1.4.1"]
+checksums = ["sha256:e0ef7dc6122c4147bea4a1a9ae47eba5e5f77396740ca01f25197ac3a4832869"]
+config_files = []
+build_tools = ["meson"]
+upstream = "github:wofi"
