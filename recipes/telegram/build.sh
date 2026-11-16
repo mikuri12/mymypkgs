@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euo pipefail
-f=$(find /tmp/build -maxdepth 1 -type f | head -1)
+f=$(find /tmp/build -maxdepth 1 -type f -name "*.tar.*" | head -1)
 d=$(find /tmp/build -maxdepth 1 -mindepth 1 -type d | head -1)
 cd "$d" 2>/dev/null || true
 install -d "$DESTDIR/usr/lib/telegram-desktop" "$DESTDIR/usr/bin"
