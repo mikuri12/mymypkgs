@@ -7,7 +7,7 @@
 set -euo pipefail
 rm -rf build && mkdir build && cd build
 meson setup --prefix=/usr --buildtype=release \
-  -D x11=disabled -D glx=disabled \
+  -D x11=enabled -D glx=enabled \
   ..
 ninja
 DESTDIR="$DESTDIR" ninja install
