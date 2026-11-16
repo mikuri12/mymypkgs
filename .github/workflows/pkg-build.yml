@@ -88,7 +88,7 @@ jobs:
               [ $ok -eq 1 ] || { echo "descarga falló: $src"; exit 1; }
             fi
             got=$(sudo sha256sum "/mnt/lfs/sources/$f" | cut -d' ' -f1)
-            [ "$got" = "$want" ] || { echo "SHA256 BAD para $f (want $want)"; exit 1; }
+            [ "$got" = "$want" ] || { echo "SHA256 BAD para $f (got $got want $want)"; exit 1; }
             echo "fuente OK: $f"
           done
           # prefetch: pares "dest=url" (sin sha obligatorio) para archivos extra que
