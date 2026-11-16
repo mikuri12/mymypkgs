@@ -1,0 +1,11 @@
+name = "discord"
+version = "0.0.117"
+release = 1
+description = "Discord 0.0.117 — .deb oficial a /usr (usr/share/discord + bin)."
+depends = []
+makedepends = []
+sources = ["https://dl.discordapp.net/apps/linux/0.0.117/discord-0.0.117.deb"]
+checksums = ["sha256:54a02af2859fbbb0b25bb63c3e67405e04dd0089cdd4e75fde9cca188090f264"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "binario:discord"

@@ -1,0 +1,11 @@
+name = "telegram"
+version = "6.3.6"
+release = 1
+description = "Telegram Desktop — tsetup tar.xz oficial (TelegramDesktop/). Wrapper /usr/bin/telegram-desktop."
+depends = []
+makedepends = []
+sources = ["https://telegram.org/dl/desktop/linux"]
+checksums = ["sha256:607d77344a332268df1ab0c3c9b5adb70a6204e5f78cb668ab3fa58245c0888e"]
+config_files = []
+build_tools = []
+upstream = "telegram:tsetup"
