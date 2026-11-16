@@ -166,6 +166,7 @@ xkeyboard-config
 adwaita-icon-theme
 libxtst
 at-spi2-core
+at-spi2-atk
 gtk3
 helium
 libxslt
