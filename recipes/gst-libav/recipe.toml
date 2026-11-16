@@ -1,0 +1,11 @@
+name = "gst-libav"
+version = "1.26.8"
+release = 1
+description = "gst-libav 1.26.8 — plugins gstreamer (dep gstreamer, gst-plugins-base)."
+depends = ["gstreamer", "gst-plugins-base", "glib", "libxml2", "zlib"]
+makedepends = ["gstreamer", "gst-plugins-base", "glib", "libxml2", "zlib"]
+sources = ["https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-1.26.8.tar.xz"]
+checksums = ["sha256:d8610d88026cc4927eb013e46ecf505f73ee946ec8b8fd5aee5b3ae4614a5d59"]
+config_files = []
+build_tools = ["meson"]
+upstream = "gstreamer:gst-libav"

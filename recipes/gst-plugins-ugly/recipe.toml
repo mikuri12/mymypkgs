@@ -1,0 +1,11 @@
+name = "gst-plugins-ugly"
+version = "1.26.8"
+release = 1
+description = "gst-plugins-ugly 1.26.8 — plugins gstreamer (dep gstreamer, gst-plugins-base)."
+depends = ["gstreamer", "gst-plugins-base", "glib", "libxml2", "zlib"]
+makedepends = ["gstreamer", "gst-plugins-base", "glib", "libxml2", "zlib"]
+sources = ["https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.26.8.tar.xz"]
+checksums = ["sha256:ed3c687290dd4d0cc1681f6fb3f59c57c8cfc765fa22eba16a7d09566cc5c7e1"]
+config_files = []
+build_tools = ["meson"]
+upstream = "gstreamer:gst-plugins-ugly"

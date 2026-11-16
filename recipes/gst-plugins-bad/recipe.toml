@@ -1,0 +1,11 @@
+name = "gst-plugins-bad"
+version = "1.26.8"
+release = 1
+description = "gst-plugins-bad 1.26.8 — plugins gstreamer (dep gstreamer, gst-plugins-base)."
+depends = ["gstreamer", "gst-plugins-base", "glib", "libxml2", "zlib"]
+makedepends = ["gstreamer", "gst-plugins-base", "glib", "libxml2", "zlib"]
+sources = ["https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.26.8.tar.xz"]
+checksums = ["sha256:25c05be5eb0694bde3ecd3317516f5d0d6e4ad21125a5ebcf6fb644a4c92439f"]
+config_files = []
+build_tools = ["meson"]
+upstream = "gstreamer:gst-plugins-bad"

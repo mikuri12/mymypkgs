@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'gst-libav': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-gst-libav
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/gst-libav/**'
+      - '.github/workflows/pkg-gst-libav.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-gst-libav
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: gst-libav

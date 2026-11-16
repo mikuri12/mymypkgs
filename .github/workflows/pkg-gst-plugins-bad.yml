@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'gst-plugins-bad': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-gst-plugins-bad
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/gst-plugins-bad/**'
+      - '.github/workflows/pkg-gst-plugins-bad.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-gst-plugins-bad
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: gst-plugins-bad

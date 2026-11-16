@@ -1,0 +1,11 @@
+name = "vlc"
+version = "3.0.21"
+release = 1
+description = "VLC 3.0.21 — reproductor. autotools; deps qt5/base opengl... build mínimo wayland/qt off para no hinchar."
+depends = ["ffmpeg", "gstreamer", "gst-plugins-base", "gst-plugins-good", "libxml2", "zlib", "xorgproto"]
+makedepends = ["ffmpeg", "gstreamer", "gst-plugins-base", "gst-plugins-good", "libxml2", "zlib", "xorgproto", "libx11", "libxext", "libxcb", "xcb-proto", "freetype", "fontconfig", "harfbuzz", "fribidi", "libpng"]
+sources = ["https://download.videolan.org/pub/videolan/vlc/3.0.21/vlc-3.0.21.tar.xz"]
+checksums = ["sha256:24dbbe1d7dfaeea0994d5def0bbde200177347136dbfe573f5b6a4cee25afbb0"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "videolan:vlc"
