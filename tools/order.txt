@@ -41,6 +41,11 @@ xcb-proto
 libxau
 libxdmcp
 libxcb
+xcb-util-renderutil
+xcb-util-keysyms
+xcb-util-image
+xcb-util-wm
+xcb-util-cursor
 util-macros
 libx11
 libxext
@@ -79,11 +84,7 @@ libjxl
 libsndfile
 wlroots
 xcb-util
-xcb-util-renderutil
-xcb-util-image
-xcb-util-wm
 xcb-util-errors
-xcb-util-cursor
 xwayland-satellite
 json-glib
 fuse3
