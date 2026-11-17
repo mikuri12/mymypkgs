@@ -190,6 +190,7 @@ telegram
 qtsvg
 qtwayland
 qttools
+zstd
 openssl
 sqlite
 qtbase

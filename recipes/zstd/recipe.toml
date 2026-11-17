@@ -1,0 +1,11 @@
+name = "zstd"
+version = "1.5.7"
+release = 1
+description = "zstd 1.5.7 — compresión (REQUIRED por qtbase 6.10). cmake."
+depends = ["zlib", "lz4", "xz"]
+makedepends = ["cmake", "ninja", "zlib", "lz4", "xz"]
+sources = ["https://codeload.github.com/facebook/zstd/tar.gz/refs/tags/v1.5.7"]
+checksums = ["sha256:37d7284556b20954e56e1ca85b80226768902e2edabd3b649e9e72c0c9012ee3"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "facebook:zstd"
