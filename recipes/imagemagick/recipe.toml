@@ -1,11 +1,11 @@
 name = "imagemagick"
-version = "7.1.2-35"
+version = "7.1.2-36"
 release = 1
 description = "ImageMagick 7.1.2-31 — conversión/edición de imágenes. Delegados: jpeg-turbo, png, webp, freetype, fontconfig, lcms2, libxml2, zlib. Sin X, sin openmp, sin perl."
 depends = ["libjpeg-turbo", "libpng", "libwebp", "freetype2", "fontconfig", "lcms2", "libxml2", "zlib"]
 makedepends = ["libjpeg-turbo", "libpng", "libwebp", "freetype2", "fontconfig", "lcms2", "libxml2", "zlib"]
-sources = ["https://download.imagemagick.org/archive/releases/ImageMagick-7.1.2-35.tar.xz"]
-checksums = ["sha256:fce4636c81a3a4670ece47927f7ff924b94f09f8c7a92e6443579899713fd564"]
+sources = ["https://download.imagemagick.org/archive/releases/ImageMagick-7.1.2-36.tar.xz"]
+checksums = ["sha256:62b395c62498ebeaaacf14b0252263348d9f2c19cba8181aa991702a832d277a"]
 config_files = []
 build_tools = []
 upstream = "github:ImageMagick/ImageMagick"
