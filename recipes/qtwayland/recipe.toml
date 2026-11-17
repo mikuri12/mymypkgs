@@ -1,0 +1,11 @@
+name = "qtwayland"
+version = "6.10.3"
+release = 1
+description = "Qt qtwayland 6.10.3 — submódulo Qt6. cmake. deps qtbase."
+depends = ["qtbase"]
+makedepends = ["qtbase", "cmake", "ninja", "wayland", "wayland-protocols", "libxkbcommon", "mesa", "libglvnd", "libx11", "libxext", "libxcb", "dbus", "fontconfig", "freetype", "harfbuzz", "libpng", "zlib", "libxml2", "openssl", "pcre2", "icu"]
+sources = ["https://download.qt.io/official_releases/qt/6.10/6.10.3/submodules/qtwayland-everywhere-src-6.10.3.tar.xz"]
+checksums = ["sha256:2e93322a86b562113cfa3a5f0aa8b1e4e185d6284af49b529578d27d52ca85d3"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "qt:qtwayland"

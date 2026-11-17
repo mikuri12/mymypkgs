@@ -1,0 +1,11 @@
+name = "qtsvg"
+version = "6.10.3"
+release = 1
+description = "Qt qtsvg 6.10.3 — submódulo Qt6. cmake. deps qtbase."
+depends = ["qtbase"]
+makedepends = ["qtbase", "cmake", "ninja", "wayland", "wayland-protocols", "libxkbcommon", "mesa", "libglvnd", "libx11", "libxext", "libxcb", "dbus", "fontconfig", "freetype", "harfbuzz", "libpng", "zlib", "libxml2", "openssl", "pcre2", "icu"]
+sources = ["https://download.qt.io/official_releases/qt/6.10/6.10.3/submodules/qtsvg-everywhere-src-6.10.3.tar.xz"]
+checksums = ["sha256:b3223fe005f6a4c7f21f34e4ee6ce0094737cff9503ba15bbb171ac18794f76d"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "qt:qtsvg"

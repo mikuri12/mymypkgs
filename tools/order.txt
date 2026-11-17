@@ -187,3 +187,7 @@ vlc
 discord
 spotify
 telegram
+qtbase
+qtsvg
+qtwayland
+qttools
