@@ -1,0 +1,11 @@
+name = "openssl"
+version = "3.5.4"
+release = 1
+description = "OpenSSL 3.5.4 — TLS (REQUIRED por qtbase/Network). perl + make."
+depends = []
+makedepends = ["perl"]
+sources = ["https://github.com/openssl/openssl/releases/download/openssl-3.5.4/openssl-3.5.4.tar.gz"]
+checksums = ["sha256:967311f84955316969bdb1d8d4b983718ef42338639c621ec4c34fddef355e99"]
+config_files = []
+build_tools = ["autotools"]
+upstream = "openssl:openssl"
