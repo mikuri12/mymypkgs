@@ -5,7 +5,7 @@ rm -rf build && mkdir build && cd build
 # PLAN: Wayland puro — sin X11 ni xwayland en libxkbcommon (xcb no está
 # en la base y no se necesita). xkeyboard-config TBM (tomorrow) para maps.
 meson setup --prefix=/usr --buildtype=release \
-  -D enable-docs=false -D enable-x11=false \
+  -D enable-docs=false -D enable-x11=true \
   ..
 ninja
 DESTDIR="$DESTDIR" ninja install
