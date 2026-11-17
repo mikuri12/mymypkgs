@@ -7,6 +7,6 @@ cmake --log-level=DEBUG -S "$d" -B build -G Ninja -DCMAKE_INSTALL_PREFIX=/usr -D
   -DQT_FEATURE_dbus=ON -DQT_FEATURE_fontconfig=ON -DQT_FEATURE_freetype=ON -DQT_FEATURE_harfbuzz=ON \
   -DQT_FEATURE_openssl=ON -DQT_FEATURE_sqlite=ON -DQT_FEATURE_system_zlib=ON -DQT_FEATURE_system_png=ON \
   -DQT_FEATURE_system_freetype=ON -DQT_FEATURE_system_harfbuzz=ON -DQT_FEATURE_system_pcre2=ON \
-  -DQT_FEATURE_xkbcommon=ON -DQT_FEATURE_vulkan=OFF -DQT_GENERATE_SBOM=OFF -DQT_FEATURE_sbom=OFF
+  -DQT_FEATURE_xkbcommon=ON -DQT_FEATURE_vulkan=OFF -DQT_GENERATE_SBOM=OFF -DQT_FEATURE_sbom=OFF || { echo "== NOTFOUND en CMakeCache =="; grep -i "NOTFOUND" build/CMakeCache.txt | head -40; exit 1; }
 cmake --build build
 DESTDIR="$DESTDIR" cmake --install build
