@@ -83,7 +83,7 @@ jobs:
                 case "$src" in
                   https://kernel.org/*) cands="$cands https://mirrors.edge.kernel.org/${src#https://kernel.org/}" ;;
                 esac
-                for i in 1 2 3 4 5 6 7 8 9 10; do
+                for i in $(seq 1 30); do
                   for url in $cands; do
                     sudo curl -fsSL --retry 3 --connect-timeout 30 -o "/mnt/lfs/sources/$f" "$url" && { ok=1; break; }
                   done

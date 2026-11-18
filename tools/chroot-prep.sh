@@ -127,11 +127,11 @@ esac
 
 case " $BT " in
   *" autotools "*)
-    # autoconf/automake/libtool desde ftp.gnu.org (tarballs release con
+    # autoconf/automake/libtool desde mirrors.edge.kernel.org (ftp.gnu.org inalcanzable desde runners GH, run 44287218922)
     # configure pre-generado; solo necesitan m4+perl+make, ya en la base LFS).
     dl() { # dl <nombre> <version> <url> <sha256>  → guarda <nombre>-<version>.tar.xz
       local n="$1" v="$2" u="$3" s="$4" i
-      for i in 1 2 3 4 5; do
+      for i in $(seq 1 10); do
         sudo curl -fsSL --retry 2 -o "$LFS/sources/$n-$v.tar.xz" "$u" && break
         rm -f "$LFS/sources/$n-$v.tar.xz"; sleep 15
       done
@@ -139,9 +139,9 @@ case " $BT " in
       echo "$s  /mnt/lfs/sources/$n-$v.tar.xz" | sudo tee "$LFS/sources/$n-$v.sha256" >/dev/null
       sudo bash -c "cd /mnt/lfs/sources && sha256sum -c $n-$v.sha256"
     }
-    dl autoconf 2.73 "https://ftp.gnu.org/gnu/autoconf/autoconf-2.73.tar.xz" "9fd672b1c8425fac2fa67fa0477b990987268b90ff36d5f016dae57be0d6b52e"
-    dl automake 1.17 "https://ftp.gnu.org/gnu/automake/automake-1.17.tar.xz" "8920c1fc411e13b90bf704ef9db6f29d540e76d232cb3b2c9f4dc4cc599bd990"
-    dl libtool  2.5.4 "https://ftp.gnu.org/gnu/libtool/libtool-2.5.4.tar.xz"  "f81f5860666b0bc7d84baddefa60d1cb9fa6fceb2398cc3baca6afaa60266675"
+    dl autoconf 2.73 "https://mirrors.edge.kernel.org/gnu/autoconf/autoconf-2.73.tar.xz" "9fd672b1c8425fac2fa67fa0477b990987268b90ff36d5f016dae57be0d6b52e"
+    dl automake 1.17 "https://mirrors.edge.kernel.org/gnu/automake/automake-1.17.tar.xz" "8920c1fc411e13b90bf704ef9db6f29d540e76d232cb3b2c9f4dc4cc599bd990"
+    dl libtool  2.5.4 "https://mirrors.edge.kernel.org/gnu/libtool/libtool-2.5.4.tar.xz"  "f81f5860666b0bc7d84baddefa60d1cb9fa6fceb2398cc3baca6afaa60266675"
     cat > /tmp/build-autotools.sh << 'ATEOF'
 set -euo pipefail
 cd /sources
@@ -166,7 +166,7 @@ case " $BT " in
   *" go "*)
     # Go toolchain oficial a /opt/go (como rust). sha256 de dl.google.com.
     GO_OK=0
-    for i in 1 2 3 4 5; do
+    for i in $(seq 1 10); do
       sudo curl -fsSL -o "$LFS/sources/go.tar.gz" \
         "https://dl.google.com/go/go1.25.3.linux-amd64.tar.gz" \
         && { GO_OK=1; break; }
