@@ -255,13 +255,14 @@ jobs:
           done
           for pkgname in $ORDER $EXTRA; do
             [ -d "/mnt/lfs/recipes/$pkgname" ] || continue
-            # Vendor offline de crates.io para recetas cargo (halley,
-            # xwayland-satellite): asset <pkg>-vendor.tar.gz del Release
-            # 'packages', descargado por el runner (con red) y puesto en
+            # Vendor offline de crates.io para TODA receta cargo (no solo
+            # halley/xwayland-satellite/librsvg): asset <pkg>-vendor.tar.gz del
+            # Release 'packages', descargado por el runner (con red) y puesto en
             # /sources/<pkg>-vendor con .cargo/config.toml source-replacement.
-            if [ -f "/mnt/lfs/sources/${pkgname}__vendor.tar.gz" ] || \
-               [ "$pkgname" = "halley" ] || [ "$pkgname" = "xwayland-satellite" ] || \
-               [ "$pkgname" = "librsvg" ]; then
+            # Fix sweep 44362586768: ripgrep (order 124) heredaba el config de
+            # halley (order 93, /sources/halley-vendor sin el crate 'arbitrary')
+            # -> cargo "no matching package named `arbitrary` found".
+            if grep -q 'cargo' "/mnt/lfs/recipes/$pkgname/build.sh" 2>/dev/null; then
               VASSET="/tmp/${pkgname}-vendor.tar.gz"
               # asset reparado primero: <pkg>-vendor-fixed.tar.gz (halley v2: vendor COMPLETO regenerado con cargo vendor del Cargo.lock real — el anterior omitía x11rb/x11rb-protocol por la feature xwayland default; run 41700616155)
               if curl -fsSI -L "https://github.com/mikuri12/mymypkgs/releases/download/packages/${pkgname}-vendor-fixed.tar.gz" >/dev/null 2>&1; then
@@ -274,18 +275,33 @@ jobs:
                 sudo mkdir -p "/mnt/lfs/sources/${pkgname}-vendor"
                 sudo tar -xzf "$VASSET" -C "/mnt/lfs/sources/${pkgname}-vendor" --strip-components=1
                 sudo mkdir -p /mnt/lfs/root/.cargo
-                sudo printf '%s\n' \
-                  '[source.crates-io]' \
-                  'replace-with = "vendored-sources"' \
-                  '' \
-                  '[source.vendored-sources]' \
-                  "directory = \"/sources/${pkgname}-vendor\"" \
-                  '[source."git+https://github.com/Smithay/smithay.git?rev=ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"]' \
-                  'git = "https://github.com/Smithay/smithay.git"' \
-                  'rev = "ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"' \
-                  'replace-with = "vendored-sources"' \
-                  | sudo tee /mnt/lfs/root/.cargo/config.toml >/dev/null
+                {
+                  printf '%s\n' \
+                    '[source.crates-io]' \
+                    'replace-with = "vendored-sources"' \
+                    '' \
+                    '[source.vendored-sources]' \
+                    "directory = \"/sources/${pkgname}-vendor\""
+                  # fuentes git (smithay etc.): asset <pkg>-vendor-config.toml
+                  # (salida de `cargo vendor`) si existe; fallback solo halley.
+                  if curl -fsSL -o "/tmp/${pkgname}-vendor-config.toml" -L \
+                       "https://github.com/mikuri12/mymypkgs/releases/download/packages/${pkgname}-vendor-config.toml"; then
+                    cat "/tmp/${pkgname}-vendor-config.toml"
+                  elif [ "$pkgname" = "halley" ]; then
+                    printf '%s\n' \
+                      '[source."git+https://github.com/Smithay/smithay.git?rev=ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"]' \
+                      'git = "https://github.com/Smithay/smithay.git"' \
+                      'rev = "ff5fa7df392cecfba049ffed55cdaa4e98a8e7ef"' \
+                      'replace-with = "vendored-sources"'
+                  fi
+                } | sudo tee /mnt/lfs/root/.cargo/config.toml >/dev/null
                 echo "vendor $pkgname OK"
+              else
+                # sin asset vendor: truncar el config para neutralizar el
+                # reemplazo stale del paquete cargo anterior (red en chroot via
+                # resolv.conf bind-mounted)
+                sudo mkdir -p /mnt/lfs/root/.cargo
+                sudo tee /mnt/lfs/root/.cargo/config.toml >/dev/null <<< '# sin vendor: crates-io directo (red en chroot)'
               fi
             fi
             sudo chroot /mnt/lfs /usr/bin/env -i \
