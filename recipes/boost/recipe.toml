@@ -1,0 +1,10 @@
+name = "boost"
+version = "1.89.0"
+release = 1
+description = "Boost 1.89.0 (headers+libs, para libtorrent)"
+depends = ["zlib","bzip2","icu","zstd","xz"]
+makedepends = ["zlib","bzip2","icu","zstd","xz"]
+sources = ["https://archives.boost.io/release/1.89.0/source/boost_1_89_0.tar.bz2"]
+checksums = ["sha256:85a33fa22621b4f314f8e85e1a5e2a9363d22e4f4992925d4bb3bc631b5a0c7a"]
+config_files = []
+build_tools = ["script"]

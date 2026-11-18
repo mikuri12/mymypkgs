@@ -214,3 +214,5 @@ go
 libtorrent
 qbittorrent
 meowfetch
+rust
+boost
