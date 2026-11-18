@@ -1,0 +1,11 @@
+name = "qtshadertools"
+version = "6.10.3"
+release = 1
+description = "qtshadertools 6.10.3 (qsb, para QML shaders)"
+depends = ["qtbase", "qtwayland", "qtsvg"]
+makedepends = ["qtbase", "qtwayland", "qtsvg", "qttools", "cmake", "ninja", "mesa", "libglvnd", "libxkbcommon", "wayland", "wayland-protocols", "fontconfig", "freetype2", "harfbuzz", "libpng", "zlib", "dbus", "openssl", "pcre2", "zstd"]
+sources = ["https://download.qt.io/official_releases/qt/6.10/6.10.3/submodules/qtshadertools-everywhere-src-6.10.3.tar.xz"]
+checksums = ["sha256:c75837e2ea493ec0b9747b227c455d4a12cafe90068abf607992da9a403616c6"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "qt:qtshadertools"

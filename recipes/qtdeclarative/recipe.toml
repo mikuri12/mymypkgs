@@ -1,0 +1,11 @@
+name = "qtdeclarative"
+version = "6.10.3"
+release = 1
+description = "qtdeclarative 6.10.3 (QML — REQUIRED Noctalia Shell)"
+depends = ["qtbase", "qtwayland", "qtsvg"]
+makedepends = ["qtbase", "qtwayland", "qtsvg", "qttools", "cmake", "ninja", "mesa", "libglvnd", "libxkbcommon", "wayland", "wayland-protocols", "fontconfig", "freetype2", "harfbuzz", "libpng", "zlib", "dbus", "openssl", "pcre2", "zstd", "qtshadertools"]
+sources = ["https://download.qt.io/official_releases/qt/6.10/6.10.3/submodules/qtdeclarative-everywhere-src-6.10.3.tar.xz"]
+checksums = ["sha256:dadf80d43b8e08ca63aa65d46859a42b920a7777cf7e0ecfcb4c4537f9e65c76"]
+config_files = []
+build_tools = ["cmake"]
+upstream = "qt:qtdeclarative"

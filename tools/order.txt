@@ -190,6 +190,8 @@ spotify
 telegram
 qtsvg
 qtwayland
+qtshadertools
+qtdeclarative
 qttools
 zstd
 openssl
