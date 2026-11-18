@@ -1,0 +1,10 @@
+name = "libsass"
+version = "3.6.6"
+release = 1
+description = "libsass 3.6.6 (Sass compiler lib)"
+depends = ["gcc-runtime"]
+makedepends = ["cmake","ninja"]
+sources = ["https://codeload.github.com/sass/libsass/tar.gz/refs/tags/3.6.6"]
+checksums = ["sha256:11f0bb3709a4f20285507419d7618f3877a425c0131ea8df40fe6196129df15d"]
+config_files = []
+build_tools = ["cmake"]
