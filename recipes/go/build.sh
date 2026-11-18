@@ -1,8 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 cd /tmp/build
-d=$(find . -maxdepth 1 -mindepth 1 -type d | head -1)
-mkdir -p "$DESTDIR/usr/lib/go"
-cp -r "$d/go/." "$DESTDIR/usr/lib/go/"
-mkdir -p "$DESTDIR/usr/bin"
+src=$(find . -maxdepth 2 -name go -type d | head -1)
+mkdir -p "$DESTDIR/usr/lib/go" "$DESTDIR/usr/bin"
+cp -r "$src/." "$DESTDIR/usr/lib/go/"
 for b in go gofmt; do ln -sf /usr/lib/go/bin/$b "$DESTDIR/usr/bin/$b"; done
