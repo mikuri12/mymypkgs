@@ -211,8 +211,8 @@ dart-sass
 adw-gtk3
 qt6ct
 go
+rust
+boost
 libtorrent
 qbittorrent
 meowfetch
-rust
-boost
