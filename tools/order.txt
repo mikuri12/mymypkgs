@@ -206,7 +206,7 @@ man-db
 swappy
 kvantum
 nwg-displays
-adw-gtk3
-qt6ct
 libsass
 dart-sass
+adw-gtk3
+qt6ct
