@@ -1,0 +1,10 @@
+name = "qt6ct"
+version = "0.9"
+release = 1
+description = "qt6ct 0.9 (configurador de estilo Qt6)"
+depends = ["qtbase","kvantum","libx11","fontconfig","freetype2"]
+makedepends = ["qtbase","qtsvg","qttools","kvantum","cmake","ninja","libx11","fontconfig","freetype2"]
+sources = ["https://codeload.github.com/trialuser02/qt6ct/tar.gz/refs/tags/0.9"]
+checksums = ["sha256:aa49c4fb51a82dd6947cd9c8dee9b3a1fdd4fbbc9f3c8c5c2d33fa1de9e8826e"]
+config_files = []
+build_tools = ["cmake"]
