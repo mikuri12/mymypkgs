@@ -1,6 +1,6 @@
 name = "dart-sass"
 version = "1.108.2"
-release = 1
+release = 2
 description = "dart-sass 1.108.2 binario (provee 'sass', tool de build)"
 depends = []
 makedepends = []

@@ -3,7 +3,6 @@ set -euo pipefail
 cd /tmp/build
 sassbin=$(find . -name sass -type f | head -1)
 srcdir=$(dirname "$sassbin")
-mkdir -p "$DESTDIR/usr/bin" "$DESTDIR/usr/lib/dart-sass"
-cp "$sassbin" "$DESTDIR/usr/bin/sass"
+mkdir -p "$DESTDIR/usr/lib/dart-sass" "$DESTDIR/usr/bin"
 cp -r "$srcdir" "$DESTDIR/usr/lib/dart-sass/"
-chmod +x "$DESTDIR/usr/bin/sass"
+ln -sf /usr/lib/dart-sass/sass "$DESTDIR/usr/bin/sass"
