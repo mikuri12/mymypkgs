@@ -5,6 +5,12 @@ glib
 libdrm
 wayland
 wayland-protocols
+xorgproto
+xtrans
+xcb-proto
+libxau
+libxdmcp
+libxcb
 libxkbcommon
 libevdev
 mtdev
@@ -35,12 +41,6 @@ glslang
 mesa
 freetype2
 fontconfig
-xorgproto
-xtrans
-xcb-proto
-libxau
-libxdmcp
-libxcb
 xcb-util-renderutil
 xcb-util-keysyms
 xcb-util-image
