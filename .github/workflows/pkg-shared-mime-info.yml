@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'shared-mime-info': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-shared-mime-info
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/shared-mime-info/**'
+      - '.github/workflows/pkg-shared-mime-info.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-shared-mime-info
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: shared-mime-info

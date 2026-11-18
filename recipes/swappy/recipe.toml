@@ -1,0 +1,10 @@
+name = "swappy"
+version = "1.8.0"
+release = 1
+description = "swappy 1.8.0 (screenshot annotator, gtk3)"
+depends = ["gtk3","gdk-pixbuf","cairo","pango","libnotify","glib"]
+makedepends = ["gtk3","gdk-pixbuf","cairo","pango","libnotify","glib","meson","ninja","scdoc"]
+sources = ["https://codeload.github.com/jtheoof/swappy/tar.gz/refs/tags/v1.8.0"]
+checksums = ["sha256:11f5bedde6cce4db0d27eb7107d7ce46e20d021255450eeba2c2036e10570520"]
+config_files = []
+build_tools = ["meson"]

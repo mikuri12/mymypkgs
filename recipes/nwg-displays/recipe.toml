@@ -1,0 +1,10 @@
+name = "nwg-displays"
+version = "0.5.0"
+release = 1
+description = "nwg-displays 0.5.0 (configurador de salidas Wayland, python/gtk3)"
+depends = ["gtk3","gdk-pixbuf","pygobject","python3"]
+makedepends = ["gtk3","gdk-pixbuf","python3"]
+sources = ["https://codeload.github.com/nwg-piotr/nwg-displays/tar.gz/refs/tags/v0.5.0"]
+checksums = ["sha256:28dfe825e7a6a18df62d36aa1b6b7d232ab86b7f06f99994ad00c04e8b4ccfbc"]
+config_files = []
+build_tools = ["script"]

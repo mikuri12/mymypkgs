@@ -200,3 +200,9 @@ qtbase
 qtsvg
 qtwayland
 qttools
+shared-mime-info
+xdg-user-dirs
+man-db
+swappy
+kvantum
+nwg-displays

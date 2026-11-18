@@ -1,0 +1,10 @@
+name = "kvantum"
+version = "1.1.9"
+release = 1
+description = "Kvantum 1.1.9 (Qt6 theme engine)"
+depends = ["qtbase","qtsvg","libx11","libxext","libxcb","fontconfig","freetype2"]
+makedepends = ["qtbase","qtsvg","qttools","cmake","ninja","libx11","libxext","libxcb","fontconfig","freetype2"]
+sources = ["https://codeload.github.com/tsujan/Kvantum/tar.gz/refs/tags/V1.1.9"]
+checksums = ["sha256:1104eec6403d5d7b57b60ab0af3736928ca81e435e9ccc9ad8e94a00c62feecc"]
+config_files = []
+build_tools = ["cmake"]

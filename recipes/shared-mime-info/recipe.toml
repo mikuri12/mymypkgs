@@ -1,0 +1,10 @@
+name = "shared-mime-info"
+version = "2.4"
+release = 1
+description = "shared-mime-info 2.4 (MIME db)"
+depends = ["glib","libxml2"]
+makedepends = ["glib","libxml2","meson","ninja"]
+sources = ["https://deb.debian.org/debian/pool/main/s/shared-mime-info/shared-mime-info_2.4.orig.tar.bz2"]
+checksums = ["sha256:32dc32ae39ff1c1bf8434dd3b36770b48538a1772bc0298509d034f057005992"]
+config_files = []
+build_tools = ["meson"]

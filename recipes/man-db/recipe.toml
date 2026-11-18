@@ -1,0 +1,10 @@
+name = "man-db"
+version = "2.13.3"
+release = 1
+description = "man-db 2.13.3 (man pages)"
+depends = ["gdbm","zlib","groff","libpipeline"]
+makedepends = ["gdbm","zlib","groff","libpipeline"]
+sources = ["https://deb.debian.org/debian/pool/main/m/man-db/man-db_2.13.3.orig.tar.xz"]
+checksums = ["sha256:7c10ac705433c740af91264fc29eee471090ead63a408541ab9736284a8c9deb"]
+config_files = []
+build_tools = ["autotools"]
