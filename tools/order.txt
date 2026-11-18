@@ -210,3 +210,7 @@ libsass
 dart-sass
 adw-gtk3
 qt6ct
+go
+libtorrent
+qbittorrent
+meowfetch

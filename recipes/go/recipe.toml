@@ -1,0 +1,10 @@
+name = "go"
+version = "1.25.3"
+release = 1
+description = "Go 1.25.3 toolchain (binario oficial)"
+depends = []
+makedepends = []
+sources = ["https://go.dev/dl/go1.25.3.linux-amd64.tar.gz"]
+checksums = ["sha256:0335f314b6e7bfe08c3d0cfaa7c19db961b7b99fb20be62b0a826c992ad14e0f"]
+config_files = []
+build_tools = ["script"]

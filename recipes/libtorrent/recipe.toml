@@ -1,0 +1,10 @@
+name = "libtorrent"
+version = "2.0.11"
+release = 1
+description = "libtorrent-rasterbar 2.0.11 (para qBittorrent)"
+depends = ["openssl","zlib","boost","libiconv"]
+makedepends = ["cmake","ninja","openssl","zlib","boost","libiconv"]
+sources = ["https://codeload.github.com/arvidn/libtorrent/tar.gz/refs/tags/v2.0.11"]
+checksums = ["sha256:a317b4b4352bf1b846072dfacee30cd0afccf1ebc04a84273f1ecba930acb802"]
+config_files = []
+build_tools = ["cmake"]
