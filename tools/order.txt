@@ -44,6 +44,8 @@ glslang
 mesa
 freetype2
 fontconfig
+xcb-util
+xcb-util-errors
 xcb-util-renderutil
 xcb-util-keysyms
 xcb-util-image
@@ -83,8 +85,6 @@ lcms2
 libjxl
 libsndfile
 wlroots
-xcb-util
-xcb-util-errors
 xwayland-satellite
 json-glib
 fuse3
