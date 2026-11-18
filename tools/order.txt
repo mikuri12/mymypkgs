@@ -209,4 +209,4 @@ nwg-displays
 adw-gtk3
 qt6ct
 libsass
-sassc
+dart-sass

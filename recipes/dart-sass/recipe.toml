@@ -1,0 +1,10 @@
+name = "dart-sass"
+version = "1.108.2"
+release = 1
+description = "dart-sass 1.108.2 binario (provee 'sass', tool de build)"
+depends = []
+makedepends = []
+sources = ["https://github.com/sass/dart-sass/releases/download/1.108.2/dart-sass-1.108.2-linux-x64.tar.gz"]
+checksums = ["sha256:32d2eb5b83cbc180fce9657ff3c57401a9006c59eccfe0bfdde0aa755a66d42f"]
+config_files = []
+build_tools = ["script"]

@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'dart-sass': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-dart-sass
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/dart-sass/**'
+      - '.github/workflows/pkg-dart-sass.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-dart-sass
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: dart-sass
