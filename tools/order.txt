@@ -12,6 +12,9 @@ libxau
 libxdmcp
 libxcb
 libxkbcommon
+util-macros
+libx11
+libxext
 libevdev
 mtdev
 libinput
@@ -46,9 +49,6 @@ xcb-util-keysyms
 xcb-util-image
 xcb-util-wm
 xcb-util-cursor
-util-macros
-libx11
-libxext
 libxrender
 libxfixes
 libxi
