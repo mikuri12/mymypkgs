@@ -27,7 +27,9 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh release download packages -R mikuri12/mymypkgs --pattern 'index.toml' --dir /tmp/idx
+          mkdir -p /tmp/idx
+          # gh release download llama a api.github.com (rate limit sin auth en IPs compartidas de runners); fallback: URL directa del asset, sin API
+          gh release download packages -R mikuri12/mymypkgs --pattern 'index.toml' --dir /tmp/idx || curl -fsSL -o /tmp/idx/index.toml https://github.com/mikuri12/mymypkgs/releases/download/packages/index.toml
           ls -la /tmp/idx
           head -5 /tmp/idx/index.toml
 
