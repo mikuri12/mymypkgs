@@ -1,11 +1,11 @@
 name = "tplay"
-version = "0.10.0"
+version = "0.9.3"
 release = 1
-description = "tplay 0.10.0 (maxcurzi) — reproductor multimedia en terminal (ASCII art) en Rust. Deps: ffmpeg-next 9 (ffmpeg 8.0), libmpv (feature default mpv), image/libwebp-sys/gif. Compila con red en el chroot (sin vendor); youtube_dl descarga yt-dlp en build."
+description = "tplay 0.9.3 (maxcurzi) — reproductor multimedia en terminal (ASCII art) en Rust. ffmpeg-next 8.1 (compatible ffmpeg 8.0; v0.10.0 pide ffmpeg-sys-next 9 que rompe contra ffmpeg 8). libmpv via mpv, youtube_dl descarga yt-dlp en build. Cargo con red en el chroot (sin vendor)."
 depends = ["mpv", "ffmpeg", "yt-dlp"]
 makedepends = ["rust", "mpv", "ffmpeg"]
-sources = ["https://github.com/maxcurzi/tplay/archive/refs/tags/v0.10.0.tar.gz"]
-checksums = ["sha256:3fe76397b194fd70b8cd47caf67642890557381ae1580ace6a28a4053e46db87"]
+sources = ["https://github.com/maxcurzi/tplay/archive/refs/tags/v0.9.3.tar.gz"]
+checksums = ["sha256:159758b5ac217f5f2a63cd562374b447db23af44e0027d1f2b2aec1f9c23a497"]
 config_files = []
 build_tools = ["rust"]
 upstream = "github:maxcurzi/tplay"
