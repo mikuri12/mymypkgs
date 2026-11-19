@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'nodejs': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-nodejs
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/nodejs/**'
+      - '.github/workflows/pkg-nodejs.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-nodejs
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: nodejs

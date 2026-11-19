@@ -1,0 +1,11 @@
+name = "cups"
+version = "2.4.20"
+release = 1
+description = "CUPS 2.4.20 (OpenPrinting) — servidor de impresión. Sin systemd/launchd (--with-ondemand=no; servicio runit /etc/sv/cupsd), TLS openssl, DNS-SD avahi, usuario/grupo lp vía hook post-install."
+depends = ["dbus", "avahi", "openssl", "zlib", "libpng", "libjpeg-turbo"]
+makedepends = ["dbus", "avahi", "openssl", "zlib", "libpng", "libjpeg-turbo"]
+sources = ["https://github.com/OpenPrinting/cups/releases/download/v2.4.20/cups-2.4.20-source.tar.gz"]
+checksums = ["sha256:ab4d9cd7f3e58060091d2b24972223d6401675f11c49b65abf4f6ef31dea22ff"]
+config_files = ["/etc/cups/cupsd.conf", "/etc/cups/cups-files.conf"]
+build_tools = []
+upstream = "github:OpenPrinting/cups"

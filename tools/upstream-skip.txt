@@ -12,3 +12,5 @@ pipewire
 xwayland-satellite
 mikucat-cursor
 xdg-desktop-portal
+waterfox
+nodejs

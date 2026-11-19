@@ -216,3 +216,6 @@ boost
 libtorrent
 qbittorrent
 meowfetch
+cups
+nodejs
+waterfox

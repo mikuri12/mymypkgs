@@ -1,0 +1,11 @@
+name = "waterfox"
+version = "6.7.8"
+release = 1
+description = "Waterfox 6.7.8 — binario oficial Linux_x86_64 (tar.bz2 del CDN waterfox.com), instalado en /usr/lib/waterfox + wrapper /usr/bin/waterfox + .desktop. sha512 verificado contra el .sha512 oficial del CDN."
+depends = ["gtk3", "dbus", "gdk-pixbuf", "libxkbcommon", "mesa"]
+makedepends = []
+sources = ["https://cdn.waterfox.com/waterfox/releases/6.7.8/Linux_x86_64/waterfox-6.7.8.tar.bz2"]
+checksums = ["sha256:29b8bcc0265fdea7dcf0471c6ef8e296f48ca6973e039b9d181a93e7b654ef15"]
+config_files = []
+build_tools = []
+upstream = ""   # CDN sin API de releases; bump manual (verificar .sha512 del CDN)

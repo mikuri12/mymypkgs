@@ -1,0 +1,11 @@
+name = "nodejs"
+version = "24.22.3"
+release = 1
+description = "Node.js 24.22.3 (LTS Krypton) — binario oficial linux-x64 de nodejs.org/dist (node+npm+npx+corepack) instalado en /usr. sha256 tomado del SHASUMS256.txt oficial de latest-v24.x."
+depends = []
+makedepends = []
+sources = ["https://nodejs.org/dist/v24.22.3/node-v24.22.3-linux-x64.tar.xz"]
+checksums = ["sha256:4f2b175a6d53a5c617a80dba2676238a0688cef28c6da4eba35c7d844e66fcfb"]
+config_files = []
+build_tools = []
+upstream = ""   # nodejs.org no mapeado en update-upstream.sh; bump manual contra dist/index.json

@@ -1,0 +1,25 @@
+# AUTOGENERADO por tools/gen-pkg-workflows.sh — no editar a mano.
+# Runrolling del paquete 'cups': build individual + publicación al
+# Release rodante 'packages'. Se dispara solo al cambiar su receta.
+name: pkg-cups
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'recipes/cups/**'
+      - '.github/workflows/pkg-cups.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pkg-cups
+  cancel-in-progress: true
+
+jobs:
+  build:
+    uses: ./.github/workflows/pkg-build.yml
+    with:
+      package: cups
