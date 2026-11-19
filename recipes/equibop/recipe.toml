@@ -1,0 +1,11 @@
+name = "equibop"
+version = "3.3.4"
+release = 1
+description = "Equibop 3.3.4 (cliente Discord con Equicord) — binario oficial linux x64 tar.gz a /usr/lib/equibop + wrapper /usr/bin/equibop --no-sandbox."
+depends = []
+makedepends = []
+sources = ["https://github.com/Equicord/Equibop/releases/download/v3.3.4/equibop-3.3.4.tar.gz"]
+checksums = ["sha256:66ed6675185db9a7130eedf00b224e923f2dffd11eaa20708942c0b9e03ed9dd"]
+config_files = []
+build_tools = []
+upstream = "github:Equicord/Equibop"

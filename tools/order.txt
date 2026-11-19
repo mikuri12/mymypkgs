@@ -219,3 +219,7 @@ meowfetch
 cups
 nodejs
 waterfox
+wf-recorder
+equibop
+nim
+nitch

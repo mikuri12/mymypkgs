@@ -1,0 +1,11 @@
+name = "wf-recorder"
+version = "0.6.0"
+release = 1
+description = "wf-recorder 0.6.0 — grabador de pantalla Wayland (wlr-screencopy) a mkv/mp4 vía ffmpeg; audio pipewire. Deps verificadas contra meson.build v0.6.0: wayland-client/protocols, libav*, gbm (mesa), libdrm, threads."
+depends = ["wayland", "wayland-protocols", "ffmpeg", "mesa", "libdrm", "pipewire"]
+makedepends = ["wayland", "wayland-protocols", "ffmpeg", "mesa", "libdrm", "pipewire"]
+sources = ["https://github.com/ammen99/wf-recorder/archive/refs/tags/v0.6.0.tar.gz"]
+checksums = ["sha256:52d2c952506d63708f9a8f1aacd4d6ca176287caf3507c8ff2882fa0390cb391"]
+config_files = []
+build_tools = []
+upstream = "github:ammen99/wf-recorder"

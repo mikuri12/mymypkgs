@@ -14,3 +14,5 @@ mikucat-cursor
 xdg-desktop-portal
 waterfox
 nodejs
+nim
+nitch

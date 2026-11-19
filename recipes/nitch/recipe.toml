@@ -1,0 +1,11 @@
+name = "nitch"
+version = "0.1.6"
+release = 1
+description = "nitch 0.1.6 (ssleert) — system fetch en Nim, sin deps externas. Compila con nim c -d:release; tag upstream sin 'v'."
+depends = []
+makedepends = ["nim"]
+sources = ["https://github.com/ssleert/nitch/archive/refs/tags/0.1.6.tar.gz"]
+checksums = ["sha256:118654cf34b9b5d0f0babccad623360438b6c1e9d619770f590d192de2183350"]
+config_files = []
+build_tools = []
+upstream = ""   # tags sin prefijo v; bump manual
