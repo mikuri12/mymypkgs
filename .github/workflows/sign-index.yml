@@ -1,0 +1,54 @@
+# Firma el index.toml del Release rodante 'packages' con MYMY_SIGNING_KEY.
+# Standalone a propósito: los workflows reusable (pkg-*.yml -> pkg-build.yml)
+# no reciben repo secrets salvo 'secrets: inherit', así que la firma vive aquí.
+name: sign-index
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'   # firma como máximo 30 min después de cada publish
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sign-index
+  cancel-in-progress: true
+
+jobs:
+  sign:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          path: repo
+
+      - name: Descargar index.toml actual del Release
+        run: |
+          gh release download packages -R mikuri12/mymypkgs --pattern 'index.toml' --dir /tmp/idx
+          ls -la /tmp/idx
+          head -5 /tmp/idx/index.toml
+
+      - name: Firmar y verificar
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -z "${{ secrets.MYMY_SIGNING_KEY }}" ]; then
+            echo "::error::MYMY_SIGNING_KEY no configurado"; exit 1
+          fi
+          printf '%s' "${{ secrets.MYMY_SIGNING_KEY }}" > /tmp/mymy-key
+          chmod 600 /tmp/mymy-key
+          cd /tmp/idx
+          ssh-keygen -Y sign -f /tmp/mymy-key -n mymy index.toml
+          rm -f /tmp/mymy-key
+          # verificación con la clave pública del repo
+          ssh-keygen -Y verify -f repo/keys/mymy.pub -I "mymy index signing (mikuri12/mymypkgs)" -n mymy -s index.toml.sig < index.toml
+          echo FIRMA_OK
+
+      - name: Subir index.toml.sig al Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ghretry() { for i in 1 2 3; do "$@" && return 0; sleep 10; done; return 1; }
+          ghretry gh release upload packages -R mikuri12/mymypkgs --clobber /tmp/idx/index.toml.sig
+          gh api repos/mikuri12/mymypkgs/releases/tags/packages --jq '.assets[] | select(.name=="index.toml.sig") | .name+" "+(.size|tostring)+" "+.updated_at'
