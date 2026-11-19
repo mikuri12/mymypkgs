@@ -10,7 +10,8 @@ set -euo pipefail
 d=$(find /tmp/build -maxdepth 1 -mindepth 1 -type d | head -1)
 cd "$d"
 export LIBRARY_PATH="/usr/lib64:/usr/lib${LIBRARY_PATH:+:$LIBRARY_PATH}"
-export RUSTFLAGS="-L /usr/lib64 ${RUSTFLAGS:-}"
+# image-webp llama a WebPAnimDecoder* (libwebpdemux.so, en /usr/lib) pero libwebp-sys no emite -lwebpdemux -> undefined symbol (run 44491196777). Se cuelga al final del link con -C link-arg; lld resuelve left-to-right.
+export RUSTFLAGS="-L /usr/lib64 -C link-arg=-lwebpdemux ${RUSTFLAGS:-}"
 # ffmpeg-next puede exigir pkg-config de libav*; ffmpeg ya esta en el chroot.
 cargo build --release --locked 2>/dev/null || cargo build --release
 install -d "$DESTDIR/usr/bin"
