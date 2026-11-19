@@ -7,5 +7,5 @@ makedepends = ["rust", "mpv", "ffmpeg"]
 sources = ["https://github.com/maxcurzi/tplay/archive/refs/tags/v0.9.3.tar.gz"]
 checksums = ["sha256:159758b5ac217f5f2a63cd562374b447db23af44e0027d1f2b2aec1f9c23a497"]
 config_files = []
-build_tools = ["rust"]
+build_tools = ["rust", "libclang"]
 upstream = "github:maxcurzi/tplay"
