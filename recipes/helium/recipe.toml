@@ -1,11 +1,11 @@
 name = "helium"
-version = "0.21.3.1"
+version = "0.22.1.1"
 release = 1
 description = "Helium Browser 0.21.3.1 (ungoogled-chromium) — tarball oficial linux x86_64 a /usr/lib/helium + wrapper."
 depends = []
 makedepends = []
-sources = ["https://github.com/imputnet/helium-linux/releases/download/0.21.3.1/helium-0.21.3.1-x86_64_linux.tar.xz"]
-checksums = ["sha256:88f3c53a237182e872ac3061cc8c129e75aecbce84aead834225d8103096c254"]
+sources = ["https://github.com/imputnet/helium-linux/releases/download/0.22.1.1/helium-0.22.1.1-x86_64_linux.tar.xz"]
+checksums = ["sha256:e415898b51bf1c41d6bd7d44027776c99bf36d9e0ee7416c1d8bf0de53b6ea0c"]
 config_files = []
 build_tools = []
 upstream = "github:imputnet/helium-linux"
