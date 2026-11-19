@@ -24,6 +24,8 @@ jobs:
           path: repo
 
       - name: Descargar index.toml actual del Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           gh release download packages -R mikuri12/mymypkgs --pattern 'index.toml' --dir /tmp/idx
           ls -la /tmp/idx
