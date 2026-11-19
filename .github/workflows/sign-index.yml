@@ -43,8 +43,9 @@ jobs:
           cd /tmp/idx
           ssh-keygen -Y sign -f /tmp/mymy-key -n mymy index.toml
           rm -f /tmp/mymy-key
-          # verificación con la clave pública del repo
-          ssh-keygen -Y verify -f "${GITHUB_WORKSPACE}/repo/keys/mymy.pub" -I "mymy index signing (mikuri12/mymypkgs)" -n mymy -s index.toml.sig < index.toml
+          # verificación con la clave pública del repo (formato allowed_signers)
+          echo "* $(cat "${GITHUB_WORKSPACE}/repo/keys/mymy.pub")" > /tmp/allowed_signers
+          ssh-keygen -Y verify -f /tmp/allowed_signers -I "mymy index signing (mikuri12/mymypkgs)" -n mymy -s index.toml.sig < index.toml
           echo FIRMA_OK
 
       - name: Subir index.toml.sig al Release
