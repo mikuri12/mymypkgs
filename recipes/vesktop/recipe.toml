@@ -1,11 +1,11 @@
 name = "vesktop"
-version = "1.6.9"
+version = "1.7.0"
 release = 1
 description = "Vesktop 1.6.9 (Discord con Vencord) — binario oficial linux x64 tar.gz a /usr/lib/vesktop + wrapper /usr/bin/vesktop."
 depends = []
 makedepends = []
-sources = ["https://github.com/Vencord/Vesktop/releases/download/v1.6.9/vesktop-1.6.9.tar.gz"]
-checksums = ["sha256:c9eabe5e0a6dc1ee3f48a32f9b876ecbf938738fef1a76bc2350eb82f3bc8517"]
+sources = ["https://github.com/Vencord/Vesktop/releases/download/v1.7.0/vesktop-1.7.0.tar.gz"]
+checksums = ["sha256:9ad00f48ad344ee1d4f01aa7d4f44afb27836a574d13291f279d866055377705"]
 config_files = []
 build_tools = []
 upstream = "github:Vencord/Vesktop"

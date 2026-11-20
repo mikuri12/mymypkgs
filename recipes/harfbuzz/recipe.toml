@@ -1,11 +1,11 @@
 name = "harfbuzz"
-version = "15.1.0"
+version = "15.2.0"
 release = 1
 description = "HarfBuzz 11.3.1 (shaping; pango/fcft la usan). Sin ICU (opcional), con freetype+cairo+glib."
 depends = ["freetype", "glib", "cairo"]
 makedepends = ["freetype", "glib", "cairo"]
-sources = ["https://github.com/harfbuzz/harfbuzz/releases/download/15.1.0/harfbuzz-15.1.0.tar.xz"]
-checksums = ["sha256:0fc7c565443a5f4be7da65ac5ee5bd737d9b158dc908708b7689a0a5796b0c8d"]
+sources = ["https://github.com/harfbuzz/harfbuzz/releases/download/15.2.0/harfbuzz-15.2.0.tar.xz"]
+checksums = ["sha256:e2ec49090744383cdbe7df808c1cedaafba06a97be8dc4211fe546ba585f12cb"]
 config_files = []
 build_tools = []
 upstream = "github:harfbuzz/harfbuzz"
